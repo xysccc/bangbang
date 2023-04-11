@@ -7,12 +7,16 @@
  * @FilePath: \bangbang\src\main.ts
  */
 import { createSSRApp } from "vue";
-import { createPinia } from 'pinia'
+import * as Pinia from 'pinia'
+import { createUnistorage } from 'pinia-plugin-unistorage'
 import App from "./App.vue";
 export function createApp() {
   const app = createSSRApp(App);
-  app.use(createPinia());
+  const store = Pinia.createPinia()
+  store.use(createUnistorage())
+  app.use(store)
   return {
     app,
+    Pinia
   };
 }

@@ -56,7 +56,6 @@
     "@prequest/miniprogram": "^1.5.2",
     "@prequest/types": "^1.5.2",
     "pinia": "^2.0.34",
-    "pinia-plugin-persistedstate": "^2.2.0",
     "vue": "^3.2.45"
   },
   "devDependencies": {

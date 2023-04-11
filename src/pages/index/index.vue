@@ -4,15 +4,24 @@
     <view class="text-area">
       <text class="title">{{ title }}</text>
     </view>
+    <button @click="changeToken">btn {{ token }}</button>
   </view>
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user';
 import { ref } from 'vue'
 const title = ref('Hello')
+const store=useUserStore()
+const {token} =storeToRefs(store)
+
+const changeToken=()=>{
+  store.token='xysccc'
+  uni.navigateTo({url:'/pages/test/index'})
+}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .content {
   display: flex;
   flex-direction: column;
@@ -20,15 +29,13 @@ const title = ref('Hello')
   justify-content: center;
   .logo {
   height: 200rpx;
-  width: 200rpx;
+  width: 210rpx;
   margin-top: 200rpx;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 50rpx;
 }
 }
-
-
 
 .text-area {
   display: flex;
