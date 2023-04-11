@@ -1,11 +1,3 @@
-/*
- * @Description: 
- * @Author: YuShuXiao 949516815@qq.com
- * @Date: 2023-04-10 17:54:50
- * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-10 17:55:30
- * @FilePath: \bangbang\.eslintrc.js
- */
 // .eslintrc.js
 module.exports = {
     root: true,

@@ -12,15 +12,13 @@ import { ref } from 'vue'
 const title = ref('Hello')
 </script>
 
-<style>
+<style lang="scss">
 .content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.logo {
+  .logo {
   height: 200rpx;
   width: 200rpx;
   margin-top: 200rpx;
@@ -28,6 +26,9 @@ const title = ref('Hello')
   margin-right: auto;
   margin-bottom: 50rpx;
 }
+}
+
+
 
 .text-area {
   display: flex;

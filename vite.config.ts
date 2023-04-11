@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-03-20 15:48:18
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-10 20:56:23
+ * @LastEditTime: 2023-04-11 09:31:20
  * @FilePath: \bangbang\vite.config.ts
  */
 // vite.config.ts
