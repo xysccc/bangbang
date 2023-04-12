@@ -54,7 +54,6 @@
     "@dcloudio/uni-quickapp-webview": "3.0.0-alpha-3070720230316001",
     "@prequest/lock": "^1.5.2",
     "@prequest/miniprogram": "^1.5.2",
-    "@prequest/types": "^1.5.2",
     "pinia": "^2.0.34",
     "vue": "^3.2.45"
   },
@@ -80,6 +79,7 @@
     "eslint-plugin-vue": "^9.10.0",
     "node-sass": "^8.0.0",
     "npm-run-all": "^4.1.5",
+    "pinia-plugin-unistorage": "^0.0.12",
     "sass": "^1.61.0",
     "sass-loader": "^13.2.2",
     "terser": "^5.16.0",

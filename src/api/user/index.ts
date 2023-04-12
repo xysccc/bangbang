@@ -5,4 +5,8 @@ class userService{
     static getList(params:UserModel.GetUserListParm){
         return prerequest.post<UserModel.GetUserListResp>(`/list`,{params})
     }
+    static Login(data:UserModel.UserLogin){
+        return prerequest.post<UserModel.UserLoginResp>(`/user/login`,{data})
+    }
 }
+export default userService

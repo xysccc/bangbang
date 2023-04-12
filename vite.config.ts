@@ -1,3 +1,5 @@
+
+
 /*
  * @Description: 
  * @Author: YuShuXiao 949516815@qq.com
@@ -35,5 +37,5 @@ export default defineConfig({
       '@': path.resolve(__dirname, 'src'),
       '@img': path.resolve(__dirname, 'src/static/images'),
     },
-  },
+  }
 })

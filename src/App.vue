@@ -7,7 +7,7 @@
 import { onLaunch, onShow, onHide } from "@dcloudio/uni-app";
 import { useUserStore } from "./stores/user";
 
-  onLaunch(() => {
+   onLaunch(() => {
     console.log("App Launch");
   });
   onShow(() => {

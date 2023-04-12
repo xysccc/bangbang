@@ -10,9 +10,9 @@ declare module '@prequest/types' {
 }
 
 // 全局配置
-PreQuest.defaults.baseURL = '请求域名'
+PreQuest.defaults.baseURL = 'http://114.116.95.152:3326'
 // 设置header
-PreQuest.defaults.header = {}
+PreQuest.defaults.header = {'Content-Type':'application/json;charset=utf-8'}
 
 const prequest = create(uni.request)
 
