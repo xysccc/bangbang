@@ -8,5 +8,8 @@ class userService{
     static Login(data:UserModel.UserLogin){
         return prerequest.post<UserModel.UserLoginResp>(`/user/login`,{data})
     }
+    static GetUserInfo(){
+        return prerequest.post<UserModel.UserInfoResp>(`/user`)
+    }
 }
 export default userService

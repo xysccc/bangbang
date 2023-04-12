@@ -39,8 +39,9 @@ const refreshToken: MiddlewareCallback = async (ctx, next) => {
         uni.login({
           async success(res) {
             if (res.code) {
+              console.log("res.code",res.code);
               // 登录获取token接口
-              prequest('/login', {
+              prequest('/user/login', {
                 method: 'post',
                 skipTokenCheck: true,
                 data: { code: res.code },
@@ -52,7 +53,7 @@ const refreshToken: MiddlewareCallback = async (ctx, next) => {
   )
   if (ctx.request.header) {
     // header中统一设置token
-    ctx.request.header['Authorization'] = `Bearer ${token}`
+    ctx.request.header['token'] = `${token}`
   }
   await next()
 }

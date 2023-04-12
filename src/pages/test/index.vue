@@ -1,5 +1,8 @@
 <template>
-  <div class="test">test111</div>
+  <div class="test">
+    <button  open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">获取手机号</button>
+
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -11,13 +14,14 @@ import { onLaunch, onShow, onHide,onLoad } from "@dcloudio/uni-app";
     // )
   });
   onMounted(()=>{
-    console.log("1234567");
-    // prequest.get('/user').then((res)=>console.log(res))
+    console.log("12345678");
   })
-  userService.Login({
-    email:"949516815@qq.com",
-    password:"1234567a"
-  });
+  // userService.Login({
+  //   email:"949516815@qq.com",
+  //   password:"1234567a"
+  // });
+  userService.GetUserInfo()
+  const decryptPhoneNumber=(e:any)=>console.log(e);
 </script>
 
 <style scoped></style>

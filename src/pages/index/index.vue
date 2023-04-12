@@ -16,7 +16,6 @@ const store=useUserStore()
 const {token} =storeToRefs(store)
 
 const changeToken=()=>{
-  store.token='xysccc'
   uni.navigateTo({url:'/pages/test/index'})
 }
 </script>

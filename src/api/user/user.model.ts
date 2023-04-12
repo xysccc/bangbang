@@ -24,3 +24,14 @@ export interface UserLoginData {
 export interface UserLoginResp extends IApiResponse{
   result:UserLoginData
 }
+
+export interface UserInfoData{
+  msg:string
+}
+
+// export interface GetUserInfoParams {
+//   _unused?: never;
+// }
+export interface UserInfoResp extends IApiResponse{
+  result: UserInfoData
+}
