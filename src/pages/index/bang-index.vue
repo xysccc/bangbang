@@ -1,6 +1,8 @@
 <template>
   <view class="content">
+    <!-- 顶部状态栏占位 -->
     <view class="bang-nav"></view>
+    <!-- 导航栏 -->
     <uni-nav-bar
       background-color="transparent"
       :border="false"
@@ -13,11 +15,28 @@
             :class="{ danger: !simAdress }"
           ></i>
           <text class="address_des" :class="{ danger: !simAdress }">
-            {{ simAdress ? simAdress : '未授权位置信息 ! 点击授权' }}</text
+            {{ simAdress ? simAdress : '未授权位置信息 点击授权! ' }}</text
           >
         </view>
       </template>
     </uni-nav-bar>
+    <!-- 用户简略信息栏 -->
+    <view class="userInfo">
+      <view class="imgBox"><img src="" alt="" /></view>
+      <view class="info">
+        <view class="info_top">123</view>
+        <view class="info_bottom">456</view>
+      </view>
+    </view>
+    <!-- 轮播图区域 -->
+    <view class="indexSwiper"> </view>
+  </view>
+  <!-- 首页主区域 -->
+  <view class="indexMain">
+    <view class="boxMax box"></view>
+    <view class="boxMin box"></view>
+    <view class="boxMin box" style="margin-left: 14rpx"></view>
+    <view class="boxMax box" style="margin-left: 14rpx"></view>
   </view>
 </template>
 
@@ -32,7 +51,6 @@ const getLocation = () => {
     }
   })
 }
-const isAuthorization = ref(false)
 const simAdress = ref('')
 onShow(() => {
   isGetLocation()
@@ -43,8 +61,7 @@ const getLocationInfo = () => {
   uni.getLocation({
     type: 'wgs84',
     success(res) {
-      console.log('你当前经纬度是：')
-      console.log(res)
+      // 获取经纬度
       let latitude, longitude
       latitude = res.latitude.toString()
       longitude = res.longitude.toString()
@@ -59,12 +76,10 @@ const getLocationInfo = () => {
           longitude +
           '&key=MJMBZ-5IHYW-4PSRZ-RX732-E3K67-GYFZ6',
         success(re) {
-          console.log('中文位置')
-          console.log(re)
+          //中文定位
           userStore.location = re
           simAdress.value =
             userStore.location.data.result.address_reference.landmark_l2.title
-          console.log('sim', simAdress.value)
 
           if (re.statusCode === 200) {
             console.log('获取中文街道地理位置成功')
@@ -82,12 +97,10 @@ function getAuthorizeInfo(a = 'scope.userLocation') {
     scope: a,
     success() {
       //1.1 允许授权
-      isAuthorization.value = true
       getLocationInfo()
     },
     fail() {
       //1.2 拒绝授权
-      isAuthorization.value = false
       console.log('你拒绝了授权，无法获得周边信息')
     }
   })
@@ -128,6 +141,62 @@ function isGetLocation(a = 'scope.userLocation') {
   }
   & > .danger {
     color: #808080;
+  }
+}
+.userInfo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150rpx;
+  background-color: rgba(140, 97, 255, 1);
+  & > .imgBox {
+    width: 56px;
+    height: 56px;
+    margin-left: 40rpx;
+    margin-right: 30rpx;
+    & > image {
+      border-radius: 50%;
+      background-color: red;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  & > .info {
+    flex: 1;
+  }
+}
+.indexSwiper {
+  width: 650rpx;
+  height: 298rpx;
+  margin: 0 auto;
+  margin-top: 48rpx;
+  border-radius: 10px;
+  background-color: #fff;
+}
+.indexMain {
+  display: flex;
+  flex-flow: column wrap;
+  margin: 0 auto;
+  width: 650rpx;
+  height: 522rpx;
+  margin-top: 54rpx;
+  // background-color: $uni-color-primary;
+  & > .boxMax {
+    width: 318rpx;
+    height: 298rpx;
+    background-color: rgba(244, 240, 230, 1);
+    border-radius: 20rpx;
+  }
+  & > .boxMin {
+    width: 318rpx;
+    height: 210rpx;
+    background-color: rgba(206, 239, 228, 1);
+    border-radius: 20rpx;
+  }
+  & > .box:nth-child(2n) {
+    margin-top: 14rpx;
   }
 }
 </style>
