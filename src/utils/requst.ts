@@ -10,9 +10,9 @@ declare module '@prequest/types' {
 }
 
 // 全局配置
-PreQuest.defaults.baseURL = 'http://114.116.95.152:3326'
+PreQuest.defaults.baseURL = 'http://114.116.95.152:2001'
 // 设置header
-PreQuest.defaults.header = {'Content-Type':'application/json;charset=utf-8'}
+PreQuest.defaults.header = { 'Content-Type': 'application/json;charset=utf-8' }
 
 const prequest = create(uni.request)
 
@@ -26,7 +26,7 @@ const lock = new Lock({
   },
   clearValue() {
     userStore.token = ''
-  },
+  }
 })
 const wrapper = Lock.createLockWrapper(lock)
 
@@ -39,17 +39,17 @@ const refreshToken: MiddlewareCallback = async (ctx, next) => {
         uni.login({
           async success(res) {
             if (res.code) {
-              console.log("res.code",res.code);
+              console.log('res.code', res.code)
               // 登录获取token接口
-              prequest('/user/login', {
+              prequest('/user/index/login', {
                 method: 'post',
                 skipTokenCheck: true,
-                data: { code: res.code },
-              }).then((res1) => resolve(res1.data.data.token)) // 注意这里根据后台返回的token结构取值
+                params: { code: res.code }
+              }).then((res1) => resolve(res1.data.result.token)) // 注意这里根据后台返回的token结构取值
             }
-          },
+          }
         })
-      }),
+      })
   )
   if (ctx.request.header) {
     // header中统一设置token

@@ -11,6 +11,7 @@ import * as Pinia from 'pinia'
 import { createUnistorage } from 'pinia-plugin-unistorage'
 import App from './App.vue'
 import '@/styles/main.scss'
+import '@/common/iconfont.css'
 export function createApp() {
   const app = createSSRApp(App)
   const store = Pinia.createPinia()
