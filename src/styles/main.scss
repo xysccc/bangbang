@@ -10,6 +10,10 @@ page {
 .bang-nav {
   height: calc(var(--status-bar-height) + 35rpx);
 }
+.contentCenter {
+  margin: 0 auto;
+  width: 650rpx;
+}
 .icon {
   width: 1em;
   height: 1em;

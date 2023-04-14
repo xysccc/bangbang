@@ -1,7 +1,7 @@
 <template>
-  <view class="content">
+  <div class="content">
     <!-- 顶部状态栏占位 -->
-    <view class="bang-nav"></view>
+    <div class="bang-nav"></div>
     <!-- 导航栏 -->
     <uni-nav-bar
       background-color="transparent"
@@ -9,7 +9,7 @@
       @clickLeft="getLocation"
     >
       <template v-slot:left>
-        <view class="address">
+        <div class="address">
           <i
             class="iconfont icon-weizhi-copy-copy"
             :class="{ danger: !simAdress }"
@@ -17,27 +17,27 @@
           <text class="address_des" :class="{ danger: !simAdress }">
             {{ simAdress ? simAdress : '未授权位置信息 点击授权! ' }}</text
           >
-        </view>
+        </div>
       </template>
     </uni-nav-bar>
     <!-- 用户简略信息栏 -->
-    <view class="userInfo">
-      <view class="imgBox"><img src="" alt="" /></view>
-      <view class="info">
-        <view class="info_top">123</view>
-        <view class="info_bottom">456</view>
-      </view>
-    </view>
+    <div class="userInfo">
+      <div class="imgBox"><img src="" alt="" /></div>
+      <div class="info">
+        <div class="info_top">123</div>
+        <div class="info_bottom">456</div>
+      </div>
+    </div>
     <!-- 轮播图区域 -->
-    <view class="indexSwiper"> </view>
-  </view>
+    <div class="indexSwiper contentCenter"></div>
+  </div>
   <!-- 首页主区域 -->
-  <view class="indexMain">
-    <view class="boxMax box"></view>
-    <view class="boxMin box"></view>
-    <view class="boxMin box" style="margin-left: 14rpx"></view>
-    <view class="boxMax box" style="margin-left: 14rpx"></view>
-  </view>
+  <div class="indexMain contentCenter">
+    <div class="boxMax box"></div>
+    <div class="boxMin box"></div>
+    <div class="boxMin box" style="margin-left: 14rpx"></div>
+    <div class="boxMax box" style="margin-left: 14rpx"></div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -170,7 +170,6 @@ function isGetLocation(a = 'scope.userLocation') {
 .indexSwiper {
   width: 650rpx;
   height: 298rpx;
-  margin: 0 auto;
   margin-top: 48rpx;
   border-radius: 10px;
   background-color: #fff;
@@ -178,7 +177,6 @@ function isGetLocation(a = 'scope.userLocation') {
 .indexMain {
   display: flex;
   flex-flow: column wrap;
-  margin: 0 auto;
   width: 650rpx;
   height: 522rpx;
   margin-top: 54rpx;
