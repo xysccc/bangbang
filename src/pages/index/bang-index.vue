@@ -22,17 +22,21 @@
     </uni-nav-bar>
     <!-- 用户简略信息栏 -->
     <div class="userInfo">
-      <div class="imgBox"><img src="" alt="" /></div>
+      <div class="imgBox">
+        <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
+      </div>
       <div class="info">
-        <div class="info_top">123</div>
-        <div class="info_bottom">456</div>
+        <div class="info_top">您还未登录！</div>
+        <div class="info_bottom">
+          <div class="login_btn" @click="login">登录</div>
+        </div>
       </div>
     </div>
     <!-- 轮播图区域 -->
-    <div class="indexSwiper contentCenter"></div>
+    <div class="indexSwiper container"></div>
   </div>
   <!-- 首页主区域 -->
-  <div class="indexMain contentCenter">
+  <div class="indexMain container">
     <div class="boxMax box"></div>
     <div class="boxMin box"></div>
     <div class="boxMin box" style="margin-left: 14rpx"></div>
@@ -41,8 +45,20 @@
 </template>
 
 <script setup lang="ts">
+import userService from '@/api/user'
 import { useUserStore } from '@/stores/user'
+import prequest from '@/utils/requst'
 const userStore = useUserStore()
+const simAdress = ref('')
+const info = reactive({})
+const getInfo = async () => {
+  const data = await userService.GetUserInfo()
+  console.log('da', data)
+}
+onShow(() => {
+  isGetLocation()
+  getInfo()
+})
 const getLocation = () => {
   console.log('left')
   uni.openSetting({
@@ -51,11 +67,6 @@ const getLocation = () => {
     }
   })
 }
-const simAdress = ref('')
-onShow(() => {
-  isGetLocation()
-})
-
 const getLocationInfo = () => {
   //2. 获取地理位置
   uni.getLocation({
@@ -118,6 +129,21 @@ function isGetLocation(a = 'scope.userLocation') {
     }
   })
 }
+const login = () => {
+  uni.login({
+    async success(res) {
+      if (res.code) {
+        console.log('res.code', res.code)
+        // 登录获取token接口
+        prequest('/user/login', {
+          method: 'post',
+          skipTokenCheck: true,
+          data: { code: res.code }
+        }).then((res1) => (userStore.token = res1.data.result.token)) // 注意这里根据后台返回的token结构取值
+      }
+    }
+  })
+}
 </script>
 
 <style lang="scss">
@@ -149,15 +175,13 @@ function isGetLocation(a = 'scope.userLocation') {
   justify-content: center;
   align-items: center;
   height: 150rpx;
-  background-color: rgba(140, 97, 255, 1);
   & > .imgBox {
-    width: 56px;
-    height: 56px;
+    width: 112rpx;
+    height: 112rpx;
     margin-left: 40rpx;
     margin-right: 30rpx;
     & > image {
       border-radius: 50%;
-      background-color: red;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -165,13 +189,38 @@ function isGetLocation(a = 'scope.userLocation') {
   }
   & > .info {
     flex: 1;
+    & > .info_top {
+      width: 190rpx;
+      height: 46rpx;
+      opacity: 0.8;
+      /** 文本1 */
+      font-size: 30rpx;
+      font-weight: 400;
+      color: rgba(255, 255, 255, 1);
+    }
+    & > .info_bottom {
+      & > .login_btn {
+        margin-top: 10rpx;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 116rpx;
+        height: 42rpx;
+        opacity: 1;
+        border-radius: 40rpx;
+        background: rgba(255, 255, 255, 1);
+        font-size: 20rpx;
+        font-weight: 400;
+        color: rgba(42, 130, 228, 1);
+      }
+    }
   }
 }
 .indexSwiper {
   width: 650rpx;
   height: 298rpx;
   margin-top: 48rpx;
-  border-radius: 10px;
+  border-radius: 20rpx;
   background-color: #fff;
 }
 .indexMain {
