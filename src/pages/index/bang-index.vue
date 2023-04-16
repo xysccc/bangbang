@@ -21,26 +21,79 @@
       </template>
     </uni-nav-bar>
     <!-- 用户简略信息栏 -->
-    <div class="userInfo">
-      <div class="imgBox">
-        <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
-      </div>
-      <div class="info">
-        <div class="info_top">您还未登录！</div>
-        <div class="info_bottom">
-          <div class="login_btn" @click="login">登录</div>
+    <div class="container">
+      <div class="userInfo">
+        <div class="imgBox">
+          <img
+            :src="
+              info.head
+                ? `${info.head}`
+                : 'http://qjpqjp.top:9000/bang/photo/default.png'
+            "
+          />
+        </div>
+        <div class="info">
+          <div class="info_top">{{ info.username || '您还未登录！' }}</div>
+          <div class="info_bottom">
+            <div class="login_btn" @click="login" v-if="!userStore.token">
+              登录
+            </div>
+            <div v-else class="login_des">关注:0 &nbsp; 粉丝:0</div>
+          </div>
         </div>
       </div>
     </div>
     <!-- 轮播图区域 -->
-    <div class="indexSwiper container"></div>
+    <div class="indexSwiper container">
+      <swiper
+        class="swiper"
+        circular
+        :indicator-dots="true"
+        :autoplay="true"
+        :interval="2500"
+        :duration="800"
+      >
+        <swiper-item>
+          <view class="swiper-item"
+            ><img
+              src="http://qjpqjp.top:9000/bang/photo/chart1.png"
+              class="swiperImg"
+              alt=""
+          /></view>
+        </swiper-item>
+        <swiper-item>
+          <view class="swiper-item"
+            ><img
+              src="http://qjpqjp.top:9000/bang/photo/chart2.png"
+              class="swiperImg"
+              alt=""
+          /></view>
+        </swiper-item>
+        <swiper-item>
+          <view class="swiper-item"
+            ><img
+              src="http://qjpqjp.top:9000/bang/photo/chart3.png"
+              class="swiperImg"
+              alt=""
+          /></view>
+        </swiper-item>
+      </swiper>
+    </div>
   </div>
   <!-- 首页主区域 -->
   <div class="indexMain container">
-    <div class="boxMax box"></div>
-    <div class="boxMin box"></div>
-    <div class="boxMin box" style="margin-left: 14rpx"></div>
-    <div class="boxMax box" style="margin-left: 14rpx"></div>
+    <div class="boxMax box">
+      <img src="http://qjpqjp.top:9000/bang/photo/悬赏大厅.png" alt="" />
+    </div>
+    <div class="boxMin box">
+      <img src="http://qjpqjp.top:9000/bang/photo/时间规划.png" alt="" />
+    </div>
+    <div class="boxMin box" style="margin-left: 14rpx">
+      <img src="http://qjpqjp.top:9000/bang/photo/活动中心.png" alt="" />
+    </div>
+    <div class="boxMax box" style="margin-left: 14rpx">
+      <img src="http://qjpqjp.top:9000/bang/photo/帮帮友圈.png" alt="" />
+    </div>
   </div>
 </template>
 
@@ -48,19 +101,31 @@
 import userService from '@/api/user'
 import { useUserStore } from '@/stores/user'
 import prequest from '@/utils/requst'
+
 const userStore = useUserStore()
 const simAdress = ref('')
-const info = reactive({})
+// interface IUserInfo {
+//   background?: string | null
+//   birthday?: string | null
+//   email?: string | null
+//   head: string | null
+//   id?: string
+//   phone?: string | null
+//   sex?: number
+//   signature?: string
+//   username?: string
+// }
+let info = ref({ head: null, username: null })
 const getInfo = async () => {
-  const data = await userService.GetUserInfo()
-  console.log('da', data)
+  const { data } = await userService.GetUserInfo()
+  info.value = data.result as any
+  userStore.userInfo = data.result
 }
 onShow(() => {
   isGetLocation()
   getInfo()
 })
 const getLocation = () => {
-  console.log('left')
   uni.openSetting({
     success(res) {
       console.log(res.authSetting)
@@ -93,9 +158,9 @@ const getLocationInfo = () => {
             userStore.location.data.result.address_reference.landmark_l2.title
 
           if (re.statusCode === 200) {
-            console.log('获取中文街道地理位置成功')
+            // console.log('获取中文街道地理位置成功')
           } else {
-            console.log('获取信息失败，请重试！')
+            // console.log('获取信息失败，请重试！')
           }
         }
       })
@@ -113,6 +178,11 @@ function getAuthorizeInfo(a = 'scope.userLocation') {
     fail() {
       //1.2 拒绝授权
       console.log('你拒绝了授权，无法获得周边信息')
+      uni.showModal({
+        icon: 'none',
+        title: '请检查手机定位权限是否开启',
+        showCancel: false
+      })
     }
   })
 }
@@ -169,7 +239,7 @@ const login = () => {
     color: #808080;
   }
 }
-.userInfo {
+.container .userInfo {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -178,7 +248,7 @@ const login = () => {
   & > .imgBox {
     width: 112rpx;
     height: 112rpx;
-    margin-left: 40rpx;
+    margin-left: 10rpx;
     margin-right: 30rpx;
     & > image {
       border-radius: 50%;
@@ -188,17 +258,23 @@ const login = () => {
     }
   }
   & > .info {
+    display: flex;
+    width: 100%;
+    height: 122rpx;
+    flex-direction: column;
+    justify-content: center;
     flex: 1;
     & > .info_top {
-      width: 190rpx;
       height: 46rpx;
       opacity: 0.8;
       /** 文本1 */
       font-size: 30rpx;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
+      margin-top: 26rpx;
     }
     & > .info_bottom {
+      flex: 1;
       & > .login_btn {
         margin-top: 10rpx;
         display: flex;
@@ -213,6 +289,16 @@ const login = () => {
         font-weight: 400;
         color: rgba(42, 130, 228, 1);
       }
+      & > .login_des {
+        margin-top: 12px;
+        font-size: 14px;
+        font-weight: 400;
+        letter-spacing: 0px;
+        line-height: 0px;
+        color: rgba(0, 0, 0, 1);
+        text-align: left;
+        vertical-align: top;
+      }
     }
   }
 }
@@ -221,7 +307,22 @@ const login = () => {
   height: 298rpx;
   margin-top: 48rpx;
   border-radius: 20rpx;
-  background-color: #fff;
+  & > .swiper {
+    width: 100%;
+    height: 100%;
+    border-radius: 20rpx;
+    & .swiper-item {
+      width: 100%;
+      height: 100%;
+      border-radius: 20rpx;
+      & .swiperImg {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 20rpx;
+      }
+    }
+  }
 }
 .indexMain {
   display: flex;
@@ -235,12 +336,22 @@ const login = () => {
     height: 298rpx;
     background-color: rgba(244, 240, 230, 1);
     border-radius: 20rpx;
+    & > image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   & > .boxMin {
     width: 318rpx;
     height: 210rpx;
     background-color: rgba(206, 239, 228, 1);
     border-radius: 20rpx;
+    & > image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   & > .box:nth-child(2n) {
     margin-top: 14rpx;

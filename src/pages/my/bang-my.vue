@@ -4,10 +4,23 @@
       <div class="container">
         <!-- 用户简略信息栏 -->
         <div class="userInfo">
-          <div class="imgBox"><img src="" alt="" /></div>
+          <div class="imgBox">
+            <img
+              :src="
+                info.head
+                  ? `${info.head}`
+                  : 'http://qjpqjp.top:9000/bang/photo/default.png'
+              "
+            />
+          </div>
           <div class="info">
-            <div class="info_top">123</div>
-            <div class="info_bottom">456</div>
+            <div class="info_top">{{ info.username || '您还未登录！' }}</div>
+            <div class="info_bottom">
+              <div class="login_btn" @click="login" v-if="!userStore.token">
+                登录
+              </div>
+              <div v-else class="login_des">关注:0 &nbsp; 粉丝:0</div>
+            </div>
           </div>
         </div>
       </div>
@@ -83,7 +96,37 @@
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import userService from '@/api/user'
+import { useUserStore } from '@/stores/user'
+import prequest from '@/utils/requst'
+const userStore = useUserStore()
+let info = ref({ head: null, username: null })
+const login = () => {
+  uni.login({
+    async success(res) {
+      if (res.code) {
+        console.log('res.code', res.code)
+        // 登录获取token接口
+        prequest('/user/login', {
+          method: 'post',
+          skipTokenCheck: true,
+          data: { code: res.code }
+        }).then((res1) => (userStore.token = res1.data.result.token)) // 注意这里根据后台返回的token结构取值
+      }
+    }
+  })
+}
+const getInfo = async () => {
+  const { data } = await userService.GetUserInfo()
+  info.value = data.result as any
+  userStore.userInfo = data.result
+}
+onShow(() => {
+  console.log('show')
+  getInfo()
+})
+</script>
 
 <style scoped lang="scss">
 .top {
@@ -94,33 +137,72 @@
     center;
   background-size: cover;
   & .container > .userInfo {
+    margin-top: -10px;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 150rpx;
-    background-color: rgba(140, 97, 255, 1);
     & > .imgBox {
-      width: 112rpx;
-      height: 112rpx;
+      width: 71px;
+      height: 71px;
       // margin-left: 40rpx;
-      margin-right: 30rpx;
+      margin-right: 14px;
       & > image {
         border-radius: 50%;
-        background-color: red;
         width: 100%;
         height: 100%;
         object-fit: cover;
       }
     }
     & > .info {
+      display: flex;
+      width: 100%;
+      height: 122rpx;
+      flex-direction: column;
+      justify-content: center;
       flex: 1;
+      & > .info_top {
+        height: 46rpx;
+        opacity: 0.8;
+        /** 文本1 */
+        font-size: 34rpx;
+        font-weight: 600;
+        color: #ffffff;
+        margin-top: 5px;
+      }
+      & > .info_bottom {
+        flex: 1;
+        & > .login_btn {
+          margin-top: 10rpx;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 116rpx;
+          height: 42rpx;
+          opacity: 1;
+          border-radius: 40rpx;
+          background: rgba(255, 255, 255, 1);
+          font-size: 20rpx;
+          font-weight: 400;
+          color: rgba(42, 130, 228, 1);
+        }
+        & > .login_des {
+          margin-top: 12px;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0px;
+          line-height: 0px;
+          color: #ffffff;
+          text-align: left;
+          vertical-align: top;
+        }
+      }
     }
   }
 }
 .container {
   & > .myFun {
-    background-color: red;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(1, 1fr);
@@ -202,13 +284,13 @@
     height: 208rpx;
     opacity: 1;
     border-radius: 24rpx;
-    background: rgba(255, 255, 255, 0.69);
+    background: rgb(231, 242, 254, 0.8);
     box-shadow: 0rpx 4rpx 74rpx 0rpx rgba(0, 0, 0, 0.09);
     backdrop-filter: blur(50rpx);
     & > .title {
-      margin-left: 14rpx;
+      margin-left: 16rpx;
       margin-top: 14rpx;
-      font-size: 30rpx;
+      font-size: 28rpx;
       font-weight: 500;
       color: rgba(0, 0, 0, 1);
     }
@@ -219,6 +301,7 @@
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(1, 1fr);
       & > .item {
+        font-size: 12px;
         display: flex;
         justify-content: flex-start;
         align-items: center;

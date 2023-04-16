@@ -5,9 +5,11 @@ export const useUserStore = defineStore(
   () => {
     const token = ref('')
     const location = ref()
+    const userInfo = ref()
     return {
       token,
-      location
+      location,
+      userInfo
     }
   },
   {
