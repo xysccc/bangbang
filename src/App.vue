@@ -11,4 +11,4 @@ onHide(() => {
   // console.log('App Hide')
 })
 </script>
-<style scoped lang="scss"></style>
+<style lang="scss" scoped></style>

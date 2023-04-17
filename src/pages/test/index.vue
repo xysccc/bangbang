@@ -1,6 +1,6 @@
 <template>
   <div class="test">
-    <button open-type="getPhoneNumber" @getphonenumber="decryptPhoneNumber">
+    <button open-type="chooseAvatar " @chooseavatar="decryptPhoneNumber">
       获取手机号
     </button>
   </div>
@@ -46,10 +46,6 @@ onMounted(() => {
     }
   })
 })
-// userService.Login({
-//   email:"949516815@qq.com",
-//   password:"1234567a"
-// });
 userService.GetUserInfo()
 const decryptPhoneNumber = (e: any) => console.log(e)
 </script>

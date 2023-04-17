@@ -252,6 +252,7 @@ const login = () => {
     margin-right: 30rpx;
     & > image {
       border-radius: 50%;
+      border: 2px soild #fff;
       width: 100%;
       height: 100%;
       object-fit: cover;

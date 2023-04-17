@@ -13,13 +13,17 @@
               "
             />
           </div>
-          <div class="info">
-            <div class="info_top">{{ info.username || '您还未登录！' }}</div>
+          <div class="info" @click="goMyInfo">
+            <div class="info_top">
+              {{ info.username || '您还未登录！' }}
+              <img src="http://qjpqjp.top:9000/bang/photo/箭头.png" alt="" />
+            </div>
+
             <div class="info_bottom">
               <div class="login_btn" @click="login" v-if="!userStore.token">
                 登录
               </div>
-              <div v-else class="login_des">关注:0 &nbsp; 粉丝:0</div>
+              <div v-else class="login_des">0关注 &nbsp; 0粉丝 &nbsp;0获赞</div>
             </div>
           </div>
         </div>
@@ -123,9 +127,13 @@ const getInfo = async () => {
   userStore.userInfo = data.result
 }
 onShow(() => {
-  console.log('show')
   getInfo()
 })
+const goMyInfo = () => {
+  uni.navigateTo({
+    url: '/pages/my/myInfoSet/myInfoSet'
+  })
+}
 </script>
 
 <style scoped lang="scss">
@@ -170,6 +178,14 @@ onShow(() => {
         font-weight: 600;
         color: #ffffff;
         margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        & > image {
+          transform: translateY(13.5px);
+          width: 25px;
+          height: 25px;
+          object-fit: cover;
+        }
       }
       & > .info_bottom {
         flex: 1;
