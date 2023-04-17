@@ -27,7 +27,12 @@
           <view class="title"
             >昵&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</view
           >
-          <input class="input" maxlength="5" placeholder="请输入昵称" />
+          <input
+            class="input"
+            maxlength="5"
+            placeholder="请输入昵称"
+            type="nickname"
+          />
         </div>
         <div class="form_item">
           <view class="title"
