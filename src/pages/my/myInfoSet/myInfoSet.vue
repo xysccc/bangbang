@@ -40,8 +40,9 @@
           >
           <input
             class="input"
-            maxlength="13"
+            maxlength="18"
             placeholder="这个人很懒，什么也没有写"
+            :value="Info.signature"
           />
         </div>
         <div class="form_item" style="height: 80px; margin-top: 40px">
@@ -66,9 +67,26 @@
             </div>
           </div>
         </div>
+        <div class="form_item">
+          <view class="title"
+            >邮&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;箱</view
+          >
+          <input
+            class="input"
+            maxlength="18"
+            placeholder="请输入邮箱"
+            type="digit"
+          />
+        </div>
         <div class="form_item" style="margin-top: 10px">
           <view class="title">电话号码</view>
-          <input class="input" maxlength="11" placeholder="请输入电话号码" />
+          <input
+            class="input"
+            maxlength="11"
+            placeholder="请输入电话号码"
+            type="tel"
+            @click="goTo('/pages/my/toolsAndServe/set-page')"
+          />
         </div>
       </div>
     </div>
@@ -77,7 +95,14 @@
 <script lang="ts" setup>
 import BangNav from '@/components/bangNav.vue'
 import { useUserStore } from '@/stores/user'
-const Info = useUserStore().userInfo
+const goTo = (url: string) => {
+  uni.navigateTo({ url })
+}
+const userStore = useUserStore()
+onShow(() => {
+  userStore.getUserInfo()
+})
+const Info = userStore.userInfo
 const imageValue = ref('')
 const formInfo = reactive({
   src: ''
@@ -163,7 +188,7 @@ const changeSex = (i: any) => {
         height: 100%;
 
         .btnGroups {
-          margin-top: 30px;
+          margin-top: 40px;
           display: flex;
           justify-content: flex-start;
           font-size: 15px;

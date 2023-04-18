@@ -42,3 +42,36 @@ export interface UserInfoData {
 export interface UserInfoResp extends IApiResponse {
   result: UserInfoData
 }
+export interface SetCodeParm {
+  code: string
+  phone: string
+}
+export interface SetCodeData {
+  msg: string
+}
+export interface SetCodeResp extends IApiResponse {
+  result: SetCodeData
+}
+export interface SendCodeParm {
+  phone: string
+}
+export interface SendCodeData {
+  msg: string
+}
+export interface SendCodeResp extends IApiResponse {
+  result: SendCodeData
+}
+export interface SetUserInfoParm {
+  background: string
+  email: string
+  head: string
+  phone: string
+  sex: number
+  username: string
+}
+export interface SetUserInfoData {
+  msg: string
+}
+export interface SetUserInfoResp extends IApiResponse {
+  result: SetUserInfoData
+}

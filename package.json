@@ -39,6 +39,7 @@
     "type-check": "vue-tsc --noEmit"
   },
   "dependencies": {
+    "@chenfengyuan/vue-countdown": "^2.1.1",
     "@dcloudio/uni-app": "3.0.0-alpha-3070720230316001",
     "@dcloudio/uni-app-plus": "3.0.0-alpha-3070720230316001",
     "@dcloudio/uni-components": "3.0.0-alpha-3070720230316001",
@@ -56,7 +57,7 @@
     "@prequest/lock": "^1.5.2",
     "@prequest/miniprogram": "^1.5.2",
     "pinia": "^2.0.34",
-    "vue": "^3.2.45"
+    "vue": "^3.2.47"
   },
   "devDependencies": {
     "@dcloudio/types": "^3.3.2",
