@@ -32,7 +32,7 @@
           <!--    重新发送验证码-->
           <div class="repeatSendCode">
             <span class="kfs" v-show="timerInfo.isActive" @click="getCode"
-              >重新发送验证码</span
+              >发送验证码</span
             >
             <span class="bxfs" v-show="!timerInfo.isActive"
               >{{ timerInfo.count }}s后重新发送</span
@@ -76,24 +76,36 @@ const countDown = () => {
   }
 }
 const checkCode = async () => {
-  const data = await userService.SetCode({
+  const { data } = await userService.SetCode({
     phone: phone.value,
     code: code.value
   })
-  if (data.data.code !== 1) {
+  if (data.code !== 1) {
     uni.showToast({
-      title: '请求失败'
+      title: '绑定失败',
+      icon: 'none'
     })
   } else {
-    uni.navigateBack()
+    await uni.showToast({
+      title: '绑定成功',
+      icon: 'success'
+    })
+    await uni.navigateBack()
   }
 }
 const getCode = () => {
-  phone.value &&
+  if (phone.value.length !== 11) {
+    uni.showToast({
+      title: '请输入完整手机号',
+      icon: 'none'
+    })
+    return
+  } else {
     userService.SendCode({
       phone: phone.value
     })
-  countDown()
+    countDown()
+  }
 }
 </script>
 

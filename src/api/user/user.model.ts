@@ -62,12 +62,13 @@ export interface SendCodeResp extends IApiResponse {
   result: SendCodeData
 }
 export interface SetUserInfoParm {
-  background: string
-  email: string
-  head: string
-  phone: string
-  sex: number
-  username: string
+  background?: string
+  email?: string
+  head?: string
+  phone?: string
+  sex?: number
+  username?: string
+  signature?: string
 }
 export interface SetUserInfoData {
   msg: string

@@ -32,6 +32,7 @@
             maxlength="5"
             placeholder="请输入昵称"
             type="nickname"
+            v-model="formInfo.username"
           />
         </div>
         <div class="form_item">
@@ -42,7 +43,7 @@
             class="input"
             maxlength="18"
             placeholder="这个人很懒，什么也没有写"
-            :value="Info.signature"
+            v-model="formInfo.signature"
           />
         </div>
         <div class="form_item" style="height: 80px; margin-top: 40px">
@@ -76,6 +77,7 @@
             maxlength="18"
             placeholder="请输入邮箱"
             type="digit"
+            v-model="formInfo.email"
           />
         </div>
         <div class="form_item" style="margin-top: 10px">
@@ -85,14 +87,18 @@
             maxlength="11"
             placeholder="请输入电话号码"
             type="tel"
+            v-model="formInfo.phone"
             @click="goTo('/pages/my/toolsAndServe/set-page')"
           />
         </div>
+        <BangButton title="保存" top="80px" @btn-click="SetUserInfo" />
       </div>
     </div>
   </div>
 </template>
 <script lang="ts" setup>
+import userService from '@/api/user'
+import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useUserStore } from '@/stores/user'
 const goTo = (url: string) => {
@@ -105,7 +111,14 @@ onShow(() => {
 const Info = userStore.userInfo
 const imageValue = ref('')
 const formInfo = reactive({
-  src: ''
+  src: '',
+  username: Info.username || '',
+  email: Info.email || '',
+  phone: Info.phone || '',
+  signature:
+    Info.signature === '这个用户懒且不够个性，暂时没有个性签名'
+      ? ''
+      : Info.signature
 })
 const decryptPhoneNumber = (e: any) => {
   uni.uploadFile({
@@ -119,10 +132,25 @@ const decryptPhoneNumber = (e: any) => {
   })
 }
 //修改性别
-const sex = ref('1')
+const sex = ref(1)
 const changeSex = (i: any) => {
   sex.value = i
   Info.sex = i
+}
+const SetUserInfo = async () => {
+  const { data } = await userService.SetUserInfo({
+    username: formInfo.username,
+    email: formInfo.email,
+    phone: formInfo.phone,
+    sex: sex.value,
+    signature: formInfo.signature
+  })
+  if (data.code !== 1) return
+  await uni.showToast({
+    title: '修改成功',
+    icon: 'success'
+  })
+  await uni.navigateBack()
 }
 </script>
 

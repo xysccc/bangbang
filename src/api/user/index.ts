@@ -24,11 +24,9 @@ class userService {
   }
   // 修改用户信息
   static SetUserInfo(data: UserModel.SetUserInfoParm) {
-    return prerequest.post<UserModel.SetUserInfoResp>(
-      `
-    /user/updateInfo`,
-      { data }
-    )
+    return prerequest.put<UserModel.SetUserInfoResp>(`/user/updateInfo`, {
+      data
+    })
   }
 }
 export default userService
