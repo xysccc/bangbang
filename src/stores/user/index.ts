@@ -1,6 +1,5 @@
 import userService from '@/api/user'
 import { defineStore } from 'pinia'
-// import type { Ilocation } from './user.model'
 export const useUserStore = defineStore(
   'user',
   () => {

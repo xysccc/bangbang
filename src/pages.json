@@ -45,6 +45,12 @@
       "style": {
         "navigationBarTitleText": "setPage"
       }
+    },
+    {
+      "path": "pages/add/bang-add",
+      "style": {
+        "navigationBarTitleText": "bang-add"
+      }
     }
   ],
   "tabBar": {
@@ -61,6 +67,11 @@
       {
         "pagePath": "pages/circle/bang-circle",
         "text": "友圈",
+        "iconPath": "static/icon/circle.png",
+        "selectedIconPath": "static/icon/circle-active.png"
+      },
+      {
+        "pagePath": "pages/add/bang-add",
         "iconPath": "static/icon/circle.png",
         "selectedIconPath": "static/icon/circle-active.png"
       },

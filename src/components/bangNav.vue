@@ -1,6 +1,6 @@
 <template>
   <uni-nav-bar
-    left-icon="left"
+    :left-icon="props.arrowBack ? 'left' : ''"
     :title="title"
     @clickLeft="click"
     background-color="transparent"

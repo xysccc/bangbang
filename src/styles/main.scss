@@ -25,3 +25,20 @@ page {
   fill: currentColor;
   overflow: hidden;
 }
+::-webkit-scrollbar {
+  display: none;
+  background-color: transparent;
+  width: 3px;
+}
+s ::-webkit-scrollbar-thumb {
+  background-color: inherit;
+  border-radius: 8px;
+  background-clip: content-box;
+  // border: 2px solid transparent;
+}
+
+body[scroll],
+::-webkit-scrollbar-thumb {
+  background-color: #a6c9fd;
+  transition: 0.2s;
+}

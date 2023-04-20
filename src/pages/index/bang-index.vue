@@ -121,9 +121,9 @@ const getInfo = async () => {
   info.value = data.result as any
   userStore.userInfo = data.result
 }
+getInfo()
 onShow(() => {
   isGetLocation()
-  getInfo()
 })
 const getLocation = () => {
   uni.openSetting({
@@ -153,9 +153,9 @@ const getLocationInfo = () => {
           '&key=MJMBZ-5IHYW-4PSRZ-RX732-E3K67-GYFZ6',
         success(re) {
           //中文定位
-          userStore.location = re
+          userStore.location = re.data.result
           simAdress.value =
-            userStore.location.data.result.address_reference.landmark_l2.title
+            userStore.location.address_reference.landmark_l2.title
 
           if (re.statusCode === 200) {
             // console.log('获取中文街道地理位置成功')

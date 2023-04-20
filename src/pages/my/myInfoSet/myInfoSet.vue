@@ -9,13 +9,13 @@
         <img
           :src="
             formInfo?.src
-              ? formInfo.src.substring(1, formInfo.src.length - 1)
+              ? formInfo.src
               : 'http://qjpqjp.top:9000/bang/photo/default.png'
           "
         />
         <button
           open-type="chooseAvatar"
-          @chooseavatar="decryptPhoneNumber"
+          @chooseavatar="changImg"
           class="changeImg"
         ></button>
       </div>
@@ -120,14 +120,14 @@ const formInfo = reactive({
       ? ''
       : Info.signature
 })
-const decryptPhoneNumber = (e: any) => {
+const changImg = (e: any) => {
   uni.uploadFile({
     url: 'http://114.116.95.152:2001/mo/upload',
     filePath: e.detail.avatarUrl,
     name: 'file',
     success: (uploadFileRes) => {
       // 上传qjp服务器成功
-      formInfo.src = uploadFileRes.data
+      formInfo.src = JSON.parse(uploadFileRes.data).result.url
     }
   })
 }
