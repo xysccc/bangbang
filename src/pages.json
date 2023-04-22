@@ -57,6 +57,12 @@
 			"style": {
 				"navigationBarTitleText": "bang-hall"
 			}
+		},
+		{
+			"path": "pages/index/bang-hall/bang-taskDetail",
+			"style": {
+				"navigationBarTitleText": "bang-taskDetail"
+			}
 		}
 	],
 	"tabBar": {

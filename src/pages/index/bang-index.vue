@@ -124,8 +124,6 @@ const goTo = (url: string) => {
 // }
 let info = ref({ head: null, username: null })
 const getInfo = async () => {
-  console.log('123')
-
   const { data } = await userService.GetUserInfo()
   info.value = data.result as any
   userStore.userInfo = data.result

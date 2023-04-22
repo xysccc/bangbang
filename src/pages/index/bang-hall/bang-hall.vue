@@ -40,7 +40,13 @@
             </div>
           </div>
           <div v-if="current === 0" class="taskMain">
-            <div class="taskItem" v-for="(item, index) in 18">
+            <div
+              class="taskItem"
+              v-for="(item, index) in 18"
+              @click="
+                goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
+              "
+            >
               <div class="taskItemTop">
                 <div class="type">王者荣耀代练</div>
                 <div class="rg">
@@ -121,6 +127,11 @@ const taskStore = useTaskStore()
 
 taskStore.getTaskClass()
 let taskClass = taskStore.taskClass
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
+}
 </script>
 
 <style scoped lang="scss">
@@ -191,12 +202,12 @@ let taskClass = taskStore.taskClass
         margin-top: 4rpx;
         height: 700px;
         & .taskItem {
-          margin-top: 18px;
           padding-top: 12px;
           padding-left: 24rpx;
           padding-right: 24rpx;
           width: 90%;
           margin: 10px auto;
+          margin-top: 18px;
           height: 188rpx;
           border-radius: 20rpx;
           background: rgba(255, 255, 255, 1);
