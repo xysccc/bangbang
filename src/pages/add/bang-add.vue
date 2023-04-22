@@ -39,7 +39,7 @@
                 @focus="goMap"
               />
             </uni-forms-item>
-            <uni-forms-item label="日期时间">
+            <uni-forms-item label="日期时间" required>
               <uni-datetime-picker
                 type="datetime"
                 return-type="string"
@@ -76,11 +76,11 @@
                 </div>
               </div>
             </uni-forms-item>
+            <BangButton title="发布任务" top="20rpx" @btn-click="add" />
           </uni-forms>
         </div>
       </div>
     </div>
-    <BangButton title="发布任务" top="20rpx" @btn-click="add" />
   </div>
 </template>
 
@@ -101,10 +101,10 @@ interface ImapTask extends Itask {
 }
 const taskStore = useTaskStore()
 // 分类数据
-let taskClass = ref()
-taskStore.getTaskClass().then((res) => (taskClass = taskStore.taskClass))
 
-const selects = taskClass.value?.map((item: Itask) => ({
+taskStore.getTaskClass()
+let taskClass = taskStore.taskClass
+const selects = taskClass.map((item: Itask) => ({
   value: item.id,
   text: item.name,
   onImg: item.onImg,
@@ -114,6 +114,7 @@ const selects = taskClass.value?.map((item: Itask) => ({
 const selectImg = ref('http://qjpqjp.top:9000/bang/photo/Frame 11.png')
 const select = ref('1648611816487608322')
 const selectChange = (e: string) => {
+  formData.type = e
   selectImg.value = selects.find((item: ImapTask) => item.value === e).offImg
 }
 // 表单数据
@@ -125,7 +126,8 @@ const formData = reactive({
   media: [],
   urgent: 0,
   datetimesingle: new Date(),
-  time: ''
+  time: '',
+  type: ''
 })
 const urgents = [
   {
@@ -166,13 +168,13 @@ const addFiles = () => {
           name: 'file',
           success: (uploadFileRes: any) => {
             // // 上传qjp服务器成功
-            if (res.tempFiles.length !== 3) {
-              res.tempFiles.length + fileValue.value.length === 3 &&
-                uni.hideLoading()
-            } else {
-              fileValue.value.length === 2 && uni.hideLoading()
-            }
-
+            // if (res.tempFiles.length !== 3) {
+            //   res.tempFiles.length + fileValue.value.length === 3 &&
+            //     uni.hideLoading()
+            // } else {
+            //   fileValue.value.length === 2 && uni.hideLoading()
+            // }
+            uni.hideLoading()
             fileValue.value.push(JSON.parse(uploadFileRes.data).result.url)
             // res.tempFiles.length === fileValue.value.length && uni.hideLoading()
 
@@ -262,9 +264,9 @@ const add = async () => {
     location: formData.location,
     money: parseInt(formData.money),
     title: formData.name,
-    type: 'string',
+    type: formData.type,
     urgent: formData.urgent,
-    urls: fileValue.value.join(',')
+    urls: fileValue.value
   })
   console.log('da', data)
 }
@@ -304,13 +306,14 @@ const add = async () => {
     }
   }
   & > .task_form {
-    height: 970rpx;
-    border-radius: 24rpx;
+    height: 1155rpx;
+    border-radius: 24rpx 24rpx 0px 0px;
+
     overflow-y: auto;
     background-color: #fff;
     & > .task_form_content {
       padding: 40rpx;
-      height: 1502rpx;
+      height: 1802rpx;
       // & ::v-deep .uni-forms-item {
       //   flex-direction: column;
       // }

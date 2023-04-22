@@ -105,13 +105,13 @@ const goTo = (url: string) => {
   uni.navigateTo({ url })
 }
 const userStore = useUserStore()
-onShow(() => {
-  userStore.getUserInfo()
-})
+
+userStore.getUserInfo()
+
 const Info = userStore.userInfo
 const imageValue = ref('')
 const formInfo = reactive({
-  src: '',
+  src: Info.head || '',
   username: Info.username || '',
   email: Info.email || '',
   phone: Info.phone || '',
@@ -143,7 +143,8 @@ const SetUserInfo = async () => {
     email: formInfo.email,
     phone: formInfo.phone,
     sex: sex.value,
-    signature: formInfo.signature
+    signature: formInfo.signature,
+    head: formInfo.src
   })
   if (data.code !== 1) return
   await uni.showToast({

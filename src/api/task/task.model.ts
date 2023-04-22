@@ -15,9 +15,9 @@ export interface IAddTaskparm {
   title: string
   type: string
   urgent: number
-  urls: string
+  urls: string[]
 }
 export interface IAddTaskData {}
 export interface IAddTaskResp extends IApiResponse {
-  result: IAddTaskClassData
+  result: IAddTaskData
 }

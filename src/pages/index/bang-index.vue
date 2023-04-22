@@ -83,7 +83,11 @@
   <!-- 首页主区域 -->
   <div class="indexMain container">
     <div class="boxMax box">
-      <img src="http://qjpqjp.top:9000/bang/photo/悬赏大厅.png" alt="" />
+      <img
+        src="http://qjpqjp.top:9000/bang/photo/悬赏大厅.png"
+        alt=""
+        @click="goTo('/pages/index/bang-hall/bang-hall')"
+      />
     </div>
     <div class="boxMin box">
       <img src="http://qjpqjp.top:9000/bang/photo/时间规划.png" alt="" />
@@ -104,6 +108,9 @@ import prequest from '@/utils/requst'
 
 const userStore = useUserStore()
 const simAdress = ref('')
+const goTo = (url: string) => {
+  uni.navigateTo({ url })
+}
 // interface IUserInfo {
 //   background?: string | null
 //   birthday?: string | null
@@ -117,12 +124,15 @@ const simAdress = ref('')
 // }
 let info = ref({ head: null, username: null })
 const getInfo = async () => {
+  console.log('123')
+
   const { data } = await userService.GetUserInfo()
   info.value = data.result as any
   userStore.userInfo = data.result
 }
-getInfo()
+
 onShow(() => {
+  getInfo()
   isGetLocation()
 })
 const getLocation = () => {

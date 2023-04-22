@@ -43,7 +43,7 @@ export default {
 </script>
 <style scoped lang="scss">
 ::v-deep .uni-nav-bar-text {
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 600;
   color: rgba(56, 56, 56, 1);
 }
