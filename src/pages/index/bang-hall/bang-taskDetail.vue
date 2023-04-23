@@ -33,18 +33,41 @@
         </div>
       </div>
       <div class="release_person">
-        <label for="">发布人</label>
+        <label class="lab">发布人</label>
         <div class="release_person_box">
-          <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
-          <div class="name"></div>
-          <div class="message"></div>
+          <div class="lf">
+            <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
+            <div class="name">舒克开飞机</div>
+          </div>
+          <i class="message iconfont icon-shoucang"></i>
         </div>
+      </div>
+      <div class="task_detail">
+        <label class="lab">任务详情</label>
+        <div class="detail">
+          钻石段位，找一个可以代练到王者段位的人，全英雄，全皮肤，共计三天时间，感兴趣的快快报名哦！
+        </div>
+      </div>
+      <div class="task_loc">
+        <label class="lab">发布地点</label>
+        <div class="location">
+          <i class="loc iconfont icon-shoucang"></i>
+          <span>青岛工学院-3号宿舍楼3N326</span>
+        </div>
+      </div>
+      <div class="task_complate">
+        <label class="lab">完成上传</label>
+        <div class="complate"></div>
+      </div>
+      <div class="bottom">
+        <BangButton title="报名帮忙" top="50rpx" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 onLoad((option) => {
   console.log(option)
@@ -140,20 +163,99 @@ onLoad((option) => {
     }
   }
   & > .release_person {
-    margin-top: 17px;
+    margin-top: 34rpx;
     display: flex;
     align-items: center;
-    height: 65px;
+    height: 130rpx;
     width: 100%;
     & > .release_person_box {
+      margin-left: 34rpx;
+      padding: 26rpx 34rpx;
+      background-color: #fff;
+      display: flex;
+      border-radius: 20rpx;
+      box-shadow: 0rpx 12rpx 36rpx 0rpx rgba(183, 221, 252, 1);
+      height: 124rpx;
+      align-items: center;
+      justify-content: space-between;
       flex: 1;
       & image {
-        width: 38px;
-        height: 38px;
+        width: 76rpx;
+        height: 76rpx;
         object-fit: cover;
-        background-color: red;
         border-radius: 50%;
       }
+      & > .lf {
+        display: flex;
+        align-items: center;
+        & > .name {
+          margin-left: 20rpx;
+        }
+      }
+      & > .message {
+        font-size: 40rpx;
+      }
+    }
+    & > .lab {
+      width: 70rpx;
+      color: rgba(0, 0, 0, 1);
+    }
+  }
+  & > .task_detail {
+    display: flex;
+    margin-top: 34rpx;
+    & > .lab {
+      width: 80rpx;
+      color: rgba(0, 0, 0, 1);
+    }
+    & > .detail {
+      margin-left: 30rpx;
+      flex: 1;
+      padding-top: 30rpx;
+      padding-left: 30rpx;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0rpx 12rpx 36rpx 0rpx rgba(183, 221, 252, 1);
+      height: 246rpx;
+      opacity: 1;
+      border-radius: 20rpx;
+    }
+  }
+  & > .task_loc {
+    margin-top: 34rpx;
+    display: flex;
+    & > .lab {
+      width: 70rpx;
+      color: rgba(0, 0, 0, 1);
+    }
+    & .location {
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      margin-left: 30rpx;
+      flex: 1;
+      height: 124rpx;
+      border-radius: 20rpx;
+      background: rgba(255, 255, 255, 1);
+      box-shadow: 0rpx 12rpx 36rpx 0rpx rgba(183, 221, 252, 1);
+      & > .loc {
+        font-size: 50rpx;
+      }
+    }
+  }
+  & > .task_complate {
+    margin-top: 36rpx;
+    display: flex;
+    & > .lab {
+      width: 70rpx;
+      color: rgba(0, 0, 0, 1);
+    }
+    & > .complate {
+      margin-left: 30rpx;
+      width: 238rpx;
+      height: 238rpx;
+      background-color: #fff;
+      border-radius: 20rpx;
+      box-shadow: 0rpx 12rpx 36rpx 0rpx rgba(183, 221, 252, 1);
     }
   }
 }

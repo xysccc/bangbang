@@ -53,7 +53,7 @@
                   <div class="time">
                     <i
                       class="iconfont icon-shizhong"
-                      style="font-size: 12px"
+                      style="font-size: 24rpx"
                     ></i>
                     3天
                   </div>
@@ -87,9 +87,11 @@
               </div>
             </div>
           </div>
-
           <div v-if="current === 1" class="taskMain">456</div>
           <div v-if="current === 2" class="taskMain">789</div>
+          <div class="bottom">
+            <BangButton title="发布新任务" top="20rpx" icon="plus" />
+          </div>
         </div>
       </div>
     </div>
@@ -195,19 +197,19 @@ const goTo = (url: string) => {
         }
       }
       & > .taskMain {
-        padding-top: 12px;
+        padding-top: 24rpx;
         width: 100%;
-        padding-bottom: 70px;
+        padding-bottom: 140rpx;
         overflow-y: scroll;
         margin-top: 4rpx;
-        height: 700px;
+        height: 1120rpx;
         & .taskItem {
-          padding-top: 12px;
+          padding-top: 24rpx;
           padding-left: 24rpx;
           padding-right: 24rpx;
           width: 90%;
-          margin: 10px auto;
-          margin-top: 18px;
+          margin: 20rpx auto;
+          margin-top: 36rpx;
           height: 188rpx;
           border-radius: 20rpx;
           background: rgba(255, 255, 255, 1);
@@ -224,7 +226,7 @@ const goTo = (url: string) => {
               display: flex;
               align-items: center;
               & > .time {
-                margin-right: 8px;
+                margin-right: 16rpx;
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -232,11 +234,11 @@ const goTo = (url: string) => {
                 border-radius: 40rpx;
                 color: rgba(255, 255, 255, 1);
                 font-size: 22rpx;
-                width: 45px;
+                width: 90rpx;
               }
               & > .arrow {
-                width: 18px;
-                height: 18px;
+                width: 36rpx;
+                height: 36rpx;
                 & image {
                   width: 100%;
                   height: 100%;
@@ -248,10 +250,10 @@ const goTo = (url: string) => {
           & > .des {
             display: flex;
             align-items: center;
-            margin-top: 6px;
+            margin-top: 12rpx;
             & > .tx {
-              width: 33px;
-              height: 33px;
+              width: 66rpx;
+              height: 66rpx;
               & image {
                 width: 100%;
                 height: 100%;
@@ -260,7 +262,7 @@ const goTo = (url: string) => {
             }
             & > .content {
               flex: 1;
-              font-size: 13px;
+              font-size: 26rpx;
               color: rgba(0, 0, 0, 1);
               overflow: hidden;
               text-overflow: ellipsis;
@@ -270,16 +272,16 @@ const goTo = (url: string) => {
             }
           }
           & > .bottom {
-            margin-top: 6px;
+            margin-top: 12rpx;
             display: flex;
             justify-content: space-between;
             & > .location {
               display: flex;
-              font-size: 12px;
+              font-size: 24rpx;
               color: rgba(166, 166, 166, 1);
 
               & .locText {
-                width: 150px;
+                width: 300rpx;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
