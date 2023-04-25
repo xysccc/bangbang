@@ -1,5 +1,13 @@
+/*
+ * @Description:
+ * @Author: YuShuXiao 949516815@qq.com
+ * @Date: 2023-04-11 18:22:42
+ * @LastEditors: YuShuXiao 949516815@qq.com
+ * @LastEditTime: 2023-04-26 00:34:33
+ * @FilePath: \bangbang\src\api\user\user.model.ts
+ */
 import type { IApiResponse } from './../types'
-
+import type { ITaskListData } from '../task/task.model'
 export interface GetUserListParm {
   position: number
 }
@@ -75,4 +83,28 @@ export interface SetUserInfoData {
 }
 export interface SetUserInfoResp extends IApiResponse {
   result: SetUserInfoData
+}
+export interface IMyHistoryParm {
+  page: number
+  pageSize: number
+}
+export interface IMyHistoryData extends ITaskListData {}
+export interface IMyHistoryResp {
+  result: IMyHistoryData
+}
+export interface IMyCollectParm {
+  page: number
+  pageSize: number
+}
+export interface IMyCollectData extends ITaskListData {}
+export interface IMyCollectResp {
+  result: IMyCollectData
+}
+export interface IMyReleaseParm {
+  page: number
+  pageSize: number
+}
+export interface IMyReleaseData extends ITaskListData {}
+export interface IMyReleaseResp {
+  result: IMyReleaseData
 }

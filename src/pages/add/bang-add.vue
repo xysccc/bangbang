@@ -115,6 +115,7 @@ const selectImg = ref('http://qjpqjp.top:9000/bang/photo/Frame 11.png')
 const select = ref('1648611816487608322')
 const selectChange = (e: string) => {
   formData.type = e
+  select.value = e
   selectImg.value = selects.find((item: ImapTask) => item.value === e).offImg
 }
 // 表单数据
@@ -264,7 +265,7 @@ const add = async () => {
     location: formData.location,
     money: parseInt(formData.money),
     title: formData.name,
-    type: formData.type,
+    typeId: select.value,
     urgent: formData.urgent,
     urls: fileValue.value
   })

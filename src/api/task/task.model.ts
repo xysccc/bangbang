@@ -13,7 +13,7 @@ export interface IAddTaskparm {
   location: string
   money: number
   title: string
-  type: string
+  typeId: string
   urgent: number
   urls: string[]
 }
@@ -59,3 +59,21 @@ export interface ITaskListData {
 export interface ITaskListResp extends IApiResponse {
   result: IAddTaskData
 }
+export interface ITaskCollectParm {
+  taskId: string
+}
+export interface ITaskCollectResp extends IApiResponse {
+  result: string
+}
+export interface ITaskoneParm extends ITaskCollectParm {}
+export interface ITaskoneData {
+  details: string
+  head: string
+  id: string
+  isLike: number
+  limitTime: string
+  location: string
+  title: string
+  username: string
+}
+export interface ITaskoneResp {}
