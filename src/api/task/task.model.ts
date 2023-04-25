@@ -21,3 +21,41 @@ export interface IAddTaskData {}
 export interface IAddTaskResp extends IApiResponse {
   result: IAddTaskData
 }
+export interface ITaskListParm {
+  page: number
+  pageSize: number
+  search?: string
+  typeId?: string
+}
+export interface ITaskListData {
+  countId: string
+  current: number
+  hitCount: true
+  maxLimit: number
+  optimizeCountSql: true
+  orders: [
+    {
+      asc: true
+      column: string
+    }
+  ]
+  pages: number
+  records: [
+    {
+      details: string
+      head: string
+      id: string
+      isLike: number
+      limitTime: string
+      location: string
+      title: string
+      username: string
+    }
+  ]
+  searchCount: true
+  size: number
+  total: number
+}
+export interface ITaskListResp extends IApiResponse {
+  result: IAddTaskData
+}

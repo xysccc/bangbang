@@ -8,6 +8,7 @@ export const useTaskStore = defineStore(
   () => {
     let taskClass = ref()
     let taskLocation = ref()
+    let taskList = ref()
     const getTaskClass = async () => {
       const { data } = await taskService.getTaskClass()
       if (data.code !== 1) return
@@ -19,11 +20,18 @@ export const useTaskStore = defineStore(
       if (data.code !== 1) return
       return data.result
     }
+    const getTaskList = async (option: TaskModel.ITaskListParm) => {
+      const { data } = await taskService.getTaskList(option)
+      if (data.code !== 1) return
+      taskList.value = data.result
+    }
     return {
       taskClass,
       getTaskClass,
       taskLocation,
-      addTask
+      addTask,
+      getTaskList,
+      taskList
     }
   },
   {

@@ -7,5 +7,8 @@ class taskService {
   static AddTask(data: TaskModel.IAddTaskparm) {
     return prerequest.post<TaskModel.IAddTaskResp>(`/task/new`, { data })
   }
+  static getTaskList(params: TaskModel.ITaskListParm) {
+    return prerequest.get<TaskModel.ITaskListResp>(`/task/taskList`, { params })
+  }
 }
 export default taskService

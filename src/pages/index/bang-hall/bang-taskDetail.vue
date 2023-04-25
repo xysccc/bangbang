@@ -135,6 +135,7 @@ onLoad((option) => {
       }
     }
     & > .bottom {
+      height: 20px;
       margin-top: 20rpx;
       display: flex;
       justify-content: space-between;
@@ -149,16 +150,21 @@ onLoad((option) => {
           overflow: hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
+          // white-space: nowrap;
           -webkit-line-clamp: 1; /*第几行出现省略号*/
           -webkit-box-orient: vertical;
         }
       }
       & > .time {
+        padding: 0 5px 0 2px;
         font-size: 24rpx;
       }
       & > .money {
         font-size: 24rpx;
         color: rgba(166, 166, 166, 1);
+      }
+      & view:not(:last-child) {
+        border-right: 1px solid #ccc;
       }
     }
   }

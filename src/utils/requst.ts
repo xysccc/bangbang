@@ -65,6 +65,7 @@ const parse: MiddlewareCallback = async (ctx, next) => {
   const { statusCode } = ctx.response
   if (![200, 301, 302].includes(statusCode)) {
     // 在这里可以设置toast提示
+    userStore.token = ''
     throw new Error(`${statusCode}`)
   }
 }

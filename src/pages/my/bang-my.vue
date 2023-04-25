@@ -13,7 +13,7 @@
               "
             />
           </div>
-          <div class="info" @click="goMyInfo">
+          <div class="info" @click="goTo(`/pages/my/myInfoSet/myInfoSet`)">
             <div class="info_top">
               {{ info.username || '您还未登录！' }}
               <img src="http://qjpqjp.top:9000/bang/photo/箭头.png" alt="" />
@@ -35,33 +35,36 @@
           <div class="img">
             <img src="http://qjpqjp.top:9000/bang/photo/account.png" alt="" />
           </div>
-          <div class="des">456</div>
+          <div class="des">账户</div>
         </div>
-        <div class="funItem">
+        <div class="funItem" @click="goTo(`/pages/my/my-tab/my-collection`)">
           <div class="img">
             <img src="http://qjpqjp.top:9000/bang/photo/collect.png" alt="" />
           </div>
-          <div class="des">456</div>
+          <div class="des">收藏</div>
         </div>
         <div class="funItem">
           <div class="img">
             <img src="http://qjpqjp.top:9000/bang/photo/files.png" alt="" />
           </div>
-          <div class="des">456</div>
+          <div class="des">历史</div>
         </div>
         <div class="funItem">
           <div class="img">
             <img src="http://qjpqjp.top:9000/bang/photo/champion.png" alt="" />
           </div>
-          <div class="des">456</div>
+          <div class="des">活动</div>
         </div>
       </div>
     </div>
     <div class="swiper"></div>
     <div class="container">
-      <div class="myRelease"></div>
+      <div
+        class="myRelease"
+        @click="goTo(`/pages/my/myRelease/my-release`)"
+      ></div>
       <div class="myHelp">
-        <div class="lf"></div>
+        <div class="lf" @click="goTo(`/pages/my/myHelp/my-helper`)"></div>
         <div class="rg"></div>
       </div>
       <div class="toolsAndServe">
@@ -129,9 +132,9 @@ const getInfo = async () => {
 onShow(() => {
   getInfo()
 })
-const goMyInfo = () => {
+const goTo = (url: string) => {
   uni.navigateTo({
-    url: '/pages/my/myInfoSet/myInfoSet'
+    url
   })
 }
 </script>

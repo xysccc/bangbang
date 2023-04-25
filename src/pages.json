@@ -63,6 +63,42 @@
 			"style": {
 				"navigationBarTitleText": "bang-taskDetail"
 			}
+		},
+		{
+			"path": "pages/my/myRelease/my-release",
+			"style": {
+				"navigationBarTitleText": "my-release"
+			}
+		},
+		{
+			"path": "pages/my/myHelp/my-helper",
+			"style": {
+				"navigationBarTitleText": "my-help"
+			}
+		},
+		{
+			"path": "pages/my/my-tab/my-account",
+			"style": {
+				"navigationBarTitleText": "my-account"
+			}
+		},
+		{
+			"path": "pages/my/my-tab/my-collection",
+			"style": {
+				"navigationBarTitleText": "my-collection"
+			}
+		},
+		{
+			"path": "pages/my/my-tab/my-history",
+			"style": {
+				"navigationBarTitleText": "my-history"
+			}
+		},
+		{
+			"path": "pages/my/my-tab/my-activity",
+			"style": {
+				"navigationBarTitleText": "my-activity"
+			}
 		}
 	],
 	"tabBar": {

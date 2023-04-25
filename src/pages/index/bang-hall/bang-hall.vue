@@ -33,59 +33,61 @@
             <div class="taskName">全部分类</div>
             <div class="search">
               <uni-search-bar
-                :focus="true"
                 v-model="iptVal"
                 cancelButton="none"
               ></uni-search-bar>
             </div>
           </div>
           <div v-if="current === 0" class="taskMain">
-            <div
-              class="taskItem"
-              v-for="(item, index) in 18"
-              @click="
-                goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
-              "
-            >
-              <div class="taskItemTop">
-                <div class="type">王者荣耀代练</div>
-                <div class="rg">
-                  <div class="time">
+            <template v-for="(item, index) in taskList.records" :key="item.id">
+              <div
+                class="taskItem"
+                v-if="changeDate(item.limitTime).dayDiff > 0"
+                @click="
+                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
+                "
+              >
+                <div class="taskItemTop">
+                  <div class="type">{{ item.title }}</div>
+                  <div class="rg">
+                    <div class="time">
+                      <i
+                        class="iconfont icon-shizhong"
+                        style="font-size: 24rpx"
+                      ></i>
+                      {{ changeDate(item.limitTime).dayDiff }}天
+                    </div>
+                    <div class="arrow">
+                      <img
+                        src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
+                        alt=""
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="des">
+                  <div class="tx">
+                    <img :src="item.head" alt="" />
+                  </div>
+                  <div class="content">
+                    {{ item.details }}
+                  </div>
+                </div>
+                <div class="bottom">
+                  <div class="location">
+                    <i class="iconfont icon-weizhi-copy-copy"></i>
+                    <div class="locText">{{ item.location }}</div>
+                  </div>
+                  <div class="collect">
                     <i
-                      class="iconfont icon-shizhong"
-                      style="font-size: 24rpx"
+                      class="iconfont icon-shoucang"
+                      v-if="item.isCollect === 0"
                     ></i>
-                    3天
-                  </div>
-                  <div class="arrow">
-                    <img
-                      src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
-                      alt=""
-                    />
+                    <i class="iconfont icon-shoucang1" v-else></i>
                   </div>
                 </div>
               </div>
-              <div class="des">
-                <div class="tx">
-                  <img
-                    src="http://qjpqjp.top:9000/bang/photo/default.png"
-                    alt=""
-                  />
-                </div>
-                <div class="content">
-                  钻石段位，找一个可以代练到王者段位的人，全英雄，全皮肤...
-                </div>
-              </div>
-              <div class="bottom">
-                <div class="location">
-                  <i class="iconfont icon-weizhi-copy-copy"></i>
-                  <div class="locText">青岛工学院-3号教学楼sadada</div>
-                </div>
-                <div class="collect">
-                  <i class="iconfont icon-shoucang"></i>
-                </div>
-              </div>
-            </div>
+            </template>
           </div>
           <div v-if="current === 1" class="taskMain">456</div>
           <div v-if="current === 2" class="taskMain">789</div>
@@ -104,6 +106,7 @@ import taskService from '@/api/task'
 import type { IGetTaskClassData } from '@/api/task/task.model'
 import BangButton from '@/components/bangButton.vue'
 import { useTaskStore } from '@/stores/task'
+import { changeDate } from '@/utils/date'
 interface Itask {
   name: string
   offImg: string
@@ -114,6 +117,10 @@ interface Itask {
 interface ImapTask extends Itask {
   value: string
 }
+const pageOptions = {
+  page: 1,
+  pageSize: 6
+}
 const current = ref(0)
 const iptVal = ref('')
 const onClichangeCurrentckItem = (e: number) => {
@@ -123,11 +130,26 @@ const onClichangeCurrentckItem = (e: number) => {
     item.active = false
     e >= 1 && (arr[e - 1].active = true)
   })
+  // taskStore.getTaskList({
+  //   page: 1,
+  //   pageSize: 6,
+  //   typeId: e >= 1 && taskClass[current.value - 1].id,
+  //   ...(iptVal.value && { search: iptVal.value })
+  // })
+  taskStore.getTaskList({
+    ...pageOptions,
+    typeId: e >= 1 && taskClass[current.value - 1].id,
+    ...(iptVal.value && { search: iptVal.value })
+  })
 }
 const taskStore = useTaskStore()
 // 分类数据
 
 taskStore.getTaskClass()
+taskStore.getTaskList(pageOptions)
+let taskList = taskStore.taskList
+console.log('lis', taskList)
+
 let taskClass = taskStore.taskClass
 const goTo = (url: string) => {
   uni.navigateTo({
@@ -261,6 +283,7 @@ const goTo = (url: string) => {
               }
             }
             & > .content {
+              margin-left: 10px;
               flex: 1;
               font-size: 26rpx;
               color: rgba(0, 0, 0, 1);
