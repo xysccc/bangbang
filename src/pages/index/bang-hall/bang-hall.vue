@@ -95,18 +95,21 @@
                       <i class="iconfont icon-weizhi-copy-copy"></i>
                       <div class="locText">{{ item.location }}</div>
                     </div>
-                    <div class="collect">
-                      <i
-                        class="iconfont icon-shoucang"
-                        @click="collect(item.id)"
-                        v-if="item.isCollect === 0"
-                      ></i>
-                      <i
-                        class="iconfont icon-shoucang1"
-                        style="color: #2a82e4"
-                        v-else
-                        @click="collect(item.id)"
-                      ></i>
+                    <div class="bottom_rg">
+                      <div class="collect">
+                        <i
+                          class="iconfont icon-shoucang"
+                          @click="collect(item.id)"
+                          v-if="item.isCollect === 0"
+                        ></i>
+                        <i
+                          class="iconfont icon-shoucang1"
+                          style="color: #2a82e4"
+                          v-else
+                          @click="collect(item.id)"
+                        ></i>
+                      </div>
+                      <div class="money">￥10</div>
                     </div>
                   </div>
                 </div>
@@ -351,7 +354,7 @@ const collect = async (id: string) => {
               }
             }
             & > .content {
-              margin-left: 10px;
+              margin-left: 20rpx;
               flex: 1;
               font-size: 26rpx;
               color: rgba(0, 0, 0, 1);
@@ -363,6 +366,7 @@ const collect = async (id: string) => {
             }
           }
           & > .bottom {
+            width: 100%;
             margin-top: 12rpx;
             display: flex;
             justify-content: space-between;
@@ -372,12 +376,36 @@ const collect = async (id: string) => {
               color: rgba(166, 166, 166, 1);
 
               & .locText {
-                width: 300rpx;
+                width: 260rpx;
                 overflow: hidden;
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 -webkit-line-clamp: 1; /*第几行出现省略号*/
                 -webkit-box-orient: vertical;
+              }
+            }
+            & > .bottom_rg {
+              margin-left: 20rpx;
+              flex: 1;
+              align-items: center;
+              justify-content: space-between;
+              display: flex;
+              & > .money {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 90rpx;
+                // height: 22rpx;
+                opacity: 1;
+                border-radius: 4rpx 0rpx, 0rpx, 4rpx;
+                background: linear-gradient(
+                  180deg,
+                  rgba(255, 8, 68, 1) 0%,
+                  rgba(255, 177, 153, 1) 100%
+                );
+                font-size: 24rpx;
+                color: rgba(255, 255, 255, 1);
+                margin-left: 20rpx;
               }
             }
           }
