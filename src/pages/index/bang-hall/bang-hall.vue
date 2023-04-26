@@ -56,9 +56,6 @@
                 <div
                   class="taskItem"
                   v-if="changeDate(item.limitTime).dayDiff > 0"
-                  @click="
-                    goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
-                  "
                 >
                   <div class="taskItemTop">
                     <div class="type">{{ item.title }}</div>
@@ -70,7 +67,14 @@
                         ></i>
                         {{ changeDate(item.limitTime).dayDiff }}天
                       </div>
-                      <div class="arrow">
+                      <div
+                        class="arrow"
+                        @click="
+                          goTo(
+                            `/pages/index/bang-hall/bang-taskDetail?id=${item.id}`
+                          )
+                        "
+                      >
                         <img
                           src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
                           alt=""
@@ -94,9 +98,15 @@
                     <div class="collect">
                       <i
                         class="iconfont icon-shoucang"
+                        @click="collect(item.id)"
                         v-if="item.isCollect === 0"
                       ></i>
-                      <i class="iconfont icon-shoucang1" v-else></i>
+                      <i
+                        class="iconfont icon-shoucang1"
+                        style="color: #2a82e4"
+                        v-else
+                        @click="collect(item.id)"
+                      ></i>
                     </div>
                   </div>
                 </div>
@@ -203,6 +213,16 @@ const goTo = (url: string) => {
   uni.navigateTo({
     url
   })
+}
+const collect = async (id: string) => {
+  await taskService.TaskCollection({ taskId: id })
+  await taskStore.getTaskList({
+    ...pageOptions,
+    ...(current.value >= 1 && { typeId: taskClass[current.value - 1].id }),
+    ...(iptVal.value && { search: iptVal.value })
+  })
+  taskList.records = taskStore.taskList.records
+  taskList = taskStore.taskList
 }
 </script>
 

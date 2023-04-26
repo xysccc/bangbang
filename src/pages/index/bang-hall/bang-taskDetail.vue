@@ -7,57 +7,75 @@
       <div class="bang_card">
         <div class="top">
           <div class="lf">
-            <div class="type">[游戏辅助类]</div>
-            <div class="title">王者荣耀代练</div>
+            <div class="type">[{{ task?.typeId }}类]</div>
+            <div class="title">{{ task?.title }}</div>
           </div>
           <div class="rg">
-            <div class="collect"><i class="iconfont icon-shoucang"></i></div>
+            <div class="collect">
+              <i
+                class="iconfont icon-shoucang"
+                @click="collect"
+                v-if="task?.isCollect === 0"
+              ></i>
+              <i
+                class="iconfont icon-shoucang1"
+                style="color: #2a82e4"
+                v-else
+                @click="collect"
+              ></i>
+            </div>
             <div class="collect"><i class="iconfont icon-shoucang"></i></div>
           </div>
         </div>
         <div class="des">
           <div class="tx">
-            <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
+            <img :src="task?.fromHead" alt="" />
           </div>
           <div class="content">
-            钻石段位，找一个可以代练到王者段位的人，全英雄，全皮肤...
+            {{ task?.details }}
           </div>
         </div>
         <div class="bottom">
           <div class="location">
             <i class="iconfont icon-weizhi-copy-copy"></i>
-            <div class="locText">青岛工学院-3号教学楼sadada</div>
+            <div class="locText">{{ task?.location }}</div>
           </div>
-          <div class="time">剩余时间：3天15小时</div>
-          <div class="money">赏金：¥10</div>
+          <div class="time">
+            剩余时间： {{ changeDate(task?.limitTime).dayDiff }}天{{
+              changeDate(task?.limitTime).hourDiff
+            }}小时
+          </div>
+          <div class="money">赏金：¥{{ task?.money }}</div>
         </div>
       </div>
       <div class="release_person">
         <label class="lab">发布人</label>
         <div class="release_person_box">
           <div class="lf">
-            <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
-            <div class="name">舒克开飞机</div>
+            <img :src="task?.fromHead" alt="" />
+            <div class="name">{{ task?.fromName }}</div>
           </div>
-          <i class="message iconfont icon-shoucang"></i>
+          <i class="message iconfont icon-xinxi"></i>
         </div>
       </div>
       <div class="task_detail">
         <label class="lab">任务详情</label>
         <div class="detail">
-          钻石段位，找一个可以代练到王者段位的人，全英雄，全皮肤，共计三天时间，感兴趣的快快报名哦！
+          {{ task?.details }}
         </div>
       </div>
       <div class="task_loc">
         <label class="lab">发布地点</label>
         <div class="location">
           <i class="loc iconfont icon-shoucang"></i>
-          <span>青岛工学院-3号宿舍楼3N326</span>
+          <span>{{ task?.location }}</span>
         </div>
       </div>
       <div class="task_complate">
-        <label class="lab">完成上传</label>
-        <div class="complate"></div>
+        <label class="lab">图片说明</label>
+        <div class="complate" v-for="(item, index) in task?.fromUrls">
+          <img :src="item" alt="" />
+        </div>
       </div>
       <div class="bottom">
         <BangButton title="报名帮忙" top="50rpx" />
@@ -67,11 +85,28 @@
 </template>
 
 <script lang="ts" setup>
+import { changeDate } from '@/utils/date'
 import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
-onLoad((option) => {
-  console.log(option)
+import { useTaskStore } from '@/stores/task'
+import taskService from '@/api/task'
+interface Ioption {
+  id: string
+}
+const taskId = ref('')
+const task = ref()
+const taskStore = useTaskStore()
+onLoad(async (option: any) => {
+  // console.log(option.id)
+  taskId.value = option.id
+  await taskStore.getTaskOne({ taskId: option.id })
+  task.value = taskStore.task
 })
+const collect = async () => {
+  await taskService.TaskCollection({ taskId: taskId.value })
+  await taskStore.getTaskOne({ taskId: taskId.value })
+  task.value = taskStore.task
+}
 </script>
 
 <style scoped lang="scss">
@@ -262,6 +297,11 @@ onLoad((option) => {
       background-color: #fff;
       border-radius: 20rpx;
       box-shadow: 0rpx 12rpx 36rpx 0rpx rgba(183, 221, 252, 1);
+      & image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
     }
   }
 }

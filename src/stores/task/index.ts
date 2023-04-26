@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: YuShuXiao 949516815@qq.com
+ * @Date: 2023-04-19 15:09:40
+ * @LastEditors: YuShuXiao 949516815@qq.com
+ * @LastEditTime: 2023-04-26 14:47:31
+ * @FilePath: \bangbang\src\stores\task\index.ts
+ */
 import taskService from '@/api/task'
 import userService from '@/api/user'
 import { defineStore } from 'pinia'
@@ -9,6 +17,7 @@ export const useTaskStore = defineStore(
     let taskClass = ref()
     let taskLocation = ref()
     let taskList = ref()
+    let task = ref()
     const getTaskClass = async () => {
       const { data } = await taskService.getTaskClass()
       if (data.code !== 1) return
@@ -25,13 +34,20 @@ export const useTaskStore = defineStore(
       if (data.code !== 1) return
       taskList.value = data.result
     }
+    const getTaskOne = async (params: TaskModel.ITaskoneParm) => {
+      const { data } = await taskService.getTaskOne(params)
+      if (data.code !== 1) return
+      task.value = data.result
+    }
     return {
       taskClass,
       getTaskClass,
       taskLocation,
       addTask,
       getTaskList,
-      taskList
+      taskList,
+      getTaskOne,
+      task
     }
   },
   {

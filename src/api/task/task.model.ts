@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: YuShuXiao 949516815@qq.com
+ * @Date: 2023-04-19 15:14:07
+ * @LastEditors: YuShuXiao 949516815@qq.com
+ * @LastEditTime: 2023-04-26 14:42:23
+ * @FilePath: \bangbang\src\api\task\task.model.ts
+ */
 import type { IApiResponse } from './../types'
 
 export interface IGetTaskClassData {
@@ -68,12 +76,24 @@ export interface ITaskCollectResp extends IApiResponse {
 export interface ITaskoneParm extends ITaskCollectParm {}
 export interface ITaskoneData {
   details: string
-  head: string
-  id: string
+  fromHead: string
+  fromId: string
+  fromName: string
+  fromUrls: ['string']
   isLike: number
   limitTime: string
   location: string
+  money: number
+  releaseTime: string
+  state: number
   title: string
-  username: string
+  toHead: string
+  toId: string
+  toName: string
+  toUrls: [string]
+  typeId: string
+  urgent: number
 }
-export interface ITaskoneResp {}
+export interface ITaskoneResp {
+  result: ITaskoneData
+}
