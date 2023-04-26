@@ -30,7 +30,9 @@
       <div class="rg">
         <div class="container">
           <div class="top">
-            <div class="taskName">全部分类</div>
+            <div class="taskName">
+              {{ current === 0 ? '全部分类' : taskClass[current + 1]?.name }}
+            </div>
             <div class="search">
               <uni-search-bar
                 v-model="iptVal"
@@ -39,312 +41,72 @@
               ></uni-search-bar>
             </div>
           </div>
-          <div v-if="current === 0" class="taskMain">
-            <template v-for="(item, index) in taskList.records" :key="item.id">
-              <div
-                class="taskItem"
-                v-if="changeDate(item.limitTime).dayDiff > 0"
-                @click="
-                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
-                "
+          <template v-for="(item, index) in 6" :key="index">
+            <scroll-view
+              scroll-y="true"
+              v-if="current === index"
+              class="taskMain"
+              lower-threshold="5"
+              @scrolltolower="handleScroll"
+            >
+              <template
+                v-for="(item, index) in taskList.records"
+                :key="item.id"
               >
-                <div class="taskItemTop">
-                  <div class="type">{{ item.title }}</div>
-                  <div class="rg">
-                    <div class="time">
+                <div
+                  class="taskItem"
+                  v-if="changeDate(item.limitTime).dayDiff > 0"
+                  @click="
+                    goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
+                  "
+                >
+                  <div class="taskItemTop">
+                    <div class="type">{{ item.title }}</div>
+                    <div class="rg">
+                      <div class="time">
+                        <i
+                          class="iconfont icon-shizhong"
+                          style="font-size: 24rpx"
+                        ></i>
+                        {{ changeDate(item.limitTime).dayDiff }}天
+                      </div>
+                      <div class="arrow">
+                        <img
+                          src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
+                          alt=""
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="des">
+                    <div class="tx">
+                      <img :src="item.head" alt="" />
+                    </div>
+                    <div class="content">
+                      {{ item.details }}
+                    </div>
+                  </div>
+                  <div class="bottom">
+                    <div class="location">
+                      <i class="iconfont icon-weizhi-copy-copy"></i>
+                      <div class="locText">{{ item.location }}</div>
+                    </div>
+                    <div class="collect">
                       <i
-                        class="iconfont icon-shizhong"
-                        style="font-size: 24rpx"
+                        class="iconfont icon-shoucang"
+                        v-if="item.isCollect === 0"
                       ></i>
-                      {{ changeDate(item.limitTime).dayDiff }}天
-                    </div>
-                    <div class="arrow">
-                      <img
-                        src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
-                        alt=""
-                      />
+                      <i class="iconfont icon-shoucang1" v-else></i>
                     </div>
                   </div>
                 </div>
-                <div class="des">
-                  <div class="tx">
-                    <img :src="item.head" alt="" />
-                  </div>
-                  <div class="content">
-                    {{ item.details }}
-                  </div>
-                </div>
-                <div class="bottom">
-                  <div class="location">
-                    <i class="iconfont icon-weizhi-copy-copy"></i>
-                    <div class="locText">{{ item.location }}</div>
-                  </div>
-                  <div class="collect">
-                    <i
-                      class="iconfont icon-shoucang"
-                      v-if="item.isCollect === 0"
-                    ></i>
-                    <i class="iconfont icon-shoucang1" v-else></i>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
-          <div v-if="current === 1" class="taskMain">
-            <template v-for="(item, index) in taskList.records" :key="item.id">
-              <div
-                class="taskItem"
-                v-if="changeDate(item.limitTime).dayDiff > 0"
-                @click="
-                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
-                "
-              >
-                <div class="taskItemTop">
-                  <div class="type">{{ item.title }}</div>
-                  <div class="rg">
-                    <div class="time">
-                      <i
-                        class="iconfont icon-shizhong"
-                        style="font-size: 24rpx"
-                      ></i>
-                      {{ changeDate(item.limitTime).dayDiff }}天
-                    </div>
-                    <div class="arrow">
-                      <img
-                        src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="des">
-                  <div class="tx">
-                    <img :src="item.head" alt="" />
-                  </div>
-                  <div class="content">
-                    {{ item.details }}
-                  </div>
-                </div>
-                <div class="bottom">
-                  <div class="location">
-                    <i class="iconfont icon-weizhi-copy-copy"></i>
-                    <div class="locText">{{ item.location }}</div>
-                  </div>
-                  <div class="collect">
-                    <i
-                      class="iconfont icon-shoucang"
-                      v-if="item.isCollect === 0"
-                    ></i>
-                    <i class="iconfont icon-shoucang1" v-else></i>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
-          <div v-if="current === 2" class="taskMain">
-            <template v-for="(item, index) in taskList.records" :key="item.id">
-              <div
-                class="taskItem"
-                v-if="changeDate(item.limitTime).dayDiff > 0"
-                @click="
-                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
-                "
-              >
-                <div class="taskItemTop">
-                  <div class="type">{{ item.title }}</div>
-                  <div class="rg">
-                    <div class="time">
-                      <i
-                        class="iconfont icon-shizhong"
-                        style="font-size: 24rpx"
-                      ></i>
-                      {{ changeDate(item.limitTime).dayDiff }}天
-                    </div>
-                    <div class="arrow">
-                      <img
-                        src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="des">
-                  <div class="tx">
-                    <img :src="item.head" alt="" />
-                  </div>
-                  <div class="content">
-                    {{ item.details }}
-                  </div>
-                </div>
-                <div class="bottom">
-                  <div class="location">
-                    <i class="iconfont icon-weizhi-copy-copy"></i>
-                    <div class="locText">{{ item.location }}</div>
-                  </div>
-                  <div class="collect">
-                    <i
-                      class="iconfont icon-shoucang"
-                      v-if="item.isCollect === 0"
-                    ></i>
-                    <i class="iconfont icon-shoucang1" v-else></i>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
-          <div v-if="current === 3" class="taskMain">
-            <template v-for="(item, index) in taskList.records" :key="item.id">
-              <div
-                class="taskItem"
-                v-if="changeDate(item.limitTime).dayDiff > 0"
-                @click="
-                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
-                "
-              >
-                <div class="taskItemTop">
-                  <div class="type">{{ item.title }}</div>
-                  <div class="rg">
-                    <div class="time">
-                      <i
-                        class="iconfont icon-shizhong"
-                        style="font-size: 24rpx"
-                      ></i>
-                      {{ changeDate(item.limitTime).dayDiff }}天
-                    </div>
-                    <div class="arrow">
-                      <img
-                        src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="des">
-                  <div class="tx">
-                    <img :src="item.head" alt="" />
-                  </div>
-                  <div class="content">
-                    {{ item.details }}
-                  </div>
-                </div>
-                <div class="bottom">
-                  <div class="location">
-                    <i class="iconfont icon-weizhi-copy-copy"></i>
-                    <div class="locText">{{ item.location }}</div>
-                  </div>
-                  <div class="collect">
-                    <i
-                      class="iconfont icon-shoucang"
-                      v-if="item.isCollect === 0"
-                    ></i>
-                    <i class="iconfont icon-shoucang1" v-else></i>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
-          <div v-if="current === 4" class="taskMain">
-            <template v-for="(item, index) in taskList.records" :key="item.id">
-              <div
-                class="taskItem"
-                v-if="changeDate(item.limitTime).dayDiff > 0"
-                @click="
-                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
-                "
-              >
-                <div class="taskItemTop">
-                  <div class="type">{{ item.title }}</div>
-                  <div class="rg">
-                    <div class="time">
-                      <i
-                        class="iconfont icon-shizhong"
-                        style="font-size: 24rpx"
-                      ></i>
-                      {{ changeDate(item.limitTime).dayDiff }}天
-                    </div>
-                    <div class="arrow">
-                      <img
-                        src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="des">
-                  <div class="tx">
-                    <img :src="item.head" alt="" />
-                  </div>
-                  <div class="content">
-                    {{ item.details }}
-                  </div>
-                </div>
-                <div class="bottom">
-                  <div class="location">
-                    <i class="iconfont icon-weizhi-copy-copy"></i>
-                    <div class="locText">{{ item.location }}</div>
-                  </div>
-                  <div class="collect">
-                    <i
-                      class="iconfont icon-shoucang"
-                      v-if="item.isCollect === 0"
-                    ></i>
-                    <i class="iconfont icon-shoucang1" v-else></i>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
-          <div v-if="current === 5" class="taskMain">
-            <template v-for="(item, index) in taskList.records" :key="item.id">
-              <div
-                class="taskItem"
-                v-if="changeDate(item.limitTime).dayDiff > 0"
-                @click="
-                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${'123'}`)
-                "
-              >
-                <div class="taskItemTop">
-                  <div class="type">{{ item.title }}</div>
-                  <div class="rg">
-                    <div class="time">
-                      <i
-                        class="iconfont icon-shizhong"
-                        style="font-size: 24rpx"
-                      ></i>
-                      {{ changeDate(item.limitTime).dayDiff }}天
-                    </div>
-                    <div class="arrow">
-                      <img
-                        src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
-                        alt=""
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="des">
-                  <div class="tx">
-                    <img :src="item.head" alt="" />
-                  </div>
-                  <div class="content">
-                    {{ item.details }}
-                  </div>
-                </div>
-                <div class="bottom">
-                  <div class="location">
-                    <i class="iconfont icon-weizhi-copy-copy"></i>
-                    <div class="locText">{{ item.location }}</div>
-                  </div>
-                  <div class="collect">
-                    <i
-                      class="iconfont icon-shoucang"
-                      v-if="item.isCollect === 0"
-                    ></i>
-                    <i class="iconfont icon-shoucang1" v-else></i>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
+              </template>
+              <uni-load-more
+                :status="status"
+                v-if="taskList.records.length >= 6"
+              ></uni-load-more>
+            </scroll-view>
+          </template>
 
           <div class="bottom">
             <BangButton title="发布新任务" top="20rpx" icon="plus" />
@@ -372,9 +134,27 @@ interface Itask {
 interface ImapTask extends Itask {
   value: string
 }
+
+const status = ref('more')
 const pageOptions = {
   page: 1,
   pageSize: 6
+}
+const handleScroll = async (e: any) => {
+  if (taskList.total >= pageOptions.pageSize + 6) {
+    pageOptions.pageSize = pageOptions.pageSize + 6
+    status.value = 'loading'
+    await taskStore.getTaskList({
+      ...pageOptions,
+      ...(current.value >= 1 && { typeId: taskClass[current.value - 1].id }),
+      ...(iptVal.value && { search: iptVal.value })
+    })
+    taskList.records = taskStore.taskList.records
+    taskList = taskStore.taskList
+    status.value = 'more'
+  } else {
+    status.value = 'no-more'
+  }
 }
 const taskStore = useTaskStore()
 // 分类数据
@@ -407,7 +187,6 @@ const onClichangeCurrentckItem = async (e: number) => {
   })
   taskList.records = taskStore.taskList.records
   taskList = taskStore.taskList
-  console.log(taskList)
 }
 const iptChange = async (e: string) => {
   iptVal.value = e
@@ -490,10 +269,10 @@ const goTo = (url: string) => {
       & > .taskMain {
         padding-top: 24rpx;
         width: 100%;
-        padding-bottom: 140rpx;
+        // padding-bottom: 140rpx;
         overflow-y: scroll;
         margin-top: 4rpx;
-        height: 1120rpx;
+        height: 1110rpx;
         & .taskItem {
           padding-top: 24rpx;
           padding-left: 24rpx;
