@@ -109,7 +109,7 @@
                           @click="collect(item.id)"
                         ></i>
                       </div>
-                      <div class="money">￥10</div>
+                      <div class="money">￥{{ item.money }}</div>
                     </div>
                   </div>
                 </div>
