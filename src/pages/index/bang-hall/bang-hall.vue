@@ -31,7 +31,7 @@
         <div class="container">
           <div class="top">
             <div class="taskName">
-              {{ current === 0 ? '全部分类' : taskClass[current + 1]?.name }}
+              {{ current === 0 ? '全部分类' : taskClass[current - 1]?.name }}
             </div>
             <div class="search">
               <uni-search-bar
@@ -41,7 +41,7 @@
               ></uni-search-bar>
             </div>
           </div>
-          <template v-for="(item, index) in 6" :key="index">
+          <template v-for="(item, index) in taskClass.length + 1" :key="index">
             <scroll-view
               scroll-y="true"
               v-if="current === index"
@@ -63,7 +63,7 @@
                       <div class="time">
                         <i
                           class="iconfont icon-shizhong"
-                          style="font-size: 24rpx"
+                          style="font-size: 24rpx; margin-right: 7rpx"
                         ></i>
                         {{ changeDate(item.limitTime).dayDiff }}天
                       </div>
@@ -161,7 +161,7 @@ const getList = () => {
   })
 }
 const handleScroll = async (e: any) => {
-  if (taskList.total >= pageOptions.page * 6) {
+  if (taskList.total >= pageOptions.page * pageOptions.pageSize) {
     pageOptions.page++
     status.value = 'loading'
     await getList()
@@ -178,8 +178,9 @@ taskStore.getTaskClass()
 taskStore.getTaskList(pageOptions)
 let taskList = taskStore.taskList
 let taskClass = taskStore.taskClass
-console.log('TA', taskList)
-
+onShow(async () => {
+  await getList()
+})
 const current = ref(0)
 const iptVal = ref('')
 const typeId = ref('')
@@ -189,6 +190,7 @@ const onClichangeCurrentckItem = async (e: number) => {
     item.active = false
     e >= 1 && (arr[e - 1].active = true)
   })
+
   taskList.records = []
   pageOptions = {
     page: 1,
@@ -321,6 +323,7 @@ const collect = async (id: string) => {
               & > .arrow {
                 width: 36rpx;
                 height: 36rpx;
+                margin-right: -10rpx;
                 & image {
                   width: 100%;
                   height: 100%;
@@ -383,7 +386,7 @@ const collect = async (id: string) => {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 90rpx;
+                width: 87rpx;
                 // height: 22rpx;
                 opacity: 1;
                 border-radius: 4rpx 0rpx, 0rpx, 4rpx;

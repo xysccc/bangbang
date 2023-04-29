@@ -7,7 +7,7 @@
       <div class="bang_card">
         <div class="top">
           <div class="lf">
-            <div class="type">[{{ task?.typeId }}类]</div>
+            <div class="type">[{{ task?.type }}类]</div>
             <div class="title">{{ task?.title }}</div>
           </div>
           <div class="rg">
@@ -37,7 +37,10 @@
         </div>
         <div class="bottom">
           <div class="location">
-            <i class="iconfont icon-weizhi-copy-copy"></i>
+            <i
+              class="iconfont icon-weizhi-copy-copy"
+              style="border-right: none"
+            ></i>
             <div class="locText">{{ task?.location }}</div>
           </div>
           <div class="time">
@@ -73,12 +76,16 @@
       </div>
       <div class="task_complate">
         <label class="lab">图片说明</label>
-        <div class="complate" v-for="(item, index) in task?.fromUrls">
+        <div
+          class="complate"
+          v-for="(item, index) in task?.fromUrls"
+          :key="item.id"
+        >
           <img :src="item" alt="" />
         </div>
       </div>
       <div class="bottom">
-        <BangButton title="报名帮忙" top="50rpx" />
+        <BangButton title="报名帮忙" top="50rpx" @btn-click="bang" />
       </div>
     </div>
   </div>
@@ -90,9 +97,11 @@ import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useTaskStore } from '@/stores/task'
 import taskService from '@/api/task'
+import { useUserStore } from '@/stores/user'
 interface Ioption {
   id: string
 }
+const userStore = useUserStore()
 const taskId = ref('')
 const task = ref()
 const taskStore = useTaskStore()
@@ -106,6 +115,15 @@ const collect = async () => {
   await taskService.TaskCollection({ taskId: taskId.value })
   await taskStore.getTaskOne({ taskId: taskId.value })
   task.value = taskStore.task
+}
+const bang = async () => {
+  const { data } = await taskService.TaskAccept({ taskId: taskId.value })
+  if (data.code !== 1) return
+  uni.showToast({
+    title: '接单成功',
+    icon: 'success'
+  })
+  uni.navigateBack()
 }
 </script>
 
@@ -146,7 +164,7 @@ const collect = async () => {
     & > .des {
       display: flex;
       align-items: center;
-      margin-top: 12rpx;
+      margin-top: 27rpx;
 
       & > .tx {
         width: 86rpx;
@@ -158,7 +176,7 @@ const collect = async () => {
         }
       }
       & > .content {
-        margin-left: 4rpx;
+        margin-left: 20rpx;
         flex: 1;
         font-size: 26rpx;
         color: rgba(0, 0, 0, 1);
@@ -300,6 +318,7 @@ const collect = async () => {
       & image {
         width: 100%;
         height: 100%;
+        border-radius: 20rpx;
         object-fit: cover;
       }
     }

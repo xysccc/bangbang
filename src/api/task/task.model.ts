@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:14:07
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-26 14:42:23
+ * @LastEditTime: 2023-04-29 23:03:41
  * @FilePath: \bangbang\src\api\task\task.model.ts
  */
 import type { IApiResponse } from './../types'
@@ -90,10 +90,20 @@ export interface ITaskoneData {
   toHead: string
   toId: string
   toName: string
-  toUrls: [string]
+  toUrls: string[]
   typeId: string
   urgent: number
 }
-export interface ITaskoneResp {
-  result: ITaskoneData
+
+export interface ITaskAcceptParm {
+  taskId: string
+}
+export interface ITaskAcceptResp extends IApiResponse {
+  result: string
+}
+export interface ITaskCompleteParm {
+  taskId: string
+}
+export interface ITaskCompleteResp extends IApiResponse {
+  result: string
 }

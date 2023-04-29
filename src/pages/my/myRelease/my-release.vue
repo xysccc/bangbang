@@ -13,46 +13,75 @@
         />
       </div>
       <div class="content">
-        <div v-if="current === 0" class="contentItem">
-          <div class="bang_card" v-for="(item, index) in 10">
-            <div class="top">
-              <div class="lf">
-                <div class="type">[游戏辅助类]</div>
-                <div class="title">王者荣耀代练</div>
-              </div>
-              <div class="rg">
-                <div class="collect">
-                  <i class="iconfont icon-shoucang"></i>
+        <template v-for="(item, index) in 7" :key="index">
+          <scroll-view
+            class="contentItem"
+            scroll-y="true"
+            lower-threshold="5"
+            @scrolltolower="handleScroll"
+            v-if="current === index"
+          >
+            <template v-for="(item, index) in myRelease.records">
+              <div class="bang_card">
+                <div class="top">
+                  <div class="lf">
+                    <div class="type">[{{ item?.type }}类]</div>
+                    <div class="title">{{ item?.title }}</div>
+                  </div>
+                  <div class="rg">
+                    <div class="collect">
+                      <i
+                        class="iconfont icon-shoucang"
+                        @click="collect(item.id)"
+                        v-if="item?.isCollect === 0"
+                      ></i>
+                      <i
+                        class="iconfont icon-shoucang1"
+                        style="color: #2a82e4"
+                        v-else
+                        @click="collect(item.id)"
+                      ></i>
+                    </div>
+                    <div class="collect">
+                      <i class="iconfont icon-shoucang"></i>
+                    </div>
+                  </div>
                 </div>
-                <div class="collect">
-                  <i class="iconfont icon-shoucang"></i>
+                <div class="des">
+                  <div class="tx">
+                    <img :src="item?.head" alt="" />
+                  </div>
+                  <div class="content">
+                    {{ item?.details }}
+                  </div>
+                </div>
+                <div class="bottom">
+                  <div class="location">
+                    <i class="iconfont icon-weizhi-copy-copy btIcon"></i>
+                    <div class="locText">{{ item?.location }}</div>
+                  </div>
+                  <div
+                    class="time"
+                    v-if="changeDate(item.limitTime).dayDiff > 0"
+                  >
+                    剩余时间：{{ changeDate(item?.limitTime).dayDiff }}天{{
+                      changeDate(item?.limitTime).hourDiff
+                    }}小时
+                  </div>
+                  <div v-else class="time expire">已过期</div>
+                  <div class="money">赏金：￥{{ item?.money }}</div>
+                </div>
+                <div class="status" :class="changeStatusColor(item?.state)">
+                  {{ changeStatusText(item?.state) }}
                 </div>
               </div>
-            </div>
-            <div class="des">
-              <div class="tx">
-                <img
-                  src="http://qjpqjp.top:9000/bang/photo/default.png"
-                  alt=""
-                />
-              </div>
-              <div class="content">
-                钻石段位，找一个可以代练到王者段位的人，全英雄，全皮肤...
-              </div>
-            </div>
-            <div class="bottom">
-              <div class="location">
-                <i class="iconfont icon-weizhi-copy-copy btIcon"></i>
-                <div class="locText">青岛工学院-3号教学楼sadada</div>
-              </div>
-              <div class="time">剩余时间：3天15小时</div>
-              <div class="money">赏金：¥10</div>
-            </div>
-            <div class="status">已结单</div>
-          </div>
-        </div>
-        <div v-if="current === 1" class="contentItem"></div>
-        <div v-if="current === 2" class="contentItem"></div>
+            </template>
+            <uni-load-more
+              :status="status"
+              v-if="myRelease.records.length >= 5"
+            ></uni-load-more>
+          </scroll-view>
+        </template>
       </div>
       <BangButton title="发布新帮忙" top="20rpx" />
     </div>
@@ -60,18 +89,88 @@
 </template>
 
 <script lang="ts" setup>
+import { changeDate } from '@/utils/date'
 import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
+import { useUserStore } from '@/stores/user'
+import taskService from '@/api/task'
 const current = ref(0)
-const items = ['全部', '待接单', '审核中', '审核中', '审核中', '审核中']
+const items = ['全部', '审核中', '待接单', '已接单', '已完成', '已过期']
 type cI = {
   currentIndex: number
 }
-const onClickItem = (e: cI) => {
+const onClickItem = async (e: cI) => {
   if (current.value !== e.currentIndex) {
     current.value = e.currentIndex
   }
+  myRelease.records = []
+  pageOptions = {
+    page: 1,
+    pageSize: 5
+  }
+  await getList()
+  myRelease.records = userStore.myRelease.records
+  myRelease = userStore.myRelease
 }
+let pageOptions = {
+  page: 1,
+  pageSize: 5
+}
+const userStore = useUserStore()
+const getList = () => {
+  return userStore.getMyRelease({
+    ...pageOptions,
+    ...(current.value >= 1 && { status: current.value - 1 })
+  })
+}
+userStore.getMyRelease(pageOptions)
+let myRelease = userStore.myRelease
+const handleScroll = async () => {
+  if (myRelease.total >= pageOptions.page * pageOptions.pageSize) {
+    pageOptions.page++
+    status.value = 'loading'
+    await getList()
+    myRelease.records.push(...toRaw(userStore.myRelease.records))
+    status.value = 'more'
+  } else {
+    status.value = 'no-more'
+  }
+}
+const collect = async (id: string) => {
+  await taskService.TaskCollection({ taskId: id })
+  await getList()
+  myRelease.records = userStore.myRelease.records
+  myRelease = userStore.myRelease
+}
+const status = ref('more')
+const changeStatusText = computed(() => (status: number) => {
+  switch (status) {
+    case 0:
+      return '审核中'
+    case 1:
+      return '待接单'
+    case 2:
+      return '已接单'
+    case 3:
+      return '已完成'
+    case 4:
+      return '已过期'
+  }
+})
+const changeStatusColor = computed(() => (status: number) => {
+  switch (status) {
+    case 0:
+      return 'yellow'
+    case 1:
+      return 'gray'
+    case 2:
+      return 'blue'
+    case 3:
+      return 'green'
+    case 4:
+      return 'red'
+  }
+})
 </script>
 
 <style scoped lang="scss">
@@ -112,7 +211,7 @@ const onClickItem = (e: cI) => {
     & .bang_card {
       overflow: hidden;
       position: relative;
-      padding: 0 30rpx;
+      padding: 0 40rpx;
       padding-top: 18rpx;
       border-radius: 20rpx;
       width: 100%;
@@ -156,7 +255,7 @@ const onClickItem = (e: cI) => {
           }
         }
         & > .content {
-          margin-left: 4rpx;
+          margin-left: 20rpx;
           flex: 1;
           font-size: 26rpx;
           color: rgba(0, 0, 0, 1);
@@ -168,7 +267,6 @@ const onClickItem = (e: cI) => {
         }
       }
       & > .bottom {
-        height: 40rpx;
         margin-top: 20rpx;
         display: flex;
         justify-content: space-between;
@@ -179,7 +277,7 @@ const onClickItem = (e: cI) => {
 
           & .locText {
             font-size: 24rpx;
-            width: 180rpx;
+            width: 170rpx;
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
@@ -192,8 +290,11 @@ const onClickItem = (e: cI) => {
           }
         }
         & > .time {
+          width: 240rpx;
+          white-space: nowrap;
+          text-align: center;
           color: rgba(166, 166, 166, 1);
-          padding: 0 10rpx 0 4rpx;
+          padding: 0 10rpx 0 3rpx;
           font-size: 24rpx;
         }
         & > .money {
@@ -215,12 +316,30 @@ const onClickItem = (e: cI) => {
         border-right: 60rpx solid transparent;
         transform: rotate(-40deg);
         color: #fff;
-        line-height: 68rpx;
+        font-size: 30rpx;
+        font-weight: 500;
+        line-height: 70rpx;
+        padding-left: 10rpx;
+      }
+      & .red {
+        border-bottom-color: rgba(212, 48, 48, 1);
+      }
+      & .yellow {
+        border-bottom-color: rgba(255, 235, 59, 1);
+      }
+      & .blue {
+        border-bottom-color: rgba(24, 123, 237, 1);
+      }
+      & .green {
+        border-bottom-color: rgba(67, 207, 124, 1);
+      }
+      & .gray {
+        border-bottom-color: rgba(128, 128, 128, 1);
       }
     }
     & > .contentItem {
       height: 1045rpx;
-      overflow: auto;
+      overflow-y: scroll;
     }
   }
 }

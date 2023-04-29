@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-26 00:34:33
+ * @LastEditTime: 2023-04-29 20:30:14
  * @FilePath: \bangbang\src\api\user\user.model.ts
  */
 import type { IApiResponse } from './../types'
@@ -103,8 +103,18 @@ export interface IMyCollectResp {
 export interface IMyReleaseParm {
   page: number
   pageSize: number
+  status?: number
 }
 export interface IMyReleaseData extends ITaskListData {}
-export interface IMyReleaseResp {
+export interface IMyReleaseResp extends IApiResponse {
   result: IMyReleaseData
+}
+export interface IMyHelpParm {
+  page: number
+  pageSize: number
+  status?: number
+}
+export interface IMyHelpData extends ITaskListData {}
+export interface IMyHelpResp extends IApiResponse {
+  result: IMyHelpData
 }
