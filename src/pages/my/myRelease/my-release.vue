@@ -22,7 +22,12 @@
             v-if="current === index"
           >
             <template v-for="(item, index) in myRelease.records">
-              <div class="bang_card">
+              <div
+                class="bang_card"
+                @click="
+                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${item.id}`)
+                "
+              >
                 <div class="top">
                   <div class="lf">
                     <div class="type">[{{ item?.type }}类]</div>
@@ -171,6 +176,11 @@ const changeStatusColor = computed(() => (status: number) => {
       return 'red'
   }
 })
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
+}
 </script>
 
 <style scoped lang="scss">

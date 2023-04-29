@@ -84,7 +84,7 @@
           <img :src="item" alt="" />
         </div>
       </div>
-      <div class="task_complate">
+      <div class="task_complate" v-if="task.state === 3">
         <label class="lab">完成图片说明</label>
         <div
           class="complate"
