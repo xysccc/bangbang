@@ -149,21 +149,24 @@ interface ImapTask extends Itask {
 }
 
 const status = ref('more')
-const pageOptions = {
+let pageOptions = {
   page: 1,
   pageSize: 6
 }
+const getList = () => {
+  return taskStore.getTaskList({
+    ...pageOptions,
+    ...(current.value >= 1 && { typeId: taskClass[current.value - 1].id }),
+    ...(iptVal.value && { search: iptVal.value })
+  })
+}
 const handleScroll = async (e: any) => {
-  if (taskList.total >= pageOptions.pageSize + 6) {
-    pageOptions.pageSize = pageOptions.pageSize + 6
+  if (taskList.total >= pageOptions.page * 6) {
+    pageOptions.page++
     status.value = 'loading'
-    await taskStore.getTaskList({
-      ...pageOptions,
-      ...(current.value >= 1 && { typeId: taskClass[current.value - 1].id }),
-      ...(iptVal.value && { search: iptVal.value })
-    })
-    taskList.records = taskStore.taskList.records
-    taskList = taskStore.taskList
+    await getList()
+    taskList.records.push(...toRaw(taskStore.taskList.records))
+    taskList.total = taskStore.taskList.total
     status.value = 'more'
   } else {
     status.value = 'no-more'
@@ -182,32 +185,22 @@ const iptVal = ref('')
 const typeId = ref('')
 const onClichangeCurrentckItem = async (e: number) => {
   current.value = e
-  console.log(current.value)
   taskClass.map((item: Itask, index: number, arr: Itask[]) => {
     item.active = false
     e >= 1 && (arr[e - 1].active = true)
   })
-  // taskStore.getTaskList({
-  //   page: 1,
-  //   pageSize: 6,
-  //   typeId: e >= 1 && taskClass[current.value - 1].id,
-  //   ...(iptVal.value && { search: iptVal.value })
-  // })
-  await taskStore.getTaskList({
-    ...pageOptions,
-    ...(e >= 1 && { typeId: taskClass[current.value - 1].id }),
-    ...(iptVal.value && { search: iptVal.value })
-  })
+  taskList.records = []
+  pageOptions = {
+    page: 1,
+    pageSize: 6
+  }
+  await getList()
   taskList.records = taskStore.taskList.records
   taskList = taskStore.taskList
 }
 const iptChange = async (e: string) => {
   iptVal.value = e
-  await taskStore.getTaskList({
-    ...pageOptions,
-    ...(current.value >= 1 && { typeId: taskClass[current.value - 1].id }),
-    ...(iptVal.value && { search: iptVal.value })
-  })
+  await getList()
   taskList.records = taskStore.taskList.records
   taskList = taskStore.taskList
 }
@@ -219,11 +212,7 @@ const goTo = (url: string) => {
 }
 const collect = async (id: string) => {
   await taskService.TaskCollection({ taskId: id })
-  await taskStore.getTaskList({
-    ...pageOptions,
-    ...(current.value >= 1 && { typeId: taskClass[current.value - 1].id }),
-    ...(iptVal.value && { search: iptVal.value })
-  })
+  await getList()
   taskList.records = taskStore.taskList.records
   taskList = taskStore.taskList
 }
