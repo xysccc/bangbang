@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:12:44
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-29 23:04:56
+ * @LastEditTime: 2023-04-30 00:51:14
  * @FilePath: \bangbang\src\api\task\index.ts
  */
 import type * as TaskModel from './task.model'
@@ -36,10 +36,10 @@ class taskService {
       { params }
     )
   }
-  static TaskComplete(params: TaskModel.ITaskCompleteParm) {
-    return prerequest.get<TaskModel.ITaskCompleteResp>(
-      `/task/finish/${params.taskId}`,
-      { params }
+  static TaskComplete(data: TaskModel.ITaskCompleteParm) {
+    return prerequest.post<TaskModel.ITaskCompleteResp>(
+      `/task/finish/${data.taskId}`,
+      { data }
     )
   }
 }

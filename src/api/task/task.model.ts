@@ -103,6 +103,7 @@ export interface ITaskAcceptResp extends IApiResponse {
 }
 export interface ITaskCompleteParm {
   taskId: string
+  urls?: string[]
 }
 export interface ITaskCompleteResp extends IApiResponse {
   result: string

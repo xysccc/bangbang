@@ -22,7 +22,12 @@
             v-if="current === index"
           >
             <template v-for="(item, index) in myHelp.records">
-              <div class="bang_card">
+              <div
+                class="bang_card"
+                @click="
+                  goTo(`/pages/index/bang-hall/bang-taskDetail?id=${item.id}`)
+                "
+              >
                 <div class="top">
                   <div class="lf">
                     <div class="type">[{{ item?.type }}类]</div>
@@ -95,7 +100,7 @@ import BangNav from '@/components/bangNav.vue'
 import { useUserStore } from '@/stores/user'
 import taskService from '@/api/task'
 const current = ref(0)
-const items = ['全部', '待完成', '已提交', '未完成']
+const items = ['全部', '待完成', '已完成', '未完成']
 type cI = {
   currentIndex: number
 }
@@ -120,7 +125,7 @@ const userStore = useUserStore()
 const getList = () => {
   return userStore.getMyHelp({
     ...pageOptions,
-    ...(current.value >= 1 && { status: current.value - 1 })
+    ...(current.value >= 1 && { status: current.value + 1 })
   })
 }
 userStore.getMyHelp(pageOptions)
@@ -171,6 +176,11 @@ const changeStatusColor = computed(() => (status: number) => {
       return 'red'
   }
 })
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
+}
 </script>
 
 <style scoped lang="scss">

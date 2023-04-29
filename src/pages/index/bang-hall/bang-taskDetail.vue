@@ -84,8 +84,40 @@
           <img :src="item" alt="" />
         </div>
       </div>
+      <div class="task_complate">
+        <label class="lab">完成图片说明</label>
+        <div
+          class="complate"
+          v-for="(item, index) in task?.toUrls"
+          :key="item.id"
+        >
+          <img :src="item" alt="" />
+        </div>
+      </div>
+      <div class="task_upload" v-if="task.state === 2">
+        <label class="lab">完成任务上传</label>
+        <div class="addFiles_wrapped">
+          <div class="preImg" v-for="(item, index) in fileValue" :key="index">
+            <img :src="item" alt="" />
+            <div class="del" @click="delFiles(item)">✖</div>
+          </div>
+
+          <div class="add" @click="addFiles" v-if="fileValue.length < 3">+</div>
+        </div>
+      </div>
       <div class="bottom">
-        <BangButton title="报名帮忙" top="50rpx" @btn-click="bang" />
+        <BangButton
+          title="报名帮忙"
+          top="50rpx"
+          @btn-click="bang"
+          v-if="task.state === 1"
+        />
+        <BangButton
+          title="完成任务"
+          top="50rpx"
+          @btn-click="complate"
+          v-if="task.state === 2"
+        />
       </div>
     </div>
   </div>
@@ -124,6 +156,65 @@ const bang = async () => {
     icon: 'success'
   })
   uni.navigateBack()
+}
+const complate = async () => {
+  const { data } = await taskService.TaskComplete({
+    taskId: taskId.value,
+    urls: fileValue.value
+  })
+  if (data.code !== 1) return
+  uni.showToast({
+    title: '完成任务',
+    icon: 'success'
+  })
+  uni.navigateBack()
+}
+// 图片回显列表
+let fileValue = ref<string[]>([])
+const delFiles = (item: string) => {
+  fileValue.value = fileValue.value.filter((file) => file !== item)
+  // fileValue=computed(()=>fileValue.filter((file) => file !== item))
+  console.log(fileValue)
+}
+const addFiles = () => {
+  uni.chooseMedia({
+    count: 3,
+    mediaType: ['image', 'video'],
+    sourceType: ['album', 'camera'],
+    maxDuration: 30,
+    camera: 'back',
+    success(res) {
+      uni.showLoading({
+        title: '正在上传'
+      })
+      res.tempFiles.map((item) => {
+        uni.uploadFile({
+          url: 'http://114.116.95.152:2001/mo/upload',
+          filePath: item.tempFilePath,
+          // files: res.tempFiles.map((item) => ({ uri: item.tempFilePath })),
+          name: 'file',
+          success: (uploadFileRes: any) => {
+            // // 上传qjp服务器成功
+            // if (res.tempFiles.length !== 3) {
+            //   res.tempFiles.length + fileValue.value.length === 3 &&
+            //     uni.hideLoading()
+            // } else {
+            //   fileValue.value.length === 2 && uni.hideLoading()
+            // }
+            uni.hideLoading()
+            fileValue.value.push(JSON.parse(uploadFileRes.data).result.url)
+            // res.tempFiles.length === fileValue.value.length && uni.hideLoading()
+
+            // fileValue.push(uploadFileRes.data)
+            // console.log(fileValue);
+          },
+          fail: (e) => {
+            console.log(e)
+          }
+        })
+      })
+    }
+  })
 }
 </script>
 
@@ -310,8 +401,8 @@ const bang = async () => {
     }
     & > .complate {
       margin-left: 30rpx;
-      width: 238rpx;
-      height: 238rpx;
+      width: 150rpx;
+      height: 150rpx;
       background-color: #fff;
       border-radius: 20rpx;
       box-shadow: 0rpx 12rpx 36rpx 0rpx rgba(183, 221, 252, 1);
@@ -320,6 +411,65 @@ const bang = async () => {
         height: 100%;
         border-radius: 20rpx;
         object-fit: cover;
+      }
+    }
+  }
+  & > .task_upload {
+    margin-top: 15px;
+    display: flex;
+    & > .lab {
+      width: 70rpx;
+      // white-space: nowrap;
+      color: rgba(0, 0, 0, 1);
+    }
+    & .addFiles_wrapped {
+      margin-left: 30rpx;
+      flex: 1;
+      height: 150rpx;
+
+      display: flex;
+      & > .preImg {
+        background-color: #fff;
+        border-radius: 20rpx;
+        box-shadow: 0rpx 12rpx 36rpx 0rpx rgb(183, 221, 252);
+        position: relative;
+        width: 150rpx;
+        height: 100%;
+        margin: 0 12rpx;
+        & > image {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          border-radius: 20rpx;
+        }
+        & > .del {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40rpx;
+          height: 40rpx;
+          position: absolute;
+          right: -20rpx;
+          top: -20rpx;
+          background-color: #2979ff;
+          border-radius: 50%;
+          font-size: 30rpx;
+          color: #f1f1f1;
+        }
+        &:nth-child(1) {
+          margin-left: 0;
+        }
+      }
+      & > .add {
+        border-radius: 20rpx;
+        color: #f1f1f1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 150rpx;
+        height: 100%;
+        background-color: #fff;
+        font-size: 100rpx;
       }
     }
   }
