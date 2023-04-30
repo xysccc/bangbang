@@ -99,13 +99,15 @@
       <img src="http://qjpqjp.top:9000/bang/photo/帮帮友圈.png" alt="" />
     </div>
   </div>
+  <BangTab></BangTab>
 </template>
 
 <script setup lang="ts">
 import userService from '@/api/user'
 import { useUserStore } from '@/stores/user'
 import prequest from '@/utils/requst'
-
+import BangTab from '@/components/bangTab.vue'
+// import BangButton from '@/components/bangButton.vue'
 const userStore = useUserStore()
 const simAdress = ref('')
 const goTo = (url: string) => {

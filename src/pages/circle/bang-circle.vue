@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-30 18:10:39
+ * @LastEditTime: 2023-05-01 01:13:46
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -83,9 +83,11 @@
       </scroll-view>
     </div>
   </div>
+  <BangTab :selected="1"></BangTab>
 </template>
 
 <script lang="ts" setup>
+import BangTab from '@/components/bangTab.vue'
 import userService from '@/api/user'
 userService.GetUserInfo()
 const iptVal = ref('')

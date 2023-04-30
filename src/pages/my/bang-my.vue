@@ -101,12 +101,14 @@
       </div>
     </div>
   </div>
+  <BangTab :selected="4"></BangTab>
 </template>
 
 <script setup lang="ts">
 import userService from '@/api/user'
 import { useUserStore } from '@/stores/user'
 import prequest from '@/utils/requst'
+import BangTab from '@/components/bangTab.vue'
 const userStore = useUserStore()
 let info = ref({ head: null, username: null })
 const login = () => {
