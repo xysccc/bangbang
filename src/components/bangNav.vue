@@ -1,6 +1,6 @@
 <template>
   <uni-nav-bar
-    :left-icon="props.arrowBack ? 'left' : ''"
+    :left-icon="props.arrowBack || props.arrowTabBack ? 'left' : ''"
     :title="title"
     @clickLeft="click"
     background-color="transparent"
@@ -11,7 +11,12 @@
 </template>
 <script setup lang="ts">
 const click = () => {
-  props.arrowBack && uni.navigateBack()
+  if (props.arrowTabBack && props.arrowBack) {
+    console.log('go index')
+    uni.switchTab({ url: '/pages/index/bang-index' })
+  } else {
+    uni.navigateBack()
+  }
   emit('back')
 }
 const props = defineProps({
@@ -22,6 +27,10 @@ const props = defineProps({
   arrowBack: {
     type: Boolean,
     default: true
+  },
+  arrowTabBack: {
+    type: Boolean,
+    default: false
   }
 })
 const emit = defineEmits(['back'])

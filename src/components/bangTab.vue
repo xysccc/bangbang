@@ -105,7 +105,7 @@ const switchTab = (item: any, index: number) => {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 180rpx;
+  height: 90px;
   // 130rpx
   background: white;
   display: flex;

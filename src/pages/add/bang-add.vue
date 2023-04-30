@@ -2,7 +2,7 @@
   <div class="content">
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
-    <BangNav title="发布任务" :arrow-back="false" />
+    <BangNav title="发布任务" :arrow-tab-back="true" />
     <div class="bang_add container">
       <!-- 选择任务类型栏 -->
       <div class="select" style="width: 100%">
