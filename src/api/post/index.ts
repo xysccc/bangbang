@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:12:44
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-30 22:06:13
+ * @LastEditTime: 2023-04-30 22:09:38
  * @FilePath: \bangbang\src\api\post\index.ts
  */
 import type * as PostModel from './post.model'
@@ -19,20 +19,20 @@ class postService {
     )
   }
   // 评论点赞
-  static postCommentLike(params: PostModel.IPostCommentLikeparm) {
-    return prerequest.get<PostModel.IPostCommentLikeResp>(
-      `/post/comment/${params.postCommentId}`,
+  static postCommentLike(data: PostModel.IPostCommentLikeparm) {
+    return prerequest.post<PostModel.IPostCommentLikeResp>(
+      `/post/comment/${data.postCommentId}`,
       {
-        params
+        data
       }
     )
   }
   // 评论
-  static postComment(params: PostModel.IPostCommentparm) {
-    return prerequest.get<PostModel.IPostCommentResp>(
-      `/post/comment/${params.postId}`,
+  static postComment(data: PostModel.IPostCommentparm) {
+    return prerequest.post<PostModel.IPostCommentResp>(
+      `/post/comment/${data.postId}`,
       {
-        params
+        data
       }
     )
   }
@@ -103,9 +103,9 @@ class postService {
     })
   }
   // 发帖
-  static addPost(params: PostModel.IAddPostparm) {
-    return prerequest.get<PostModel.IAddPostResp>(`/post/newPost`, {
-      params
+  static addPost(data: PostModel.IAddPostparm) {
+    return prerequest.post<PostModel.IAddPostResp>(`/post/newPost`, {
+      data
     })
   }
   // 帖子详情
