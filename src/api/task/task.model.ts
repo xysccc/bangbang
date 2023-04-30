@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:14:07
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-29 23:03:41
+ * @LastEditTime: 2023-04-30 20:43:21
  * @FilePath: \bangbang\src\api\task\task.model.ts
  */
 import type { IApiResponse } from './../types'

@@ -159,7 +159,7 @@ const getLocationInfo = () => {
           ',' +
           longitude +
           '&key=MJMBZ-5IHYW-4PSRZ-RX732-E3K67-GYFZ6',
-        success(re) {
+        success(re: any) {
           //中文定位
           userStore.location = re.data.result
           simAdress.value =
@@ -197,7 +197,7 @@ function getAuthorizeInfo(a = 'scope.userLocation') {
 function isGetLocation(a = 'scope.userLocation') {
   // 3. 检查当前是否已经授权访问scope属性，参考下截图
   uni.getSetting({
-    success(res) {
+    success(res: any) {
       if (!res.authSetting[a]) {
         //3.1 每次进入程序判断当前是否获得授权，如果没有就去获得授权，如果获得授权，就直接获取当前地理位置
         getAuthorizeInfo()
