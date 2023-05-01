@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 20:42:34
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-30 21:51:37
+ * @LastEditTime: 2023-05-01 21:01:42
  * @FilePath: \bangbang\src\api\post\post.model.ts
  */
 import type { IApiResponse } from './../types'
@@ -115,7 +115,7 @@ export interface IAddPostparm {
   location: string
   text: string
   topicId: string
-  urls: string[]
+  urls: any
 }
 export interface IGetPostOneData {
   browse: number
@@ -140,4 +140,25 @@ export interface IGetPostOneResp extends IApiResponse {
 }
 export interface IGetPostOneparm {
   postId: string
+}
+export interface IPostTopicListData {
+  bc: string
+  head: string
+  id: string
+  name: string
+  tags: string
+}
+export interface IPostTopicListResp extends IApiResponse {
+  result: IPostTopicListData
+}
+export interface IPostTopicListparm {
+  page: number
+  pageSize: number
+}
+export interface IPostFollowTopicData {}
+export interface IPostFollowTopicResp extends IApiResponse {
+  result: IPostFollowTopicData
+}
+export interface IPostFollowTopicparm {
+  topicId: string
 }

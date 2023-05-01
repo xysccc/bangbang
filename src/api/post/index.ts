@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:12:44
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-30 22:09:38
+ * @LastEditTime: 2023-05-01 21:11:54
  * @FilePath: \bangbang\src\api\post\index.ts
  */
 import type * as PostModel from './post.model'
@@ -115,6 +115,16 @@ class postService {
       {
         params
       }
+    )
+  }
+  // 话题列表
+  static getTopic() {
+    return prerequest.get<PostModel.IPostTopicListResp>(`/topic/list`)
+  }
+  // 关注话题
+  static topicFollow(params: PostModel.IPostFollowTopicparm) {
+    return prerequest.get<PostModel.IPostFollowTopicResp>(
+      `/topic/follow/${params.topicId}`
     )
   }
 }

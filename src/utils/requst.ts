@@ -1,3 +1,11 @@
+/*
+ * @Description:
+ * @Author: YuShuXiao 949516815@qq.com
+ * @Date: 2023-04-11 18:22:42
+ * @LastEditors: YuShuXiao 949516815@qq.com
+ * @LastEditTime: 2023-05-01 10:04:16
+ * @FilePath: \bangbang\src\utils\requst.ts
+ */
 import { PreQuest, create } from '@prequest/miniprogram'
 import Lock from '@prequest/lock'
 import type { MiddlewareCallback } from '@prequest/types'
@@ -10,7 +18,7 @@ declare module '@prequest/types' {
 }
 
 // 全局配置
-PreQuest.defaults.baseURL = 'http://114.116.95.152:2001'
+PreQuest.defaults.baseURL = 'http://114.116.95.152:2001/bang'
 // 设置header
 PreQuest.defaults.header = { 'Content-Type': 'application/json;charset=utf-8' }
 

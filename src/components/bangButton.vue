@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: YuShuXiao 949516815@qq.com
+ * @Date: 2023-04-18 22:06:35
+ * @LastEditors: YuShuXiao 949516815@qq.com
+ * @LastEditTime: 2023-05-01 11:43:06
+ * @FilePath: \bangbang\src\components\bangButton.vue
+-->
 <template>
   <button class="bang_button" @click="btnClick">
     <uni-icons
@@ -29,6 +37,14 @@ const props = defineProps({
   iconColor: {
     type: String,
     default: '#ffffff'
+  },
+  width: {
+    type: String,
+    default: '444rpx'
+  },
+  height: {
+    type: String,
+    default: '112rpx'
   }
 })
 const btnClick = () => {
@@ -45,8 +61,8 @@ const emit = defineEmits(['btnClick'])
   border: 0;
   appearance: none;
   outline: none;
-  width: 444rpx;
-  height: 112rpx;
+  width: v-bind(width);
+  height: v-bind(height);
   opacity: 1;
   background: rgba(42, 130, 228, 1);
   box-shadow: 0rpx 12rpx 36rpx 0rpx rgba(42, 130, 228, 0.3);

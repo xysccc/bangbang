@@ -50,7 +50,7 @@ const list = [
     selectedIconPath: '/static/icon/circle-active.png'
   },
   {
-    pagePath: 'pages/add/bang-add',
+    pagePath: 'pages/add/post-add',
     iconPath: 'https://bj.bcebos.com/txy-dev/txy/main/zhenjian.png'
   },
   {
@@ -79,7 +79,7 @@ const switchTab = (item: any, index: number) => {
       url = '/pages/circle/bang-circle'
       break
     case 2:
-      url = '/pages/add/bang-add'
+      url = '/pages/add/post-add'
       break
     case 3:
       url = '/pages/message/bang-message'

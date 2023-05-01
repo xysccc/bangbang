@@ -67,7 +67,7 @@
                   v-for="(item, index) in fileValue"
                   :key="index"
                 >
-                  <img :src="item" alt="" />
+                  <img :src="item" alt="" mode="aspectFit" />
                   <div class="del" @click="delFiles(item)">✖</div>
                 </div>
 
@@ -163,7 +163,7 @@ const addFiles = () => {
       })
       res.tempFiles.map((item) => {
         uni.uploadFile({
-          url: 'http://114.116.95.152:2001/mo/upload',
+          url: 'http://114.116.95.152:2001/bang/mo/upload',
           filePath: item.tempFilePath,
           // files: res.tempFiles.map((item) => ({ uri: item.tempFilePath })),
           name: 'file',

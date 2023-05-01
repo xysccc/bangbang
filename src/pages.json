@@ -105,6 +105,9 @@
       "style": {
         "navigationBarTitleText": "bang-circleDetails"
       }
+    },
+    {
+      "path": "pages/add/post-add"
     }
   ],
   "tabBar": {
@@ -125,7 +128,7 @@
         "selectedIconPath": "static/icon/circle-active.png"
       },
       {
-        "pagePath": "pages/add/bang-add",
+        "pagePath": "pages/add/post-add",
         "iconPath": "static/icon/circle.png",
         "selectedIconPath": "static/icon/circle-active.png"
       },
