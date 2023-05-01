@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-01 21:59:40
+ * @LastEditTime: 2023-05-02 01:55:47
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -32,53 +32,85 @@
           @clickItem="onClickItem"
         />
       </div>
-      <scroll-view class="container circleMain">
-        <div class="circle_card">
-          <div class="top">
-            <div class="lf">
-              <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
-              <div class="topDes">
-                <div class="name">苏克开飞机</div>
-                <div class="time">一个小时前发布</div>
+      <scroll-view
+        class="container circleMain"
+        scroll-y="true"
+        lower-threshold="5"
+        @scrolltolower="handleScroll"
+      >
+        <div class="scroll_wrapped">
+          <div
+            class="circle_card"
+            v-for="(item, index) in postList.records"
+            :key="index"
+          >
+            <div class="top">
+              <div class="lf">
+                <img :src="item.head" alt="" />
+                <div class="topDes">
+                  <div class="name">{{ item.username }}</div>
+                  <div class="time">{{ item.releaseTime }}发布</div>
+                </div>
+              </div>
+              <div class="rg" style="font-size: 20px">🥶</div>
+            </div>
+            <div class="des">
+              <div class="details">
+                {{ item.text }}
+              </div>
+              <div class="imgList" v-if="JSON.parse(item.urls).length">
+                <image
+                  :src="item1.imgUrl"
+                  alt=""
+                  mode="aspectFill"
+                  v-for="(item1, index) in JSON.parse(item.urls)"
+                  @click="preview(item, index)"
+                />
               </div>
             </div>
-            <div class="rg" style="font-size: 20px">🥶</div>
+            <div class="bottom">
+              <div class="lf">
+                <div class="topic">
+                  <i class="iconfont icon-huati" style="font-size: 35rpx"></i>
+                  {{ item.topicName
+                  }}<uni-icons
+                    type="forward"
+                    size="14"
+                    color="rgba(42, 130, 228, 1)"
+                  ></uni-icons>
+                </div>
+              </div>
+              <div class="rg">
+                <div class="like">
+                  <i
+                    class="iconfont icon-dianzan"
+                    style="font-size: 32rpx"
+                    :class="{ isLike: item.like }"
+                    >{{ item.likeNum }}</i
+                  >
+                </div>
+                <div class="collect">
+                  <i
+                    class="iconfont icon-shoucang"
+                    style="font-size: 35rpx"
+                    v-if="!item.collect"
+                  ></i>
+                  <i
+                    class="iconfont icon-shoucang1"
+                    style="font-size: 35rpx; color: #f4ea2a"
+                    v-else
+                  ></i>
+                </div>
+                <div class="comment">
+                  <i class="iconfont icon-pinglun" style="font-size: 35rpx"></i>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="des">
-            <div class="details">
-              挑战24小时按字母顺序生活！你试过用灯泡擦屁屁吗?加萨空了就拉卡深刻理解斯科拉傻得可怜就撒开了大家坷拉记得啦科技大厦啊大师金克拉就死定了大师金克拉的
-            </div>
-            <div class="imgList">
-              <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
-              <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
-              <img src="http://qjpqjp.top:9000/bang/photo/default.png" alt="" />
-            </div>
-          </div>
-          <div class="bottom">
-            <div class="lf">
-              <div class="topic">
-                <i class="iconfont icon-huati" style="font-size: 35rpx"></i>
-                日常<uni-icons
-                  type="forward"
-                  size="14"
-                  color="rgba(42, 130, 228, 1)"
-                ></uni-icons>
-              </div>
-            </div>
-            <div class="rg">
-              <div class="like">
-                <i class="iconfont icon-dianzan" style="font-size: 32rpx"
-                  >123</i
-                >
-              </div>
-              <div class="collect">
-                <i class="iconfont icon-shoucang" style="font-size: 35rpx"></i>
-              </div>
-              <div class="comment">
-                <i class="iconfont icon-pinglun" style="font-size: 35rpx"></i>
-              </div>
-            </div>
-          </div>
+          <uni-load-more
+            :status="status"
+            v-if="postList.records.length >= 3"
+          ></uni-load-more>
         </div>
       </scroll-view>
     </div>
@@ -88,20 +120,87 @@
 
 <script lang="ts" setup>
 import BangTab from '@/components/bangTab.vue'
-import userService from '@/api/user'
-userService.GetUserInfo()
+import { usePostStore } from '@/stores/post'
+interface ImediaList {
+  imgUrl: string
+  videoUrl?: string
+}
+const postStore = usePostStore()
 const iptVal = ref('')
 const iptChange = (e: string) => {
   iptVal.value = e
 }
-const current = ref(0)
+const current = ref(2)
 const items = ['🗨️话题', '关注', '推荐', '图文']
+let pageOptions = {
+  page: 1,
+  pageSize: 3
+}
+postStore.getRecommendedTopicList(pageOptions)
+const postList = postStore.postList
+
 type cI = {
   currentIndex: number
 }
 const onClickItem = async (e: cI) => {
   if (current.value !== e.currentIndex) {
     current.value = e.currentIndex
+    switch (current.value) {
+      case 0:
+        break
+      case 1:
+        break
+      case 2:
+        break
+      case 3:
+        break
+
+      default:
+        break
+    }
+  }
+}
+const preview = (item: ImediaList, index: number) => {
+  const files = computed(() => JSON.parse(postList.records[index].urls))
+  uni.previewMedia({
+    current: index,
+    // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
+    sources: files.value.map((item) => {
+      if (item.videoUrl) {
+        return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
+      } else {
+        return { url: item.imgUrl, type: 'image' }
+      }
+    }) // 需要预览的图片 http 链接列表
+  })
+}
+const getList = () => {
+  switch (current.value) {
+    case 0:
+      break
+    case 1:
+      break
+    case 2:
+      return postStore.getRecommendedTopicList(pageOptions)
+      break
+    case 3:
+      break
+
+    default:
+      break
+  }
+}
+const status = ref('more')
+const handleScroll = async (e: any) => {
+  if (postList.total >= pageOptions.page * pageOptions.pageSize) {
+    pageOptions.page++
+    status.value = 'loading'
+    await getList()
+    postList.records.push(...toRaw(postStore.postList.records))
+    postList.total = postStore.postList.total
+    status.value = 'more'
+  } else {
+    status.value = 'no-more'
   }
 }
 </script>
@@ -128,14 +227,15 @@ const onClickItem = async (e: cI) => {
 .content {
   & > .circleMain {
     margin-top: 24rpx;
-    height: 1240rpx;
+    height: 1220rpx;
     // background-color: red;
     overflow-y: auto;
+    & .scroll_wrapped {
+      padding-bottom: 50px;
+    }
     & .circle_card {
       padding: 30rpx 20rpx 30rpx 20rpx;
       width: 100%;
-      // height: 450rpx;
-      // opacity: 0.85;
       border-radius: 20rpx;
       background: rgba(255, 255, 255, 0.85);
       & > .top {
@@ -212,11 +312,18 @@ const onClickItem = async (e: cI) => {
             color: rgba(166, 166, 166, 1);
           }
           & > .collect {
-            & > .icon-shoucang {
+            & > .icon-shoucang,
+            .icon-shoucang1 {
               margin: 0 40rpx;
             }
           }
+          & > .islike {
+            color: rgba(42, 130, 228, 1);
+          }
         }
+      }
+      &:not(:first-child) {
+        margin-top: 10px;
       }
     }
   }

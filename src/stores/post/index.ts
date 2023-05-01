@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:09:40
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-01 20:42:50
+ * @LastEditTime: 2023-05-02 00:50:14
  * @FilePath: \bangbang\src\stores\post\index.ts
  */
 import taskService from '@/api/task'
@@ -15,14 +15,24 @@ export const usePostStore = defineStore(
   'post',
   () => {
     const topicList = ref()
+    const postList = ref()
     const getTopicList = async () => {
       const { data } = await postService.getTopic()
       if (data.code !== 1) return
       topicList.value = data.result
     }
+    const getRecommendedTopicList = async (
+      options: PostModel.IPostRecommendListparm
+    ) => {
+      const { data } = await postService.getPostRecommend(options)
+      if (data.code !== 1) return
+      postList.value = data.result
+    }
     return {
       topicList,
-      getTopicList
+      getTopicList,
+      getRecommendedTopicList,
+      postList
     }
   },
   {

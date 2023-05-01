@@ -8,11 +8,7 @@
     >
       <image
         class="tab_img"
-        :src="
-          selected === (index && item.selectedIconPath)
-            ? item.selectedIconPath
-            : item.iconPath
-        "
+        :src="selected === index ? item.selectedIconPath : item.iconPath"
       ></image>
       <view
         class="tab_text"
