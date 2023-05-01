@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-01 01:13:46
+ * @LastEditTime: 2023-05-01 21:59:40
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -42,7 +42,7 @@
                 <div class="time">一个小时前发布</div>
               </div>
             </div>
-            <div class="rg">123</div>
+            <div class="rg" style="font-size: 20px">🥶</div>
           </div>
           <div class="des">
             <div class="details">
@@ -193,10 +193,11 @@ const onClickItem = async (e: cI) => {
         justify-content: space-between;
         & > .lf {
           & > .topic {
+            padding: 1px 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 120rpx;
+
             border-radius: 40rpx;
             background-color: #fff;
             font-size: 30rpx;

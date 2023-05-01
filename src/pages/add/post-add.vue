@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-01 01:25:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-01 21:54:08
+ * @LastEditTime: 2023-05-02 00:10:24
  * @FilePath: \bangbang\src\pages\add\post-add.vue
 -->
 <template>
@@ -38,9 +38,12 @@
               class="preImg"
               v-for="(item, index) in fileValue"
               :key="item.imgUrl"
+              @click="preview(item, index)"
             >
-              <image :src="item.imgUrl" alt="" mode="aspectFit" />
-              <div class="del" @click="delFiles(index)">✖</div>
+              <image :src="item.imgUrl" alt="" mode="aspectFill" />
+              <div class="del" @click="delFiles(index)">
+                <uni-icons type="closeempty" size="18" color="#fff"></uni-icons>
+              </div>
             </div>
           </div>
 
@@ -333,6 +336,19 @@ const randomStyle = computed(() => (index: number) => {
     margin: `${getRandomInt(2, 5)}px ${getRandomInt(3, 8)}px`
   }
 })
+const preview = (item: ImediaList, index: number) => {
+  uni.previewMedia({
+    current: index,
+    // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
+    sources: fileValue.value.map((item) => {
+      if (item.videoUrl) {
+        return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
+      } else {
+        return { url: item.imgUrl, type: 'image' }
+      }
+    }) // 需要预览的图片 http 链接列表
+  })
+}
 </script>
 <style lang="scss">
 .container {
@@ -373,7 +389,6 @@ const randomStyle = computed(() => (index: number) => {
           top: -20rpx;
           background-color: #2979ff;
           border-radius: 50%;
-          font-size: 30rpx;
           color: #f1f1f1;
         }
       }
