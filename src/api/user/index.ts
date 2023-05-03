@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-29 20:16:33
+ * @LastEditTime: 2023-05-02 22:14:07
  * @FilePath: \bangbang\src\api\user\index.ts
  */
 import type * as UserModel from './user.model'
@@ -43,6 +43,10 @@ class userService {
   // 我的发布
   static getMyRelease(params: UserModel.IMyReleaseParm) {
     return prerequest.get<UserModel.IMyReleaseResp>(`/task/myList`, { params })
+  }
+  // 获取他人信息
+  static GetOtherInfo(params: UserModel.IOtherInfoParm) {
+    return prerequest.get<UserModel.UserInfoResp>(`/user/other`, { params })
   }
 }
 export default userService

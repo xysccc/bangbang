@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-29 20:30:14
+ * @LastEditTime: 2023-05-02 22:12:39
  * @FilePath: \bangbang\src\api\user\user.model.ts
  */
 import type { IApiResponse } from './../types'
@@ -105,7 +105,7 @@ export interface IMyReleaseParm {
   pageSize: number
   status?: number
 }
-export interface IMyReleaseData extends ITaskListData {}
+export interface IMyReleaseData {}
 export interface IMyReleaseResp extends IApiResponse {
   result: IMyReleaseData
 }
@@ -117,4 +117,11 @@ export interface IMyHelpParm {
 export interface IMyHelpData extends ITaskListData {}
 export interface IMyHelpResp extends IApiResponse {
   result: IMyHelpData
+}
+export interface IOtherInfoParm {
+  toOpenid: string
+}
+export interface IOtherInfoData extends GetUserListData {}
+export interface IOtherInfoResp extends IApiResponse {
+  result: IOtherInfoData
 }

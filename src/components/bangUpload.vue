@@ -1,5 +1,4 @@
-<!-- 
-<template>
+<!-- <template>
   <div class="addFiles_wrapped">
     <div class="imgList">
       <div class="preImg" v-for="(item, index) in files" :key="item.imgUrl">
@@ -7,7 +6,6 @@
         <div class="del" @click="delFiles(index)">✖</div>
       </div>
     </div>
-    <slot> </slot>
   </div>
 </template>
 <script lang="ts" setup>

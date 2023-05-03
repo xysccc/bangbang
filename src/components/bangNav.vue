@@ -1,3 +1,11 @@
+<!--
+ * @Description: 
+ * @Author: YuShuXiao 949516815@qq.com
+ * @Date: 2023-04-17 16:38:35
+ * @LastEditors: YuShuXiao 949516815@qq.com
+ * @LastEditTime: 2023-05-02 18:27:20
+ * @FilePath: \bangbang\src\components\bangNav.vue
+-->
 <template>
   <uni-nav-bar
     :left-icon="props.arrowBack || props.arrowTabBack ? 'left' : ''"
@@ -22,7 +30,7 @@ const click = () => {
 const props = defineProps({
   title: {
     type: String,
-    default: 'bangbang'
+    default: ''
   },
   arrowBack: {
     type: Boolean,

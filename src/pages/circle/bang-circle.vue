@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-02 01:55:47
+ * @LastEditTime: 2023-05-03 00:53:44
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -35,14 +35,46 @@
       <scroll-view
         class="container circleMain"
         scroll-y="true"
+        v-if="current === 0"
+      >
+        <div class="scroll_wrapped">
+          <div
+            class="topicItem"
+            v-for="(item, index) in topic"
+            :key="index"
+            @click="goTo(`/pages/circle/bang-topicDetail?id=${item.id}`)"
+          >
+            <div class="lf">
+              <div class="topicImg">
+                <image
+                  mode="aspectFill"
+                  src="https://img.js.design/assets/smartFill/img336164da748e08.jpg"
+                ></image>
+              </div>
+              <div class="des">
+                <div class="title">{{ item.name }}</div>
+                <div class="num">{{ item.num }}条</div>
+              </div>
+            </div>
+            <div class="rg">
+              <div class="add" @click.stop="addTopic(item.id)">+加入话题</div>
+            </div>
+          </div>
+        </div>
+      </scroll-view>
+      <scroll-view
+        class="container circleMain"
+        scroll-y="true"
         lower-threshold="5"
         @scrolltolower="handleScroll"
+        v-else
       >
         <div class="scroll_wrapped">
           <div
             class="circle_card"
             v-for="(item, index) in postList.records"
             :key="index"
+            @click="goTo(`/pages/circle/bang-circleDetail?id=${item.id}`)"
           >
             <div class="top">
               <div class="lf">
@@ -52,7 +84,7 @@
                   <div class="time">{{ item.releaseTime }}发布</div>
                 </div>
               </div>
-              <div class="rg" style="font-size: 20px">🥶</div>
+              <div class="rg" style="font-size: 40rpx">🥶</div>
             </div>
             <div class="des">
               <div class="details">
@@ -64,7 +96,7 @@
                   alt=""
                   mode="aspectFill"
                   v-for="(item1, index) in JSON.parse(item.urls)"
-                  @click="preview(item, index)"
+                  @click.stop="preview(item, index)"
                 />
               </div>
             </div>
@@ -119,6 +151,7 @@
 </template>
 
 <script lang="ts" setup>
+import postService from '@/api/post'
 import BangTab from '@/components/bangTab.vue'
 import { usePostStore } from '@/stores/post'
 interface ImediaList {
@@ -126,10 +159,17 @@ interface ImediaList {
   videoUrl?: string
 }
 const postStore = usePostStore()
+postStore.followParam = reactive({
+  lastId: 0,
+  offset: 0
+})
+let topic = postStore.topicList
 const iptVal = ref('')
 const iptChange = (e: string) => {
   iptVal.value = e
 }
+const lastId = postStore.followParam.lastId
+const offset = postStore.followParam.offset
 const current = ref(2)
 const items = ['🗨️话题', '关注', '推荐', '图文']
 let pageOptions = {
@@ -137,7 +177,7 @@ let pageOptions = {
   pageSize: 3
 }
 postStore.getRecommendedTopicList(pageOptions)
-const postList = postStore.postList
+let postList = postStore.postList
 
 type cI = {
   currentIndex: number
@@ -145,19 +185,15 @@ type cI = {
 const onClickItem = async (e: cI) => {
   if (current.value !== e.currentIndex) {
     current.value = e.currentIndex
-    switch (current.value) {
-      case 0:
-        break
-      case 1:
-        break
-      case 2:
-        break
-      case 3:
-        break
-
-      default:
-        break
+    postList.records = []
+    pageOptions = {
+      page: 1,
+      pageSize: 3
     }
+    await getList()
+    postList.records = postStore.postList.records
+    postList = postStore.postList
+    topic = postStore.topicList
   }
 }
 const preview = (item: ImediaList, index: number) => {
@@ -165,7 +201,7 @@ const preview = (item: ImediaList, index: number) => {
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
-    sources: files.value.map((item) => {
+    sources: files.value.map((item: ImediaList) => {
       if (item.videoUrl) {
         return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
       } else {
@@ -177,13 +213,20 @@ const preview = (item: ImediaList, index: number) => {
 const getList = () => {
   switch (current.value) {
     case 0:
+      return postStore.getTopicList()
       break
     case 1:
+      return postStore.getFollow({
+        lastId: new Date().getTime(),
+        ...(offset && { offset: offset }),
+        pageSize: 3
+      })
       break
     case 2:
       return postStore.getRecommendedTopicList(pageOptions)
       break
     case 3:
+      return postStore.getImgText(pageOptions)
       break
 
     default:
@@ -202,6 +245,15 @@ const handleScroll = async (e: any) => {
   } else {
     status.value = 'no-more'
   }
+}
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
+}
+const addTopic = async (id: string) => {
+  await postService.topicFollow({ topicId: id })
+  await postStore.getTopicList()
 }
 </script>
 <style scoped lang="scss">
@@ -231,7 +283,7 @@ const handleScroll = async (e: any) => {
     // background-color: red;
     overflow-y: auto;
     & .scroll_wrapped {
-      padding-bottom: 50px;
+      padding-bottom: 100rpx;
     }
     & .circle_card {
       padding: 30rpx 20rpx 30rpx 20rpx;
@@ -293,7 +345,7 @@ const handleScroll = async (e: any) => {
         justify-content: space-between;
         & > .lf {
           & > .topic {
-            padding: 1px 8px;
+            padding: 2rpx 16rpx;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -323,7 +375,55 @@ const handleScroll = async (e: any) => {
         }
       }
       &:not(:first-child) {
-        margin-top: 10px;
+        margin-top: 20rpx;
+      }
+    }
+    & .topicItem {
+      padding: 10 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      & > .lf {
+        display: flex;
+        .topicImg {
+          width: 190rpx;
+          height: 116rpx;
+          & > image {
+            width: 100%;
+            height: 100%;
+            border-radius: 10rpx;
+          }
+        }
+        .des {
+          margin-left: 10rpx;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          & > .title {
+            font-size: 30rpx;
+            color: rgba(0, 0, 0, 1);
+          }
+          & > .num {
+            font-size: 30rpx;
+            color: rgba(166, 166, 166, 1);
+          }
+        }
+      }
+      & > .rg {
+        & > .add {
+          padding: 6rpx 24rpx;
+          border-radius: 40rpx;
+          background-color: rgba(42, 130, 228, 1);
+          font-size: 26rpx;
+          font-weight: 500;
+          color: rgba(255, 255, 255, 1);
+        }
+      }
+      &:not(:first-child) {
+        margin-top: 24px;
+      }
+      &:first-child {
+        margin-top: 15px;
       }
     }
   }

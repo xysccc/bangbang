@@ -13,7 +13,12 @@
               "
             />
           </div>
-          <div class="info" @click="goTo(`/pages/my/myInfoSet/myInfoSet`)">
+          <div
+            class="info"
+            @click="
+              goTo(`/pages/my/my-space/my-space?id=${userStore.userInfo.id}`)
+            "
+          >
             <div class="info_top">
               {{ info.username || '您还未登录！' }}
               <img src="http://qjpqjp.top:9000/bang/photo/箭头.png" alt="" />

@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:12:44
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-01 21:11:54
+ * @LastEditTime: 2023-05-03 00:27:02
  * @FilePath: \bangbang\src\api\post\index.ts
  */
 import type * as PostModel from './post.model'
@@ -29,19 +29,19 @@ class postService {
   }
   // 评论
   static postComment(data: PostModel.IPostCommentparm) {
-    return prerequest.post<PostModel.IPostCommentResp>(
-      `/post/comment/${data.postId}`,
-      {
-        data
-      }
-    )
+    return prerequest.post<PostModel.IPostCommentResp>(`/post/comment`, {
+      data
+    })
   }
   // 评论列表
-  static getPostComment(params: PostModel.IPostCommentparm) {
+  static getPostComment(params: PostModel.IPostCommentListparm) {
     return prerequest.get<PostModel.IPostCommentResp>(
       `/post/commentList/${params.postId}`,
       {
-        params
+        params: {
+          page: params.page,
+          pageSize: params.pageSize
+        }
       }
     )
   }
@@ -83,9 +83,12 @@ class postService {
   }
   // 个人动态
   static getPostPerson(params: PostModel.IPostPersonListparm) {
-    return prerequest.get<PostModel.IPostPersonListResp>(`/post/listByPerson`, {
-      params
-    })
+    return prerequest.get<PostModel.IPostPersonListResp>(
+      `/post/listByPersonal`,
+      {
+        params
+      }
+    )
   }
   // 推荐
   static getPostRecommend(params: PostModel.IPostRecommendListparm) {

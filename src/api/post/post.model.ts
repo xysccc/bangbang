@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 20:42:34
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-01 21:01:42
+ * @LastEditTime: 2023-05-02 22:25:46
  * @FilePath: \bangbang\src\api\post\post.model.ts
  */
 import type { IApiResponse } from './../types'
@@ -34,7 +34,7 @@ export interface IPostCommentListResp extends IApiResponse {
   result: IPostCommentListData
 }
 export interface IPostCommentListparm {
-  postId: string
+  postId?: string
   page: number
   pageSize: number
 }
@@ -46,12 +46,15 @@ export interface IPostLikeResp extends IApiResponse {
 export interface IPostLikeparm {
   postId: string
 }
-export interface IPostFollowListData {}
+export interface IPostFollowListData {
+  lastId: number
+  offset: number
+}
 export interface IPostFollowListResp extends IApiResponse {
   result: IPostFollowListData
 }
 export interface IPostFollowListparm {
-  lastId: number
+  lastId?: number
   offset?: number
   pageSize: number
 }
@@ -88,7 +91,7 @@ export interface IPostPersonListResp extends IApiResponse {
 export interface IPostPersonListparm {
   page: number
   pageSize: number
-  openid: string
+  openid?: string
 }
 export interface IPostRecommendListData {}
 export interface IPostRecommendListResp extends IApiResponse {
