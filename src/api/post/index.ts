@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:12:44
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 10:47:50
+ * @LastEditTime: 2023-05-03 20:20:52
  * @FilePath: \bangbang\src\api\post\index.ts
  */
 import type * as PostModel from './post.model'
@@ -20,11 +20,8 @@ class postService {
   }
   // 评论点赞
   static postCommentLike(data: PostModel.IPostCommentLikeparm) {
-    return prerequest.post<PostModel.IPostCommentLikeResp>(
-      `/post/comment/${data.postCommentId}`,
-      {
-        data
-      }
+    return prerequest.get<PostModel.IPostCommentLikeResp>(
+      `/post/comment/${data.postCommentId}`
     )
   }
   // 评论

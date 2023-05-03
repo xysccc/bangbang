@@ -65,10 +65,11 @@
                 <div
                   class="preImg"
                   v-for="(item, index) in fileValue"
-                  :key="index"
+                  :key="item.imgUrl"
+                  @click="preview(item, index)"
                 >
-                  <img :src="item" alt="" mode="aspectFit" />
-                  <div class="del" @click="delFiles(item)">✖</div>
+                  <img :src="item.imgUrl" alt="" mode="aspectFit" />
+                  <div class="del" @click="delFiles(index)">✖</div>
                 </div>
 
                 <div class="add" @click="addFiles" v-if="fileValue.length < 3">
@@ -95,6 +96,10 @@ interface Itask {
   offImg: string
   onImg: string
   id: string
+}
+interface ImediaList {
+  imgUrl: string
+  videoUrl?: string
 }
 interface ImapTask extends Itask {
   value: string
@@ -144,16 +149,14 @@ const dateChange = (e: string) => {
   formData.time = e
 }
 // 图片回显列表
-let fileValue = ref<string[]>([])
-const delFiles = (item: string) => {
-  fileValue.value = fileValue.value.filter((file) => file !== item)
-  // fileValue=computed(()=>fileValue.filter((file) => file !== item))
-  console.log(fileValue)
+let fileValue = ref<ImediaList[]>([])
+const delFiles = (index: number) => {
+  fileValue.value.splice(index, 1)
 }
 const addFiles = () => {
   uni.chooseMedia({
     count: 3,
-    mediaType: ['image', 'video'],
+    mediaType: ['mix'],
     sourceType: ['album', 'camera'],
     maxDuration: 30,
     camera: 'back',
@@ -162,30 +165,54 @@ const addFiles = () => {
         title: '正在上传'
       })
       res.tempFiles.map((item) => {
-        uni.uploadFile({
-          url: 'http://114.116.95.152:2001/bang/mo/upload',
-          filePath: item.tempFilePath,
-          // files: res.tempFiles.map((item) => ({ uri: item.tempFilePath })),
-          name: 'file',
-          success: (uploadFileRes: any) => {
-            // // 上传qjp服务器成功
-            // if (res.tempFiles.length !== 3) {
-            //   res.tempFiles.length + fileValue.value.length === 3 &&
-            //     uni.hideLoading()
-            // } else {
-            //   fileValue.value.length === 2 && uni.hideLoading()
-            // }
-            uni.hideLoading()
-            fileValue.value.push(JSON.parse(uploadFileRes.data).result.url)
-            // res.tempFiles.length === fileValue.value.length && uni.hideLoading()
-
-            // fileValue.push(uploadFileRes.data)
-            // console.log(fileValue);
-          },
-          fail: (e) => {
-            console.log(e)
+        if (item.fileType === 'video') {
+          const videoObj = {
+            imgUrl: '',
+            videoUrl: ''
           }
-        })
+          uni.uploadFile({
+            url: 'http://114.116.95.152:2001/bang/mo/upload',
+            filePath: item.thumbTempFilePath,
+            name: 'file',
+            success: (uploadFileRes: any) => {
+              uni.hideLoading()
+              videoObj.imgUrl = JSON.parse(uploadFileRes.data).result.url
+              uni.uploadFile({
+                url: 'http://114.116.95.152:2001/bang/mo/upload',
+                filePath: item.tempFilePath,
+                name: 'file',
+                success: (uploadFileRes: any) => {
+                  uni.hideLoading()
+                  //   fileValue.value.push(JSON.parse(uploadFileRes.data).result.url)
+                  videoObj.videoUrl = JSON.parse(uploadFileRes.data).result.url
+                  fileValue.value.push(videoObj)
+                },
+                fail: (e) => {
+                  console.log(e)
+                }
+              })
+            },
+            fail: (e) => {
+              console.log(e)
+            }
+          })
+        } else {
+          uni.uploadFile({
+            url: 'http://114.116.95.152:2001/bang/mo/upload',
+            filePath: item.tempFilePath,
+            name: 'file',
+            success: (uploadFileRes: any) => {
+              uni.hideLoading()
+              //   console.log(JSON.parse(uploadFileRes.data))
+              fileValue.value.push({
+                imgUrl: JSON.parse(uploadFileRes.data).result.url
+              })
+            },
+            fail: (e) => {
+              console.log(e)
+            }
+          })
+        }
       })
     }
   })
@@ -254,6 +281,19 @@ function getMapLocation() {
     }
   })
 }
+const preview = (item: ImediaList, index: number) => {
+  uni.previewMedia({
+    current: index,
+    // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
+    sources: fileValue.value.map((item) => {
+      if (item.videoUrl) {
+        return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
+      } else {
+        return { url: item.imgUrl, type: 'image' }
+      }
+    }) // 需要预览的图片 http 链接列表
+  })
+}
 
 const goMap = () => {
   getMapLocation()
@@ -267,7 +307,7 @@ const add = async () => {
     title: formData.name,
     typeId: select.value,
     urgent: formData.urgent,
-    urls: fileValue.value
+    urls: JSON.stringify(fileValue.value)
   })
   console.log('da', data)
 }
@@ -307,14 +347,14 @@ const add = async () => {
     }
   }
   & > .task_form {
-    height: 1155rpx;
+    height: 1300rpx;
     border-radius: 24rpx 24rpx 0px 0px;
 
     overflow-y: auto;
     background-color: #fff;
     & > .task_form_content {
       padding: 40rpx;
-      height: 1802rpx;
+      height: 1702rpx;
       // & ::v-deep .uni-forms-item {
       //   flex-direction: column;
       // }

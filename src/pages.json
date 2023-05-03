@@ -139,6 +139,7 @@
         "iconPath": "static/icon/circle.png",
         "selectedIconPath": "static/icon/circle-active.png"
       },
+
       {
         "pagePath": "pages/message/bang-message",
         "text": "信息",

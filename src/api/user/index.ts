@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-02 22:14:07
+ * @LastEditTime: 2023-05-03 17:05:39
  * @FilePath: \bangbang\src\api\user\index.ts
  */
 import type * as UserModel from './user.model'
@@ -47,6 +47,14 @@ class userService {
   // 获取他人信息
   static GetOtherInfo(params: UserModel.IOtherInfoParm) {
     return prerequest.get<UserModel.UserInfoResp>(`/user/other`, { params })
+  }
+  //我的足迹
+  static getMyHistory(params: UserModel.IMyHistoryParm) {
+    return prerequest.get<UserModel.IMyHistoryResp>(`/task/history`, { params })
+  }
+  // 我的收藏
+  static getMyCollet(params: UserModel.IMyCollectParm) {
+    return prerequest.get<UserModel.IMyCollectResp>(`/task/like`, { params })
   }
 }
 export default userService

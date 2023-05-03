@@ -289,24 +289,27 @@ const goTo = (url: string) => {
     display: flex;
     justify-content: space-between;
     & > .lf {
-      width: 484rpx;
-      height: 208rpx;
+      width: 230px;
+      height: 104px;
       background: url('http://qjpqjp.top:9000/bang/photo/我的帮忙.png')
         no-repeat;
       background-size: 100% 100%;
     }
     & > .rg {
-      width: 150rpx;
-      height: 208rpx;
+      width: 88px;
+      height: 104px;
       border-radius: 12px;
       background: rgba(255, 255, 255, 0.69);
+      background: url('http://qjpqjp.top:9000/bang/photo/设置中心.png')
+        no-repeat;
+      background-size: 100% 100%;
     }
   }
   & > .toolsAndServe {
     margin-top: 24rpx;
     display: flex;
     flex-direction: column;
-    width: 650rpx;
+    width: 100%;
     height: 208rpx;
     opacity: 1;
     border-radius: 24rpx;

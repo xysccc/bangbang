@@ -48,7 +48,6 @@
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
-import BangNav from '@/components/bangNav.vue'
 const props = defineProps({
   selected: {
     type: Number,
@@ -200,7 +199,7 @@ const goTo = (url: string) => {
       margin-top: 22px;
     }
     .close {
-      margin-top: 12px;
+      margin-top: 30px;
       display: flex;
       align-items: center;
       justify-content: center;

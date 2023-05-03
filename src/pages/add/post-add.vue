@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-01 01:25:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-02 16:55:40
+ * @LastEditTime: 2023-05-03 18:48:12
  * @FilePath: \bangbang\src\pages\add\post-add.vue
 -->
 <template>
@@ -135,6 +135,10 @@ interface ITopic {
   name: string
   tags: string
 }
+interface ImediaList {
+  imgUrl: string
+  videoUrl?: string
+}
 const userStore = useUserStore()
 const postStore = usePostStore()
 // 获取话题列表
@@ -152,10 +156,7 @@ const back = () => {
 }
 const iptVal = ref('')
 // 图片回显列表
-interface ImediaList {
-  imgUrl: string
-  videoUrl?: string
-}
+
 let fileValue = ref<ImediaList[]>([])
 const delFiles = (index: number) => {
   fileValue.value.splice(index, 1)

@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:09:40
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-29 20:20:00
+ * @LastEditTime: 2023-05-04 00:06:30
  * @FilePath: \bangbang\src\stores\task\index.ts
  */
 import taskService from '@/api/task'
@@ -13,9 +13,9 @@ import type * as TaskModel from '@/api/task/task.model'
 export const useTaskStore = defineStore(
   'task',
   () => {
-    let taskClass = ref()
+    let taskClass = ref([])
     let taskLocation = ref()
-    let taskList = ref()
+    let taskList: any = ref([])
     let task = ref()
     const getTaskClass = async () => {
       const { data } = await taskService.getTaskClass()

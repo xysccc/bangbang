@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 13:16:40
+ * @LastEditTime: 2023-05-03 20:24:01
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -61,7 +61,11 @@
             </div>
           </div>
           <div class="rg">
-            <div class="like">
+            <div
+              class="like"
+              @click="like(post)"
+              :class="{ isLike: post?.like }"
+            >
               <i
                 class="iconfont icon-dianzan"
                 style="font-size: 32rpx"
@@ -69,7 +73,7 @@
               ></i>
               {{ post?.likeNum }}
             </div>
-            <div class="collect">
+            <div class="collect" @click="collect(post)">
               <i
                 class="iconfont icon-shoucang"
                 style="font-size: 35rpx"
@@ -128,11 +132,15 @@
                 </div>
               </div>
               <div class="rg">
-                <div class="like">
+                <div
+                  class="like"
+                  @click="commentLike(item)"
+                  :class="{ isLike: item?.like }"
+                >
                   <i
                     class="iconfont icon-dianzan"
                     style="font-size: 32rpx; margin-right: 10rpx"
-                    :class="{ isLike: item.like }"
+                    :class="{ isLike: item?.like }"
                   ></i>
                   {{ item.likeNum }}
                 </div>
@@ -243,6 +251,20 @@ const handleScroll = async (e: any) => {
     status.value = 'no-more'
   }
 }
+const commentLike = async (item: any) => {
+  item.like = !item.like
+  item.like ? item.likeNum++ : item.likeNum--
+  await postService.postCommentLike({ postCommentId: item.id })
+}
+const like = async (item: any) => {
+  item.like = !item.like
+  item.like ? item.likeNum++ : item.likeNum--
+  await postService.postLike({ postId: item.id })
+}
+const collect = async (item: any) => {
+  item.collect = !item.collect
+  await postService.postCollect({ postId: item.id })
+}
 </script>
 
 <style scoped lang="scss">
@@ -345,9 +367,7 @@ const handleScroll = async (e: any) => {
             margin: 0 40rpx;
           }
         }
-        & > .islike {
-          color: rgba(42, 130, 228, 1);
-        }
+
         & > .comment,
         .like,
         .browse {
@@ -405,6 +425,9 @@ const handleScroll = async (e: any) => {
         color: rgba(255, 255, 255, 1);
       }
     }
+  }
+  & .isLike {
+    color: rgba(42, 130, 228, 1) !important;
   }
 }
 .pop {
@@ -524,6 +547,9 @@ const handleScroll = async (e: any) => {
     & > .haveSend {
       background-color: rgba(42, 130, 228, 1);
     }
+  }
+  & .isLike {
+    color: rgba(42, 130, 228, 1) !important;
   }
 }
 

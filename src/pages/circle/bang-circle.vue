@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 14:16:30
+ * @LastEditTime: 2023-05-03 21:17:45
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -51,10 +51,7 @@
           >
             <div class="lf">
               <div class="topicImg">
-                <image
-                  mode="aspectFill"
-                  src="https://img.js.design/assets/smartFill/img336164da748e08.jpg"
-                ></image>
+                <image mode="aspectFill" :src="item.head"></image>
               </div>
               <div class="des">
                 <div class="title">{{ item.name }}</div>
@@ -62,7 +59,9 @@
               </div>
             </div>
             <div class="rg">
-              <div class="add" @click.stop="addTopic(item.id)">+加入话题</div>
+              <div class="add" @click.stop="addTopic(item.id)">
+                {{ item.join ? '已加入' : '+加入话题' }}
+              </div>
             </div>
           </div>
         </div>
@@ -95,7 +94,7 @@
               <div class="details">
                 {{ item.text }}
               </div>
-              <div class="imgList" v-if="JSON.parse(item.urls).length">
+              <div class="imgList">
                 <image
                   :src="item1.imgUrl"
                   alt=""
@@ -119,7 +118,7 @@
                 </div>
               </div>
               <div class="rg">
-                <div class="like">
+                <div class="like" @click.stop="like(item)">
                   <i
                     class="iconfont icon-dianzan"
                     style="font-size: 32rpx"
@@ -127,11 +126,11 @@
                     >{{ item.likeNum }}</i
                   >
                 </div>
-                <div class="collect">
+                <div class="collect" @click.stop="collect(item)">
                   <i
                     class="iconfont icon-shoucang"
-                    style="font-size: 35rpx"
                     v-if="!item.collect"
+                    style="font-size: 35rpx"
                   ></i>
                   <i
                     class="iconfont icon-shoucang1"
@@ -272,6 +271,15 @@ const addTopic = async (id: string) => {
   await postService.topicFollow({ topicId: id })
   await postStore.getTopicList()
 }
+const like = async (item: any) => {
+  item.like = !item.like
+  item.like ? item.likeNum++ : item.likeNum--
+  await postService.postLike({ postId: item.id })
+}
+const collect = async (item: any) => {
+  item.collect = !item.collect
+  await postService.postCollect({ postId: item.id })
+}
 </script>
 <style scoped lang="scss">
 .search {
@@ -306,7 +314,7 @@ const addTopic = async (id: string) => {
       padding: 30rpx 20rpx 30rpx 20rpx;
       width: 100%;
       border-radius: 20rpx;
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 1);
       & > .top {
         display: flex;
         justify-content: space-between;
@@ -385,9 +393,14 @@ const addTopic = async (id: string) => {
             .icon-shoucang1 {
               margin: 0 40rpx;
             }
+            & .isCollect {
+              color: #f4ea2a;
+            }
           }
-          & > .islike {
-            color: rgba(42, 130, 228, 1);
+          & > .like {
+            & .isLike {
+              color: rgba(42, 130, 228, 1);
+            }
           }
         }
       }

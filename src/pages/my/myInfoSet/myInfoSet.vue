@@ -122,7 +122,7 @@ const formInfo = reactive({
 })
 const changImg = (e: any) => {
   uni.uploadFile({
-    url: 'http://114.116.95.152:2001/mo/upload',
+    url: 'http://114.116.95.152:2001/bang/mo/upload',
     filePath: e.detail.avatarUrl,
     name: 'file',
     success: (uploadFileRes) => {

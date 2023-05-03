@@ -89,7 +89,7 @@ export interface IMyHistoryParm {
   pageSize: number
 }
 export interface IMyHistoryData extends ITaskListData {}
-export interface IMyHistoryResp {
+export interface IMyHistoryResp extends IApiResponse {
   result: IMyHistoryData
 }
 export interface IMyCollectParm {
@@ -97,7 +97,7 @@ export interface IMyCollectParm {
   pageSize: number
 }
 export interface IMyCollectData extends ITaskListData {}
-export interface IMyCollectResp {
+export interface IMyCollectResp extends IApiResponse {
   result: IMyCollectData
 }
 export interface IMyReleaseParm {

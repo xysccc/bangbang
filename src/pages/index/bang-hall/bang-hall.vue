@@ -49,10 +49,7 @@
               lower-threshold="5"
               @scrolltolower="handleScroll"
             >
-              <template
-                v-for="(item, index) in taskList.records"
-                :key="item.id"
-              >
+              <template v-for="(item, index) in pushArr" :key="item.id">
                 <div
                   class="taskItem"
                   v-if="changeDate(item.limitTime).dayDiff > 0"
@@ -116,7 +113,7 @@
               </template>
               <uni-load-more
                 :status="status"
-                v-if="taskList.records.length >= 6"
+                v-if="pushArr.length > 6"
               ></uni-load-more>
             </scroll-view>
           </template>
@@ -156,17 +153,18 @@ let pageOptions = {
 const getList = () => {
   return taskStore.getTaskList({
     ...pageOptions,
-    ...(current.value >= 1 && { typeId: taskClass[current.value - 1].id }),
+    ...(current.value >= 1 && {
+      typeId: taskClass.value[current.value - 1].id
+    }),
     ...(iptVal.value && { search: iptVal.value })
   })
 }
 const handleScroll = async (e: any) => {
-  if (taskList.total >= pageOptions.page * pageOptions.pageSize) {
+  if (taskList.value.total >= pageOptions.page * pageOptions.pageSize) {
     pageOptions.page++
     status.value = 'loading'
     await getList()
-    taskList.records.push(...toRaw(taskStore.taskList.records))
-    taskList.total = taskStore.taskList.total
+    pushArr.push(...taskList.value.records)
     status.value = 'more'
   } else {
     status.value = 'no-more'
@@ -175,36 +173,38 @@ const handleScroll = async (e: any) => {
 const taskStore = useTaskStore()
 // 分类数据
 taskStore.getTaskClass()
-taskStore.getTaskList(pageOptions)
-let taskList = taskStore.taskList
-let taskClass = taskStore.taskClass
-onShow(async () => {
+let pushArr: any = reactive([])
+const { taskClass, taskList } = storeToRefs(taskStore)
+console.log(storeToRefs(taskStore))
+onMounted(async () => {
   await getList()
+  console.log(taskList.value)
+  pushArr.push(...taskList.value.records)
+  // console.log(pushArr)
 })
 const current = ref(0)
 const iptVal = ref('')
 const typeId = ref('')
 const onClichangeCurrentckItem = async (e: number) => {
   current.value = e
-  taskClass.map((item: Itask, index: number, arr: Itask[]) => {
+  taskClass.value.map((item: Itask, index: number, arr: Itask[]) => {
     item.active = false
     e >= 1 && (arr[e - 1].active = true)
   })
-
-  taskList.records = []
+  pushArr = reactive([])
   pageOptions = {
     page: 1,
     pageSize: 6
   }
   await getList()
-  taskList.records = taskStore.taskList.records
-  taskList = taskStore.taskList
+  pushArr.push(...taskList.value.records)
+  console.log(pushArr.length)
 }
 const iptChange = async (e: string) => {
   iptVal.value = e
+  pushArr = reactive([])
   await getList()
-  taskList.records = taskStore.taskList.records
-  taskList = taskStore.taskList
+  pushArr.push(...taskList.value.records)
 }
 
 const goTo = (url: string) => {
@@ -215,8 +215,7 @@ const goTo = (url: string) => {
 const collect = async (id: string) => {
   await taskService.TaskCollection({ taskId: id })
   await getList()
-  taskList.records = taskStore.taskList.records
-  taskList = taskStore.taskList
+  pushArr.push(...taskList.value.records)
 }
 </script>
 

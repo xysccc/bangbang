@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-03 00:38:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 15:03:45
+ * @LastEditTime: 2023-05-03 21:56:29
  * @FilePath: \bangbang\src\pages\circle\bang-topicDetail.vue
 -->
 <template>
@@ -13,17 +13,15 @@
     lower-threshold="5"
     @scrolltolower="handleScroll"
   >
-    <div class="TopicDetailtop">
+    <div class="TopicDetailtop" :style="{ '--topic-bc': topicOne.bc }">
+      <image class="blur" :src="topicOne.bc"></image>
       <!-- 顶部状态栏占位 -->
       <div class="bang-nav"></div>
       <BangNav />
       <div class="container">
         <div class="topicTop">
           <div class="lf">
-            <image
-              mode="aspectFill"
-              src="http://qjpqjp.top:9000/bang/photo/bg.png"
-            />
+            <image mode="aspectFill" :src="topicOne.head" />
           </div>
           <div class="rg">
             <div class="title">{{ topicOne.name }}</div>
@@ -214,18 +212,14 @@ const preview = (item: ImediaList, index: number) => {
     width: 100%;
     height: 432rpx;
     position: relative;
-    &::after {
-      content: '';
+    & > .blur {
       z-index: -1;
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 432rpx;
-      background: url('http://qjpqjp.top:9000/bang/photo/bg.png') no-repeat
-        center center;
-      background-size: cover;
-      filter: blur(10rpx);
+      filter: blur(7rpx);
     }
     & > .container {
       & > .topicTop {
