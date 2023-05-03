@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 20:42:34
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-02 22:25:46
+ * @LastEditTime: 2023-05-03 14:31:37
  * @FilePath: \bangbang\src\api\post\post.model.ts
  */
 import type { IApiResponse } from './../types'
@@ -63,7 +63,7 @@ export interface IPostHotListResp extends IApiResponse {
   result: IPostHotListData
 }
 export interface IPostHotListparm {
-  topicId?: number
+  topicId?: string
   page: number
   pageSize: number
 }
@@ -98,6 +98,7 @@ export interface IPostRecommendListResp extends IApiResponse {
   result: IPostRecommendListData
 }
 export interface IPostRecommendListparm {
+  openId?: string
   page: number
   pageSize: number
 }
@@ -164,4 +165,11 @@ export interface IPostFollowTopicResp extends IApiResponse {
 }
 export interface IPostFollowTopicparm {
   topicId: string
+}
+export interface IPostPersonalTopicData {}
+export interface IPostPersonalTopicResp extends IApiResponse {
+  result: IPostPersonalTopicData
+}
+export interface IPostPersonalTopicparm {
+  openid?: string
 }

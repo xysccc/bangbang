@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 00:53:44
+ * @LastEditTime: 2023-05-03 14:16:30
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -42,7 +42,12 @@
             class="topicItem"
             v-for="(item, index) in topic"
             :key="index"
-            @click="goTo(`/pages/circle/bang-topicDetail?id=${item.id}`)"
+            @click="
+              goToTopicDetail(
+                `/pages/circle/bang-topicDetail?id=${item.id}`,
+                item
+              )
+            "
           >
             <div class="lf">
               <div class="topicImg">
@@ -72,7 +77,7 @@
         <div class="scroll_wrapped">
           <div
             class="circle_card"
-            v-for="(item, index) in postList.records"
+            v-for="(item, index) in pushArr"
             :key="index"
             @click="goTo(`/pages/circle/bang-circleDetail?id=${item.id}`)"
           >
@@ -96,6 +101,7 @@
                   alt=""
                   mode="aspectFill"
                   v-for="(item1, index) in JSON.parse(item.urls)"
+                  :key="index"
                   @click.stop="preview(item, index)"
                 />
               </div>
@@ -141,7 +147,7 @@
           </div>
           <uni-load-more
             :status="status"
-            v-if="postList.records.length >= 3"
+            v-if="pushArr.length >= 3"
           ></uni-load-more>
         </div>
       </scroll-view>
@@ -154,50 +160,56 @@
 import postService from '@/api/post'
 import BangTab from '@/components/bangTab.vue'
 import { usePostStore } from '@/stores/post'
+import MyInfoSet from '../my/myInfoSet/myInfoSet.vue'
 interface ImediaList {
   imgUrl: string
   videoUrl?: string
+}
+type cI = {
+  currentIndex: number
 }
 const postStore = usePostStore()
 postStore.followParam = reactive({
   lastId: 0,
   offset: 0
 })
-let topic = postStore.topicList
-const iptVal = ref('')
-const iptChange = (e: string) => {
-  iptVal.value = e
-}
+let postList = computed(() => postStore.postList)
 const lastId = postStore.followParam.lastId
 const offset = postStore.followParam.offset
+let topic = computed(() => postStore.topicList)
+
+const iptVal = ref('')
 const current = ref(2)
 const items = ['🗨️话题', '关注', '推荐', '图文']
+let pushArr = reactive<any>([])
+const status = ref('more')
 let pageOptions = {
   page: 1,
   pageSize: 3
 }
-postStore.getRecommendedTopicList(pageOptions)
-let postList = postStore.postList
 
-type cI = {
-  currentIndex: number
+onMounted(async () => {
+  await postStore.getRecommendedList(pageOptions)
+  pushArr.push(...postList.value.records)
+})
+const iptChange = (e: string) => {
+  iptVal.value = e
 }
+
 const onClickItem = async (e: cI) => {
   if (current.value !== e.currentIndex) {
     current.value = e.currentIndex
-    postList.records = []
-    pageOptions = {
-      page: 1,
-      pageSize: 3
-    }
-    await getList()
-    postList.records = postStore.postList.records
-    postList = postStore.postList
-    topic = postStore.topicList
   }
+  pushArr = reactive([])
+  pageOptions = {
+    page: 1,
+    pageSize: 3
+  }
+  await getList()
+  postList.value.records && pushArr.push(...postList.value.records)
 }
 const preview = (item: ImediaList, index: number) => {
-  const files = computed(() => JSON.parse(postList.records[index].urls))
+  const files = computed(() => JSON.parse(postList.value.records[index].urls))
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
@@ -223,7 +235,7 @@ const getList = () => {
       })
       break
     case 2:
-      return postStore.getRecommendedTopicList(pageOptions)
+      return postStore.getRecommendedList(pageOptions)
       break
     case 3:
       return postStore.getImgText(pageOptions)
@@ -233,20 +245,25 @@ const getList = () => {
       break
   }
 }
-const status = ref('more')
+
 const handleScroll = async (e: any) => {
-  if (postList.total >= pageOptions.page * pageOptions.pageSize) {
+  if (postList.value.total >= pageOptions.page * pageOptions.pageSize) {
     pageOptions.page++
     status.value = 'loading'
     await getList()
-    postList.records.push(...toRaw(postStore.postList.records))
-    postList.total = postStore.postList.total
+    pushArr.push(...postList.value.records)
     status.value = 'more'
   } else {
     status.value = 'no-more'
   }
 }
 const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
+}
+const goToTopicDetail = (url: string, item: any) => {
+  postStore.topicOne = item
   uni.navigateTo({
     url
   })

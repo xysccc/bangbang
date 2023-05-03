@@ -226,8 +226,8 @@ const login = () => {
 }
 </script>
 
-<style lang="scss">
-.uni-navbar__header-btns-left {
+<style lang="scss" scoped>
+::v-deep .uni-navbar__header-btns-left {
   width: 440rpx !important;
 }
 .address {

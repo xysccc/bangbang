@@ -18,9 +18,37 @@
       >
     </view>
   </view>
+  <uni-popup
+    ref="popup"
+    background-color="#fff"
+    mask-background-color="transparent"
+    :safe-area="false"
+  >
+    <div class="pop">
+      <div class="wrapped">
+        <div class="title">Hi,发表点什么吧!</div>
+        <div class="bang" @click="goTo(`/pages/add/bang-add`)">
+          <div class="mainBox">
+            <i class="iconfont icon-fasong" style="font-size: 35px"> </i>
+            <text>发帮忙</text>
+          </div>
+        </div>
+        <div class="post" @click="goTo(`/pages/add/post-add`)">
+          <div class="mainBox">
+            <i class="iconfont icon-fasong" style="font-size: 35px"> </i>
+            <text>发动态</text>
+          </div>
+        </div>
+        <div class="close" @click="close">
+          <uni-icons type="closeempty" size="32"></uni-icons>
+        </div>
+      </div>
+    </div>
+  </uni-popup>
 </template>
 <script setup lang="ts">
 import { ref } from 'vue'
+import BangNav from '@/components/bangNav.vue'
 const props = defineProps({
   selected: {
     type: Number,
@@ -31,7 +59,7 @@ const selected = props.selected
 
 const color = '#a6a6a6'
 const selectedColor = 'rgba(75, 106, 239, 1)'
-
+const popup = ref()
 const list = [
   {
     pagePath: 'pages/index/index',
@@ -46,7 +74,7 @@ const list = [
     selectedIconPath: '/static/icon/circle-active.png'
   },
   {
-    pagePath: 'pages/add/post-add',
+    pagePath: '',
     iconPath: 'https://bj.bcebos.com/txy-dev/txy/main/zhenjian.png'
   },
   {
@@ -64,8 +92,6 @@ const list = [
 ]
 
 const switchTab = (item: any, index: number) => {
-  // console.log('item', item)
-  // console.log('index', index)
   let url = item.pagePath
   switch (index) {
     case 0:
@@ -75,7 +101,7 @@ const switchTab = (item: any, index: number) => {
       url = '/pages/circle/bang-circle'
       break
     case 2:
-      url = '/pages/add/post-add'
+      url = ''
       break
     case 3:
       url = '/pages/message/bang-message'
@@ -88,10 +114,20 @@ const switchTab = (item: any, index: number) => {
       url = '/pages/index/bang-index'
       break
   }
-
-  uni.switchTab({
-    url
-  })
+  console.log(url)
+  if (url) {
+    uni.switchTab({
+      url
+    })
+  } else {
+    popup.value.open('bottom')
+  }
+}
+const close = () => {
+  popup.value.close()
+}
+const goTo = (url: string) => {
+  uni.navigateTo({ url })
 }
 </script>
 
@@ -124,6 +160,51 @@ const switchTab = (item: any, index: number) => {
     .tab_text {
       font-size: 20rpx;
       margin-top: 9rpx;
+    }
+  }
+}
+.pop {
+  & > .wrapped {
+    padding: 0 10px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-items: center;
+    background-color: #ebeced;
+    & > .title {
+      font-size: 30px;
+      font-weight: 500;
+    }
+    .bang,
+    .post {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
+      width: 95%;
+      height: 150px;
+      background-color: #fff;
+      font-size: 20px;
+      & > .mainBox {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .post {
+      margin-top: 15px;
+    }
+    .bang {
+      margin-top: 22px;
+    }
+    .close {
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
     }
   }
 }

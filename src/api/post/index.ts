@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:12:44
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 00:27:02
+ * @LastEditTime: 2023-05-03 10:47:50
  * @FilePath: \bangbang\src\api\post\index.ts
  */
 import type * as PostModel from './post.model'
@@ -82,13 +82,37 @@ class postService {
     })
   }
   // 个人动态
-  static getPostPerson(params: PostModel.IPostPersonListparm) {
+  static getPersonal(params: PostModel.IPostPersonListparm) {
     return prerequest.get<PostModel.IPostPersonListResp>(
       `/post/listByPersonal`,
       {
         params
       }
     )
+  }
+  // 个人评论
+  static getPersonalComment(params: PostModel.IPostPersonListparm) {
+    return prerequest.get<PostModel.IPostPersonListResp>(
+      `/post/personalComment`,
+      {
+        params
+      }
+    )
+  }
+  // 个人加入的话题列表
+  static getPersonalTopic(params: PostModel.IPostPersonalTopicparm) {
+    return prerequest.get<PostModel.IPostPersonalTopicResp>(
+      `/post/personalTopic`,
+      {
+        params
+      }
+    )
+  }
+  // 个人收藏
+  static getPersonalCollect(params: PostModel.IPostCollectListparm) {
+    return prerequest.get<PostModel.IPostCollectListResp>(`/post/myCollect`, {
+      params
+    })
   }
   // 推荐
   static getPostRecommend(params: PostModel.IPostRecommendListparm) {
@@ -99,12 +123,7 @@ class postService {
       }
     )
   }
-  // 我的收藏
-  static getPostCollect(params: PostModel.IPostCollectListparm) {
-    return prerequest.get<PostModel.IPostCollectListResp>(`/post/myCollect`, {
-      params
-    })
-  }
+
   // 发帖
   static addPost(data: PostModel.IAddPostparm) {
     return prerequest.post<PostModel.IAddPostResp>(`/post/newPost`, {

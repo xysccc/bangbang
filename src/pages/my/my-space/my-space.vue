@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 00:51:30
+ * @LastEditTime: 2023-05-03 14:30:20
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -13,7 +13,7 @@
     lower-threshold="5"
     @scrolltolower="handleScroll"
   >
-    <div class="top">
+    <div class="topBg">
       <!-- 顶部状态栏占位 -->
       <div class="bang-nav"></div>
       <BangNav />
@@ -23,24 +23,31 @@
       <div class="infoTop">
         <div class="userTop">
           <div class="lf">
-            <image mode="aspectFill" :src="info.head" />
+            <image mode="aspectFill" :src="info?.head" />
           </div>
           <div class="rg">
-            <div class="message">私信</div>
-            <div class="follow">关注</div>
+            <div
+              class="edit"
+              v-show="isOwn"
+              @click="goTo(`/pages/my/myInfoSet/myInfoSet`)"
+            >
+              编辑资料
+            </div>
+            <div class="message" v-show="!isOwn">私信</div>
+            <div class="follow" v-show="!isOwn">关注</div>
           </div>
         </div>
         <div class="username">
-          {{ info.username }}
+          {{ info?.username }}
           <i class="iconfont icon-nan" style="font-size: 35rpx"></i>
         </div>
         <div class="signature">
-          {{ info.signature }}
+          {{ info?.signature }}
         </div>
         <div class="userBottom">
-          <div class="nice">{{ info.nice }}&nbsp;获赞</div>
-          <div class="follow">{{ info.follow }}&nbsp;关注</div>
-          <div class="fans">{{ info.fans }}&nbsp;粉丝</div>
+          <div class="nice">{{ info?.nice }}&nbsp;获赞</div>
+          <div class="follow">{{ info?.follow }}&nbsp;关注</div>
+          <div class="fans">{{ info?.fans }}&nbsp;粉丝</div>
         </div>
       </div>
       <div class="content">
@@ -55,23 +62,24 @@
             />
           </div>
           <div class="topicList">
-            <div class="title">话题5</div>
+            <div class="title">话题{{ personalTopic.followNum }}</div>
             <scroll-view class="topicListWrapped" scroll-x="true">
               <div class="topicItemWrapped">
-                <div class="topicItem" v-for="(item, index) in 7" :key="index">
-                  <image
-                    src="https://img.js.design/assets/smartFill/img402164da755928.jpg"
-                    mode="aspectFill"
-                  />
-                  美食
+                <div
+                  class="topicItem"
+                  v-for="(item, index) in personalTopic.res"
+                  :key="index"
+                >
+                  <image :src="item.head" mode="aspectFill" />
+                  {{ item.name }}
                 </div>
               </div>
             </scroll-view>
           </div>
           <div class="postMain">
-            <!-- <div
+            <div
               class="circle_card"
-              v-for="(item, index) in postList.records"
+              v-for="(item, index) in pushArr"
               :key="index"
               @click="goTo(`/pages/circle/bang-circleDetail?id=${item.id}`)"
             >
@@ -89,12 +97,13 @@
                 <div class="details">
                   {{ item.text }}
                 </div>
-                <div class="imgList" v-if="JSON.parse(item.urls).length">
+                <div class="imgList">
                   <image
                     :src="item1.imgUrl"
                     alt=""
                     mode="aspectFill"
                     v-for="(item1, index) in JSON.parse(item.urls)"
+                    :key="index"
                     @click.stop="preview(item, index)"
                   />
                 </div>
@@ -140,10 +149,10 @@
                   </div>
                 </div>
               </div>
-            </div> -->
+            </div>
             <uni-load-more
               :status="status"
-              v-if="postList.records.length >= 3"
+              v-if="pushArr.length >= 3"
             ></uni-load-more>
           </div>
         </div>
@@ -167,6 +176,19 @@ type cI = {
 }
 const userStore = useUserStore()
 let info = ref()
+let pushArr = reactive<any>([])
+const isOwn = ref(false)
+const id = ref('')
+let postList = computed(() => postStore.postList)
+const current = ref(0)
+const items = ['动态', '评论', '收藏']
+const status = ref('more')
+const personalTopic = computed(() => postStore.personalTopic)
+
+let pageOptions = {
+  page: 1,
+  pageSize: 3
+}
 const getOwnInfo = async () => {
   const { data } = await userService.GetUserInfo()
   userStore.userInfo = data.result
@@ -179,40 +201,44 @@ const getOtherInfo = async (oherId: string) => {
   info.value = data.result
 }
 
-const isOwn = ref(false)
-const id = ref('')
-let postList = postStore.postList
 onLoad(async (option: any) => {
   id.value = option.id
   if (option.id === userStore.userInfo.id) {
     isOwn.value = true
     await getOwnInfo()
-    await postStore.getOwn(pageOptions)
   } else {
     isOwn.value = false
     await getOtherInfo(option.id)
-    await postStore.getOwn({ ...pageOptions, openid: option.id })
   }
+  await postStore.getPersonalTopic({
+    ...(!isOwn.value && { openid: id.value })
+  })
+  console.log(personalTopic.value)
+
+  await postStore.getPersonalOwn({
+    ...pageOptions,
+    ...(!isOwn.value && { openid: id.value })
+  })
+  pushArr.push(...postList.value.records)
 })
-let pageOptions = {
-  page: 1,
-  pageSize: 3
-}
 
 const goTo = (url: string) => {
   uni.navigateTo({
     url
   })
 }
-const items = ['动态', '评论', '收藏']
-const current = ref(0)
+
 const onClickItem = async (e: cI) => {
+  pageOptions.page = 1
+  pushArr = reactive([])
   if (current.value !== e.currentIndex) {
     current.value = e.currentIndex
   }
+  await getList()
+  pushArr.push(...postList.value.records)
 }
 const preview = (item: ImediaList, index: number) => {
-  const files = computed(() => JSON.parse(postList.records[index].urls))
+  const files = computed(() => JSON.parse(postList.value.records[index].urls))
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
@@ -225,33 +251,37 @@ const preview = (item: ImediaList, index: number) => {
     }) // 需要预览的图片 http 链接列表
   })
 }
-const status = ref('more')
+
 const getList = () => {
   switch (current.value) {
     case 0:
-      if (isOwn.value) {
-        return postStore.getOwn(pageOptions)
-      } else {
-        return postStore.getOwn({ ...pageOptions, openid: id.value })
-      }
+      return postStore.getPersonalOwn({
+        ...pageOptions,
+        ...(!isOwn.value && { openid: id.value })
+      })
       break
     case 1:
+      return postStore.getPersonalComment({
+        ...pageOptions,
+        ...(!isOwn.value && { openid: id.value })
+      })
       break
     case 2:
-      return postStore.getRecommendedTopicList(pageOptions)
+      return postStore.getPersonalCollect({
+        ...pageOptions,
+        ...(!isOwn.value && { openid: id.value })
+      })
       break
-
     default:
       break
   }
 }
 const handleScroll = async (e: any) => {
-  if (postList.total >= pageOptions.page * pageOptions.pageSize) {
+  if (postList.value.total > pageOptions.page * pageOptions.pageSize) {
     pageOptions.page++
     status.value = 'loading'
     await getList()
-    postList.records.push(...toRaw(postStore.postList.records))
-    postList.total = postStore.postList.total
+    pushArr.push(...postList.value.records)
     status.value = 'more'
   } else {
     status.value = 'no-more'
@@ -262,15 +292,16 @@ const handleScroll = async (e: any) => {
 <style scoped lang="scss">
 .my-space {
   height: 100vh;
+  & .topBg {
+    // padding-top: 156rpx;
+    width: 100%;
+    height: 432rpx;
+    background: url('http://qjpqjp.top:9000/bang/photo/bg.png') no-repeat center
+      center;
+    background-size: cover;
+  }
 }
-.top {
-  // padding-top: 156rpx;
-  width: 100%;
-  height: 432rpx;
-  background: url('http://qjpqjp.top:9000/bang/photo/bg.png') no-repeat center
-    center;
-  background-size: cover;
-}
+
 .main {
   & .infoTop {
     position: relative;
@@ -294,7 +325,8 @@ const handleScroll = async (e: any) => {
       & > .rg {
         display: flex;
         & > .message,
-        .follow {
+        .follow,
+        .edit {
           font-size: 30rpx;
           padding: 2rpx 30rpx;
           border-radius: 40rpx;
@@ -305,7 +337,8 @@ const handleScroll = async (e: any) => {
         & > .follow {
           margin-left: 20rpx;
         }
-        & > .noFollow {
+        & > .noFollow,
+        .edit {
           background-color: rgba(42, 130, 228, 1);
           color: #fff;
         }
@@ -399,8 +432,10 @@ const handleScroll = async (e: any) => {
         }
       }
       & > .postMain {
+        margin-top: 10px;
         & .circle_card {
-          padding: 30rpx 20rpx 30rpx 20rpx;
+          position: relative;
+          padding: 40rpx 20rpx 40rpx 20rpx;
           width: 100%;
           border-radius: 20rpx;
           background: rgba(255, 255, 255, 0.85);
@@ -490,6 +525,15 @@ const handleScroll = async (e: any) => {
           }
           &:not(:first-child) {
             margin-top: 20rpx;
+          }
+          &::after {
+            content: '';
+            position: absolute;
+            background-color: rgba(204, 204, 204, 1);
+            bottom: 0;
+            left: -28px;
+            width: 120%;
+            height: 8rpx;
           }
         }
       }

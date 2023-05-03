@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 02:37:49
+ * @LastEditTime: 2023-05-03 13:16:40
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -15,34 +15,37 @@
       <div class="circle_card">
         <div class="top">
           <div class="lf">
-            <img :src="post.head" alt="" />
+            <img :src="post?.head" alt="" />
             <div class="topDes">
-              <div class="name">{{ post.username }}</div>
-              <div class="time">{{ post.releaseTime }}发布</div>
+              <div class="name">{{ post?.username }}</div>
+              <div class="time">{{ post?.releaseTime }}发布</div>
             </div>
           </div>
           <div class="rg" style="font-size: 40rpx">🥶</div>
         </div>
         <div class="des">
           <div class="details">
-            {{ post.text }}
+            {{ post?.text }}
           </div>
-          <div class="imgList" v-if="JSON.parse(post.urls).length">
-            <image
-              :src="item.imgUrl"
-              alt=""
-              mode="aspectFill"
-              v-for="(item, index) in JSON.parse(post.urls)"
+          <div class="imgList">
+            <template
+              v-for="(item, index) in JSON.parse(post?.urls)"
               :key="index"
-              @click.stop="preview(item, index)"
-            />
+            >
+              <image
+                :src="item.imgUrl"
+                alt=""
+                mode="aspectFill"
+                @click.stop="preview(item, index)"
+              />
+            </template>
           </div>
         </div>
         <div class="bottom">
           <div class="lf">
             <div class="topic">
               <i class="iconfont icon-huati" style="font-size: 35rpx"></i>
-              {{ post.topicName
+              {{ post?.topicName
               }}<uni-icons
                 type="forward"
                 size="14"
@@ -54,7 +57,7 @@
                 class="iconfont icon-weizhi"
                 style="font-size: 30rpx; margin-right: 4rpx"
               ></i>
-              {{ post.location }}
+              {{ post?.location }}
             </div>
           </div>
           <div class="rg">
@@ -62,15 +65,15 @@
               <i
                 class="iconfont icon-dianzan"
                 style="font-size: 32rpx"
-                :class="{ isLike: post.like }"
+                :class="{ isLike: post?.like }"
               ></i>
-              {{ post.likeNum }}
+              {{ post?.likeNum }}
             </div>
             <div class="collect">
               <i
                 class="iconfont icon-shoucang"
                 style="font-size: 35rpx"
-                v-if="!post.collect"
+                v-if="!post?.collect"
               ></i>
               <i
                 class="iconfont icon-shoucang1"
@@ -83,7 +86,7 @@
             </div>
             <div class="browse">
               <i class="iconfont icon-liulan" style="font-size: 35rpx"></i>
-              {{ post.browse }}
+              {{ post?.browse }}
             </div>
           </div>
         </div>
@@ -99,7 +102,7 @@
     <div class="pop">
       <div class="popTop">
         <div class="topline"></div>
-        <div class="title">{{ postComment.total }}评论</div>
+        <div class="title">{{ postComment?.total }}评论</div>
         <scroll-view
           class="commentPop"
           scroll-y="true"
@@ -138,7 +141,7 @@
           </div>
           <uni-load-more
             :status="status"
-            v-if="postComment.records.length >= 6"
+            v-if="postComment?.records.length >= 6"
           ></uni-load-more>
         </scroll-view>
       </div>
@@ -174,7 +177,7 @@ const postStore = usePostStore()
 const postId = ref('')
 const post = computed(() => postStore.post)
 const postComment = computed(() => postStore.postComment)
-
+const popup = ref()
 let pageOptions = {
   page: 1,
   pageSize: 6
@@ -187,9 +190,12 @@ onLoad(async (option: any) => {
   await postStore.getPostComment({ postId: postId.value, ...pageOptions })
   pushArr.push(...postComment.value.records)
 })
+onMounted(() => {
+  popup.value?.open('bottom')
+})
 
 const preview = (item: ImediaList, index: number) => {
-  const files = computed(() => JSON.parse(post.value.urls))
+  const files = computed(() => JSON.parse(post.value?.urls))
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
@@ -202,7 +208,7 @@ const preview = (item: ImediaList, index: number) => {
     }) // 需要预览的图片 http 链接列表
   })
 }
-const popup = ref()
+
 const comment = () => {
   popup.value.open('bottom')
 }
