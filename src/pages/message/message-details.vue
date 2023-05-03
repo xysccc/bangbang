@@ -1,0 +1,341 @@
+<!--
+ * @Description: 
+ * @Author: YuShuXiao 949516815@qq.com
+ * @Date: 2023-05-04 00:49:28
+ * @LastEditors: YuShuXiao 949516815@qq.com
+ * @LastEditTime: 2023-05-04 03:27:38
+ * @FilePath: \bangbang\src\pages\message\message-details.vue
+-->
+<template>
+  <div class="message-details">
+    <!-- 顶部状态栏占位 -->
+    <div class="bang-nav"></div>
+    <BangNav title="悬赏大厅" />
+    <div class="topWrapped">
+      <div class="container">
+        <div class="topCard">
+          <div class="top">
+            <div class="sex">
+              <div class="title">性别</div>
+              <div class="des">
+                <i
+                  class="iconfont icon-nan"
+                  style="font-size: 35rpx"
+                  :class="otherInfo.sex === 1 ? 'isMen' : 'isWomen'"
+                ></i>
+              </div>
+            </div>
+            <div class="signature">
+              <div class="title">签名</div>
+              <div class="des">{{ otherInfo.signature }}</div>
+            </div>
+            <div class="fans">
+              <div class="title">粉丝</div>
+              <div class="des">{{ otherInfo.fans }}</div>
+            </div>
+            <div class="praise">
+              <div class="title">获赞量</div>
+              <div class="des">{{ otherInfo.nice }}</div>
+            </div>
+          </div>
+          <div class="bottom">
+            <div class="follow">
+              {{ otherInfo.isFollow ? '已关注' : '关注ta' }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="chatList" ref="chatListRef">
+      <div class="chatListWrapped">
+        <div class="chatItem chatItem_rg" v-for="(item, index) in 7">
+          <div class="message">啊嘻嘻</div>
+          <img src="http://qjpqjp.top:9000/bang/photo/default.png" />
+        </div>
+        <div class="chatItem chatItem_lf" v-for="(item, index) in 7">
+          <div class="message">啊嘻嘻</div>
+          <img src="http://qjpqjp.top:9000/bang/photo/default.png" />
+        </div>
+      </div>
+    </div>
+    <div class="chat_footer">
+      <div class="chatInput">
+        <input type="text" placeholder="说点什么吧" v-model="inputVal" />
+        <div class="send" :class="{ haveSend: inputVal }">
+          <uni-icons
+            type="arrow-up"
+            size="30"
+            color="rgba(255, 255, 255, 1)"
+          ></uni-icons>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="chatList" ref="chatListRef">
+      <div
+        class="chatItem"
+        v-for="(item, index) in chatInfo"
+        :key="item.id"
+        :class="[item.fromId === myInfo.id ? 'chatItem_rg' : 'chatItem_lf']"
+      >
+        <div class="message">{{ item.lastContext }}</div>
+        <img
+          :src="[
+            item.fromId === myInfo.id
+              ? `${myInfo.head}`
+              : `${otherPartyInfo.head}`
+          ]"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="chat_footer">
+      <div class="chatInput">
+        <input type="text" placeholder="说点什么吧" v-model="inputVal" />
+      </div>
+    </div> -->
+  </div>
+</template>
+
+<script setup lang="ts">
+import BangNav from '@/components/bangNav.vue'
+import userService from '@/api/user'
+const id = ref('')
+const otherInfo = ref({})
+
+onLoad((option: any) => {
+  console.log(option.id)
+  id.value = option.id
+})
+onMounted(async () => {
+  const { data } = await userService.GetOtherInfo({ toOpenid: id.value })
+  if (data.code !== 1) return
+  otherInfo.value = data.result
+  console.log(otherInfo.value)
+})
+const inputVal = ref('')
+</script>
+
+<style scoped lang="scss">
+.message-details {
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  & > .topWrapped {
+    margin-top: 20rpx;
+    padding: 40rpx 0;
+    border-bottom: 2rpx solid rgba(234, 236, 239, 1);
+    & > .container {
+      & > .topCard {
+        padding: 40rpx 40rpx;
+        height: 290rpx;
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0rpx 20rpx 80rpx 0rpx rgba(26, 77, 160, 0.16);
+        border-radius: 20rpx;
+        & .sex,
+        .signature,
+        .fans,
+        .praise,
+        .follow {
+          width: 190rpx;
+          display: flex;
+          justify-content: center;
+          flex-direction: column;
+          & > .title {
+            /** 文本1 */
+            font-size: 28rpx;
+            font-weight: 400;
+            letter-spacing: 5rpx;
+            color: rgba(0, 0, 0, 1);
+          }
+          & > .des {
+            font-size: 26rpx;
+            font-weight: 400;
+            letter-spacing: 0rpx;
+            color: rgba(166, 166, 166, 1);
+          }
+        }
+        .signature {
+          position: relative;
+          width: 280rpx;
+          & > .des {
+            // width: 100%;
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden; //文本超出隐藏
+            text-overflow: ellipsis; //文本超出省略号替代
+          }
+          &::after {
+            content: '';
+            position: absolute;
+            right: -16rpx;
+            bottom: 4rpx;
+            width: 2rpx;
+            height: 42rpx;
+            background-color: rgba(169, 182, 193, 1);
+          }
+          &::before {
+            content: '';
+            position: absolute;
+            left: -30rpx;
+            bottom: 4rpx;
+            width: 2rpx;
+            height: 42rpx;
+            background-color: rgba(169, 182, 193, 1);
+          }
+        }
+        .fans {
+          margin-left: 60rpx;
+          width: 100rpx;
+        }
+        .sex {
+          width: 160rpx;
+          position: relative;
+          .isMen {
+            color: rgba(42, 130, 228, 1);
+            margin-left: 10rpx;
+          }
+          .isWomen {
+            color: #e12929;
+            margin-left: 10rpx;
+          }
+        }
+        .praise {
+          margin-top: 26rpx;
+        }
+        & > .top {
+          display: flex;
+          flex-wrap: wrap;
+        }
+        & > .bottom {
+          .follow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rpx 20rpx;
+            float: right;
+            background-color: rgba(37, 99, 235, 1);
+            border-radius: 20rpx;
+            color: rgba(255, 255, 255, 1);
+            font-size: 24rpx;
+          }
+        }
+      }
+    }
+  }
+  .chatList {
+    // border-top: 2rpx solid rgba(234, 236, 239, 1);
+    // padding: 74rpx 40rpx 30rpx;
+    // margin-top: 40rpx;
+    width: 100vw;
+    height: 900rpx;
+    overflow-y: auto;
+    overflow-x: hidden;
+    & > .chatListWrapped {
+      padding: 40rpx 60rpx;
+    }
+    .chatItem {
+      margin-top: 30rpx;
+    }
+    .chatItem_rg {
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      image {
+        width: 72rpx;
+        height: 72rpx;
+        border-radius: 100%;
+      }
+      .message {
+        letter-spacing: 1.2rpx;
+        padding: 10rpx 30rpx;
+        margin-right: 36rpx;
+        max-width: 522rpx;
+        min-height: 60rpx;
+        background: rgba(255, 231, 174, 1);
+        border-radius: 20rpx;
+        font-size: 30rpx;
+        color: rgba(63, 72, 112, 1);
+        font-family: 'Helvetica Neue', Helvetica, sans-serif;
+      }
+    }
+    .chatItem_lf {
+      display: flex;
+      flex-direction: row-reverse;
+      align-items: flex-start;
+      justify-content: flex-end;
+      image {
+        width: 72rpx;
+        height: 72rpx;
+        border-radius: 100%;
+      }
+      .message {
+        padding: 10rpx 30rpx;
+        letter-spacing: 1.2rpx;
+        margin-left: 36rpx;
+        max-width: 522rpx;
+        min-height: 60rpx;
+        height: auto;
+        background: rgba(236, 243, 254, 1);
+        border-radius: 20rpx;
+        font-size: 30rpx;
+        color: rgba(63, 72, 112, 1);
+        font-family: 'Helvetica Neue', Helvetica, sans-serif;
+      }
+    }
+  }
+  .chat_footer {
+    padding-bottom: env(safe-area-inset-bottom);
+    padding-top: 30rpx;
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    // height: 176rpx;
+    overflow: hidden;
+    background: rgba(249, 249, 249, 1);
+    .chatInput {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      input {
+        flex: 0.9;
+        padding-left: 60rpx;
+        margin-left: 60rpx;
+        height: 76rpx;
+        font-size: 28rpx;
+        opacity: 1;
+        background: rgba(255, 255, 255, 1);
+        border: 2rpx solid rgba(243, 243, 243, 1);
+        border-radius: 38rpx;
+        &::placeholder {
+          font-size: 28rpx;
+          color: rgba(83, 88, 110, 0.6);
+        }
+      }
+      .xx {
+        font-size: 50rpx;
+        margin-left: 30rpx;
+      }
+      .fs {
+        font-size: 50rpx;
+        margin-left: 40rpx;
+      }
+      & > .send {
+        margin-left: 40rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 72rpx;
+        height: 72rpx;
+        border-radius: 50%;
+        background-color: #e5e5e5;
+        transition: 0.5s;
+      }
+      & > .haveSend {
+        background-color: rgba(42, 130, 228, 1);
+      }
+    }
+  }
+}
+</style>

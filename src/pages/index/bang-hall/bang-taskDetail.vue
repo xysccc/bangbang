@@ -58,7 +58,10 @@
             <img :src="task?.fromHead" alt="" />
             <div class="name">{{ task?.fromName }}</div>
           </div>
-          <i class="message iconfont icon-xinxi"></i>
+          <i
+            class="message iconfont icon-xinxi"
+            @click="goTo(`/pages/message/message-details?id=${task.fromId}`)"
+          ></i>
         </div>
       </div>
       <div class="task_detail">
@@ -214,6 +217,11 @@ const addFiles = () => {
         })
       })
     }
+  })
+}
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
   })
 }
 </script>

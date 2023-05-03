@@ -1,160 +1,165 @@
 {
-  "easycom": {
-    "autoscan": true,
-    "custom": {
-      // uni-ui 规则如下配置
-      "^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
-    }
-  },
-  "pages": [
-    {
-      "path": "pages/index/bang-index"
-    },
-    {
-      "path": "pages/test/index",
-      "style": {
-        "navigationBarTitleText": "test"
-      }
-    },
-    {
-      "path": "pages/circle/bang-circle",
-      "style": {
-        "navigationBarTitleText": "bang-circle"
-      }
-    },
-    {
-      "path": "pages/message/bang-message",
-      "style": {
-        "navigationBarTitleText": "bang-message"
-      }
-    },
-    {
-      "path": "pages/my/bang-my",
-      "style": {
-        "navigationBarTitleText": "bang-my"
-      }
-    },
-    {
-      "path": "pages/my/myInfoSet/myInfoSet",
-      "style": {
-        "navigationBarTitleText": "myInfoSet"
-      }
-    },
-    {
-      "path": "pages/my/toolsAndServe/set-page",
-      "style": {
-        "navigationBarTitleText": "setPage"
-      }
-    },
-    {
-      "path": "pages/add/bang-add",
-      "style": {
-        "navigationBarTitleText": "bang-add"
-      }
-    },
-    {
-      "path": "pages/index/bang-hall/bang-hall",
-      "style": {
-        "navigationBarTitleText": "bang-hall"
-      }
-    },
-    {
-      "path": "pages/index/bang-hall/bang-taskDetail",
-      "style": {
-        "navigationBarTitleText": "bang-taskDetail"
-      }
-    },
-    {
-      "path": "pages/my/myRelease/my-release",
-      "style": {
-        "navigationBarTitleText": "my-release"
-      }
-    },
-    {
-      "path": "pages/my/myHelp/my-helper",
-      "style": {
-        "navigationBarTitleText": "my-help"
-      }
-    },
-    {
-      "path": "pages/my/my-tab/my-account",
-      "style": {
-        "navigationBarTitleText": "my-account"
-      }
-    },
-    {
-      "path": "pages/my/my-tab/my-collection",
-      "style": {
-        "navigationBarTitleText": "my-collection"
-      }
-    },
-    {
-      "path": "pages/my/my-tab/my-history",
-      "style": {
-        "navigationBarTitleText": "my-history"
-      }
-    },
-    {
-      "path": "pages/my/my-tab/my-activity",
-      "style": {
-        "navigationBarTitleText": "my-activity"
-      }
-    },
-    {
-      "path": "pages/circle/bang-circleDetail",
-      "style": {
-        "navigationBarTitleText": "bang-circleDetails"
-      }
-    },
-    {
-      "path": "pages/add/post-add"
-    },
-    {
-      "path": "pages/my/my-space/my-space",
-      "style": {
-        "navigationBarTitleText": "my-space"
-      }
-    },
-    {
-      "path": "pages/circle/bang-topicDetail",
-      "style": {
-        "navigationBarTitleText": "bang-topicDetail"
-      }
-    }
-  ],
-  "tabBar": {
-    "color": "#B3B3B3",
-    "selectedColor": "#5776F2",
-    "backgroundColor": "#FFFFFF",
-    "list": [
-      {
-        "pagePath": "pages/index/bang-index",
-        "text": "首页",
-        "iconPath": "static/icon/home.png",
-        "selectedIconPath": "static/icon/home-active.png"
-      },
-      {
-        "pagePath": "pages/circle/bang-circle",
-        "text": "友圈",
-        "iconPath": "static/icon/circle.png",
-        "selectedIconPath": "static/icon/circle-active.png"
-      },
-
-      {
-        "pagePath": "pages/message/bang-message",
-        "text": "信息",
-        "iconPath": "static/icon/message.png",
-        "selectedIconPath": "static/icon/message-active.png"
-      },
-      {
-        "pagePath": "pages/my/bang-my",
-        "text": "我的",
-        "iconPath": "static/icon/my.png",
-        "selectedIconPath": "static/icon/my-active.png"
-      }
-    ]
-  },
-  "globalStyle": {
-    "navigationStyle": "custom"
-  }
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+			// uni-ui 规则如下配置
+			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+		}
+	},
+	"pages": [
+		{
+			"path": "pages/index/bang-index"
+		},
+		{
+			"path": "pages/test/index",
+			"style": {
+				"navigationBarTitleText": "test"
+			}
+		},
+		{
+			"path": "pages/circle/bang-circle",
+			"style": {
+				"navigationBarTitleText": "bang-circle"
+			}
+		},
+		{
+			"path": "pages/message/bang-message",
+			"style": {
+				"navigationBarTitleText": "bang-message"
+			}
+		},
+		{
+			"path": "pages/my/bang-my",
+			"style": {
+				"navigationBarTitleText": "bang-my"
+			}
+		},
+		{
+			"path": "pages/my/myInfoSet/myInfoSet",
+			"style": {
+				"navigationBarTitleText": "myInfoSet"
+			}
+		},
+		{
+			"path": "pages/my/toolsAndServe/set-page",
+			"style": {
+				"navigationBarTitleText": "setPage"
+			}
+		},
+		{
+			"path": "pages/add/bang-add",
+			"style": {
+				"navigationBarTitleText": "bang-add"
+			}
+		},
+		{
+			"path": "pages/index/bang-hall/bang-hall",
+			"style": {
+				"navigationBarTitleText": "bang-hall"
+			}
+		},
+		{
+			"path": "pages/index/bang-hall/bang-taskDetail",
+			"style": {
+				"navigationBarTitleText": "bang-taskDetail"
+			}
+		},
+		{
+			"path": "pages/my/myRelease/my-release",
+			"style": {
+				"navigationBarTitleText": "my-release"
+			}
+		},
+		{
+			"path": "pages/my/myHelp/my-helper",
+			"style": {
+				"navigationBarTitleText": "my-help"
+			}
+		},
+		{
+			"path": "pages/my/my-tab/my-account",
+			"style": {
+				"navigationBarTitleText": "my-account"
+			}
+		},
+		{
+			"path": "pages/my/my-tab/my-collection",
+			"style": {
+				"navigationBarTitleText": "my-collection"
+			}
+		},
+		{
+			"path": "pages/my/my-tab/my-history",
+			"style": {
+				"navigationBarTitleText": "my-history"
+			}
+		},
+		{
+			"path": "pages/my/my-tab/my-activity",
+			"style": {
+				"navigationBarTitleText": "my-activity"
+			}
+		},
+		{
+			"path": "pages/circle/bang-circleDetail",
+			"style": {
+				"navigationBarTitleText": "bang-circleDetails"
+			}
+		},
+		{
+			"path": "pages/add/post-add"
+		},
+		{
+			"path": "pages/my/my-space/my-space",
+			"style": {
+				"navigationBarTitleText": "my-space"
+			}
+		},
+		{
+			"path": "pages/circle/bang-topicDetail",
+			"style": {
+				"navigationBarTitleText": "bang-topicDetail"
+			}
+		},
+		{
+			"path": "pages/message/message-details",
+			"style": {
+				"navigationBarTitleText": "message-details"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#B3B3B3",
+		"selectedColor": "#5776F2",
+		"backgroundColor": "#FFFFFF",
+		"list": [
+			{
+				"pagePath": "pages/index/bang-index",
+				"text": "首页",
+				"iconPath": "static/icon/home.png",
+				"selectedIconPath": "static/icon/home-active.png"
+			},
+			{
+				"pagePath": "pages/circle/bang-circle",
+				"text": "友圈",
+				"iconPath": "static/icon/circle.png",
+				"selectedIconPath": "static/icon/circle-active.png"
+			},
+			{
+				"pagePath": "pages/message/bang-message",
+				"text": "信息",
+				"iconPath": "static/icon/message.png",
+				"selectedIconPath": "static/icon/message-active.png"
+			},
+			{
+				"pagePath": "pages/my/bang-my",
+				"text": "我的",
+				"iconPath": "static/icon/my.png",
+				"selectedIconPath": "static/icon/my-active.png"
+			}
+		]
+	},
+	"globalStyle": {
+		"navigationStyle": "custom"
+	}
 }

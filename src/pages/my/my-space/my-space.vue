@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 14:30:20
+ * @LastEditTime: 2023-05-04 03:21:43
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -350,8 +350,13 @@ const handleScroll = async (e: any) => {
       font-weight: 500;
       line-height: 49.24rpx;
       color: rgba(0, 0, 0, 1);
-      & > .icon-nan {
+
+      & > .isMen {
         color: rgba(42, 130, 228, 1);
+        margin-left: 10rpx;
+      }
+      & > .isWomen {
+        color: #e12929;
         margin-left: 10rpx;
       }
     }
