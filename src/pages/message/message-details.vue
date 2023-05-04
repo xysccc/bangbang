@@ -3,14 +3,14 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-04 00:49:28
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 03:27:38
+ * @LastEditTime: 2023-05-04 16:05:58
  * @FilePath: \bangbang\src\pages\message\message-details.vue
 -->
 <template>
   <div class="message-details">
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
-    <BangNav title="悬赏大厅" />
+    <BangNav :title="otherInfo.username" />
     <div class="topWrapped">
       <div class="container">
         <div class="topCard">
@@ -48,20 +48,31 @@
     </div>
     <div class="chatList" ref="chatListRef">
       <div class="chatListWrapped">
-        <div class="chatItem chatItem_rg" v-for="(item, index) in 7">
+        <div
+          class="chatItem"
+          v-for="(item, index) in chatList"
+          :key="item.id"
+          :class="[item.fromId === userInfo.id ? 'chatItem_rg' : 'chatItem_lf']"
+        >
+          <div class="message">{{ item.lastContext }}</div>
+          <img
+            :src="[
+              item.fromId === userInfo.id
+                ? `${userInfo.head}`
+                : `${otherInfo.head}`
+            ]"
+          />
+        </div>
+        <!-- <div class="chatItem chatItem_lf" v-for="(item, index) in 7">
           <div class="message">啊嘻嘻</div>
           <img src="http://qjpqjp.top:9000/bang/photo/default.png" />
-        </div>
-        <div class="chatItem chatItem_lf" v-for="(item, index) in 7">
-          <div class="message">啊嘻嘻</div>
-          <img src="http://qjpqjp.top:9000/bang/photo/default.png" />
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="chat_footer">
       <div class="chatInput">
         <input type="text" placeholder="说点什么吧" v-model="inputVal" />
-        <div class="send" :class="{ haveSend: inputVal }">
+        <div class="send" :class="{ haveSend: inputVal }" @click="sendMessage">
           <uni-icons
             type="arrow-up"
             size="30"
@@ -70,49 +81,89 @@
         </div>
       </div>
     </div>
-    <!-- <div class="chatList" ref="chatListRef">
-      <div
-        class="chatItem"
-        v-for="(item, index) in chatInfo"
-        :key="item.id"
-        :class="[item.fromId === myInfo.id ? 'chatItem_rg' : 'chatItem_lf']"
-      >
-        <div class="message">{{ item.lastContext }}</div>
-        <img
-          :src="[
-            item.fromId === myInfo.id
-              ? `${myInfo.head}`
-              : `${otherPartyInfo.head}`
-          ]"
-          alt=""
-        />
-      </div>
-    </div>
-    <div class="chat_footer">
-      <div class="chatInput">
-        <input type="text" placeholder="说点什么吧" v-model="inputVal" />
-      </div>
-    </div> -->
   </div>
 </template>
 
 <script setup lang="ts">
 import BangNav from '@/components/bangNav.vue'
 import userService from '@/api/user'
+import WS from '@/utils/webSocket'
+import { useUserStore } from '@/stores/user'
+interface IchatItem {
+  fromId: string
+  id?: string
+  isRead: number
+  lastContext: string
+  sendTime: string
+  toId: string
+}
 const id = ref('')
 const otherInfo = ref({})
-
+const chatList = ref<IchatItem[]>([])
+// 进入聊天页面初始化
+let ws: any = null
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 onLoad((option: any) => {
   console.log(option.id)
   id.value = option.id
+  ws = new WS({
+    // 连接websocket所需参数
+    data: { userId: userInfo.value.id },
+    // 首次连接成功之后，断线重新连接后也会触发（防止断线期间对方发送消息未接收到）
+    onConnected: () => {
+      // toDo
+      // 一般用于请求历史消息列表 getHistoryList()
+      console.log('请求历史记录zhong~~~')
+      getHistoryList()
+    },
+    // 监听接收到服务器消息
+    onMessage: (data) => {
+      // toDo
+      // 一般用于将最新的一条消息展示在页面上
+      console.log('newMessage', data)
+      chatList.value.push({
+        fromId: otherInfo.value.id,
+        lastContext: data.result.contentText,
+        sendTime: '123',
+        isRead: 1,
+        toId: userInfo.value.id
+      })
+    }
+  })
 })
+const sendMessage = () => {
+  if (!inputVal.value) return
+  ws.socketTask.send({
+    data:
+      '[{"toUserId":"' + id.value + '","contentText":"' + inputVal.value + '"}]'
+  })
+  chatList.value.push({
+    fromId: userInfo.value.id,
+    lastContext: inputVal.value,
+    sendTime: '123',
+    isRead: 1,
+    toId: otherInfo.id
+  })
+  inputVal.value = ''
+}
 onMounted(async () => {
   const { data } = await userService.GetOtherInfo({ toOpenid: id.value })
   if (data.code !== 1) return
   otherInfo.value = data.result
-  console.log(otherInfo.value)
 })
+const getHistoryList = async () => {
+  const { data } = await userService.getChat({ toId: id.value })
+  console.log('ltjl', data.result)
+  if (data.code !== 1) return
+  chatList.value = data.result
+}
 const inputVal = ref('')
+// 页面销毁，断开websocket
+onUnload(() => {
+  // 主动关闭websocket
+  ws.close()
+})
 </script>
 
 <style scoped lang="scss">
@@ -155,8 +206,9 @@ const inputVal = ref('')
           }
         }
         .signature {
+          margin-left: 25px;
           position: relative;
-          width: 280rpx;
+          width: 200rpx;
           & > .des {
             // width: 100%;
             max-width: 100%;

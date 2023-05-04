@@ -41,7 +41,9 @@ export default class WS {
 
   initWS() {
     // this.options.data 连接websocket所需参数
-    const url = 'wss://后端url' + this.options.data.userId
+    console.log('userId', this.options.data.userId)
+
+    const url = 'ws://qjpqjp.top:2001/bang/im/' + this.options.data.userId
     this.socketTask = uni.connectSocket({ url, success() {} })
     // 监听WS
     this.watchWS()
@@ -56,7 +58,7 @@ export default class WS {
       // 重置连接次数
       this.reconnectTime = 1
       // 发送心跳
-      this.onHeartBeat()
+      // this.onHeartBeat()
       // 监听消息
       this.onMessage()
       // 关闭Toast

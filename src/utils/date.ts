@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-25 11:51:59
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-04-25 12:30:08
+ * @LastEditTime: 2023-05-04 16:41:16
  * @FilePath: \bangbang\src\utils\date.ts
  */
 
@@ -30,4 +30,12 @@ export const changeDate = (dateString: string) => {
     dayDiff,
     hourDiff
   }
+}
+export const getTime2 = (str: any) => {
+  const value = new Date(str)
+  const HH = value.getHours() < 10 ? '0' + value.getHours() : value.getHours() //时
+  const MM =
+    value.getMinutes() < 10 ? '0' + value.getMinutes() : value.getMinutes() //分
+  if (!value) return
+  return `${HH}:${MM}`
 }

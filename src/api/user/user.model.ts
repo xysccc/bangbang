@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-02 22:12:39
+ * @LastEditTime: 2023-05-04 14:34:47
  * @FilePath: \bangbang\src\api\user\user.model.ts
  */
 import type { IApiResponse } from './../types'
@@ -124,4 +124,18 @@ export interface IOtherInfoParm {
 export interface IOtherInfoData extends GetUserListData {}
 export interface IOtherInfoResp extends IApiResponse {
   result: IOtherInfoData
+}
+export interface IChatListParm {
+  toId: string
+}
+export interface ChatListData extends IApiResponse {
+  fromId: string
+  id: string
+  isRead: number
+  lastContext: string
+  sendTime: string
+  toId: string
+}
+export interface ChatListResp extends IApiResponse {
+  result: ChatListData[]
 }

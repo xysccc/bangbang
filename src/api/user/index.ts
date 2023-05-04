@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 17:05:39
+ * @LastEditTime: 2023-05-04 14:15:21
  * @FilePath: \bangbang\src\api\user\index.ts
  */
 import type * as UserModel from './user.model'
@@ -55,6 +55,14 @@ class userService {
   // 我的收藏
   static getMyCollet(params: UserModel.IMyCollectParm) {
     return prerequest.get<UserModel.IMyCollectResp>(`/task/like`, { params })
+  }
+  // 查询消息列表
+  static getChatList() {
+    return prerequest.get<UserModel.ChatListResp>(`/lt/lb`)
+  }
+  // 查询聊天记录
+  static getChat(params: UserModel.IChatListParm) {
+    return prerequest.get<UserModel.ChatListResp>(`/lt/jl/${params.toId}`)
   }
 }
 export default userService

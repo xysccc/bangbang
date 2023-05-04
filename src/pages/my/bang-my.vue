@@ -298,7 +298,7 @@ const goTo = (url: string) => {
       background-size: 100% 100%;
     }
     & > .rg {
-      margin-left: 15px;
+      margin-left: 10px;
       width: 176rpx;
       height: 208rpx;
       border-radius: 24rpx;
