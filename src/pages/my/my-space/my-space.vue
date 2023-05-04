@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 03:21:43
+ * @LastEditTime: 2023-05-04 10:12:01
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -62,12 +62,12 @@
             />
           </div>
           <div class="topicList">
-            <div class="title">话题{{ personalTopic.followNum }}</div>
+            <div class="title">话题{{ personalTopic?.followNum }}</div>
             <scroll-view class="topicListWrapped" scroll-x="true">
               <div class="topicItemWrapped">
                 <div
                   class="topicItem"
-                  v-for="(item, index) in personalTopic.res"
+                  v-for="(item, index) in personalTopic?.res"
                   :key="index"
                 >
                   <image :src="item.head" mode="aspectFill" />
@@ -219,6 +219,7 @@ onLoad(async (option: any) => {
     ...pageOptions,
     ...(!isOwn.value && { openid: id.value })
   })
+  console.log(postList.value)
   pushArr.push(...postList.value.records)
 })
 

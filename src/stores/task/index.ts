@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:09:40
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 00:06:30
+ * @LastEditTime: 2023-05-04 09:50:14
  * @FilePath: \bangbang\src\stores\task\index.ts
  */
 import taskService from '@/api/task'
@@ -26,7 +26,7 @@ export const useTaskStore = defineStore(
     const addTask = async (data1: TaskModel.IAddTaskparm) => {
       const { data } = await taskService.AddTask(data1)
       if (data.code !== 1) return
-      return data.result
+      return data
     }
     const getTaskList = async (option: TaskModel.ITaskListParm) => {
       const { data } = await taskService.getTaskList(option)

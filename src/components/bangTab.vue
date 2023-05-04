@@ -113,7 +113,6 @@ const switchTab = (item: any, index: number) => {
       url = '/pages/index/bang-index'
       break
   }
-  console.log(url)
   if (url) {
     uni.switchTab({
       url

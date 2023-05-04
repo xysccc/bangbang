@@ -155,17 +155,17 @@ const goTo = (url: string) => {
     center;
   background-size: cover;
   & .container > .userInfo {
-    margin-top: -10px;
+    margin-top: -20rpx;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 150rpx;
     & > .imgBox {
-      width: 71px;
-      height: 71px;
+      width: 142rpx;
+      height: 142rpx;
       // margin-left: 40rpx;
-      margin-right: 14px;
+      margin-right: 28rpx;
       & > image {
         border-radius: 50%;
         width: 100%;
@@ -187,13 +187,13 @@ const goTo = (url: string) => {
         font-size: 34rpx;
         font-weight: 600;
         color: #ffffff;
-        margin-top: 5px;
+        margin-top: 10rpx;
         display: flex;
         justify-content: space-between;
         & > image {
-          transform: translateY(13.5px);
-          width: 25px;
-          height: 25px;
+          transform: translateY(27rpx);
+          width: 50rpx;
+          height: 50rpx;
           object-fit: cover;
         }
       }
@@ -214,11 +214,11 @@ const goTo = (url: string) => {
           color: rgba(42, 130, 228, 1);
         }
         & > .login_des {
-          margin-top: 12px;
-          font-size: 14px;
+          margin-top: 24rpx;
+          font-size: 28rpx;
           font-weight: 400;
-          letter-spacing: 0px;
-          line-height: 0px;
+          letter-spacing: 0rpx;
+          line-height: 0rpx;
           color: #ffffff;
           text-align: left;
           vertical-align: top;
@@ -273,6 +273,7 @@ const goTo = (url: string) => {
   );
 }
 .container {
+  width: 660rpx;
   & > .myRelease {
     margin-top: 26rpx;
     width: 100%;
@@ -287,18 +288,20 @@ const goTo = (url: string) => {
     width: 100%;
     margin-top: 16rpx;
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     & > .lf {
-      width: 230px;
-      height: 104px;
+      width: 460rpx;
+      height: 208rpx;
+      // flex: 1;
       background: url('http://qjpqjp.top:9000/bang/photo/我的帮忙.png')
         no-repeat;
       background-size: 100% 100%;
     }
     & > .rg {
-      width: 88px;
-      height: 104px;
-      border-radius: 12px;
+      margin-left: 15px;
+      width: 176rpx;
+      height: 208rpx;
+      border-radius: 24rpx;
       background: rgba(255, 255, 255, 0.69);
       background: url('http://qjpqjp.top:9000/bang/photo/设置中心.png')
         no-repeat;
@@ -330,7 +333,7 @@ const goTo = (url: string) => {
       grid-template-columns: repeat(4, 1fr);
       grid-template-rows: repeat(1, 1fr);
       & > .item {
-        font-size: 12px;
+        font-size: 24rpx;
         display: flex;
         justify-content: flex-start;
         align-items: center;

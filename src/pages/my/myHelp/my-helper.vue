@@ -21,7 +21,7 @@
             @scrolltolower="handleScroll"
             v-if="current === index"
           >
-            <template v-for="(item, index) in myHelp.records">
+            <template v-for="(item, index) in myHelp?.records" :key="index">
               <div
                 class="bang_card"
                 @click="
@@ -83,7 +83,7 @@
             </template>
             <uni-load-more
               :status="status"
-              v-if="myHelp.records.length >= 5"
+              v-if="myHelp?.records.length >= 5"
             ></uni-load-more>
           </scroll-view>
         </template>
@@ -129,7 +129,7 @@ const getList = () => {
   })
 }
 userStore.getMyHelp(pageOptions)
-let myHelp = userStore.myHelp
+let myHelp = userStore.myHelp || reactive([])
 const handleScroll = async () => {
   if (myHelp.total >= pageOptions.page * pageOptions.pageSize) {
     pageOptions.page++

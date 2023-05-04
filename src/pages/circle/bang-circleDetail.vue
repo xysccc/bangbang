@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 03:07:30
+ * @LastEditTime: 2023-05-04 11:01:50
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -29,7 +29,7 @@
           </div>
           <div class="imgList">
             <template
-              v-for="(item, index) in JSON.parse(post?.urls)"
+              v-for="(item, index) in JSON.parse(post?.urls || '{}')"
               :key="index"
             >
               <image
@@ -203,7 +203,9 @@ onMounted(() => {
 })
 
 const preview = (item: ImediaList, index: number) => {
-  const files = computed(() => JSON.parse(post.value?.urls))
+  // const urls = post.value?.urls
+  // const files = urls ? JSON.parse(urls) : []
+  const files = JSON.parse(post.value?.urls)
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接

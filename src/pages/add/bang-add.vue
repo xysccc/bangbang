@@ -91,6 +91,7 @@ import type { IGetTaskClassData } from '@/api/task/task.model'
 import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useTaskStore } from '@/stores/task'
+import type * as TaskModel from '@/api/task/task.model'
 interface Itask {
   name: string
   offImg: string
@@ -299,7 +300,7 @@ const goMap = () => {
   getMapLocation()
 }
 const add = async () => {
-  const data = await taskStore.addTask({
+  const data: any = await taskStore.addTask({
     details: formData.des,
     limitTime: formData.time,
     location: formData.location,
@@ -309,7 +310,14 @@ const add = async () => {
     urgent: formData.urgent,
     urls: JSON.stringify(fileValue.value)
   })
-  console.log('da', data)
+  if (data.code !== 1) return
+  await uni.showToast({
+    icon: 'success',
+    title: '发布成功'
+  })
+  setTimeout(() => {
+    uni.switchTab({ url: '/pages/index/bang-index' })
+  }, 1000)
 }
 </script>
 

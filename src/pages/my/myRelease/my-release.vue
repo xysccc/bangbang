@@ -21,7 +21,7 @@
             @scrolltolower="handleScroll"
             v-if="current === index"
           >
-            <template v-for="(item, index) in myRelease.records">
+            <template v-for="(item, index) in myRelease?.records" :key="index">
               <div
                 class="bang_card"
                 @click="
@@ -83,7 +83,7 @@
             </template>
             <uni-load-more
               :status="status"
-              v-if="myRelease.records.length >= 5"
+              v-if="myRelease?.records.length >= 5"
             ></uni-load-more>
           </scroll-view>
         </template>

@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-01 01:25:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 18:48:12
+ * @LastEditTime: 2023-05-04 10:47:03
  * @FilePath: \bangbang\src\pages\add\post-add.vue
 -->
 <template>
@@ -144,7 +144,7 @@ const postStore = usePostStore()
 // 获取话题列表
 const topicName = ref('日常')
 postStore.getTopicList()
-const topicList = postStore.topicList
+const topicList = computed(() => postStore.topicList)
 const selectTopic = (item: ITopic) => {
   console.log(item.id)
   popup.value.close()
@@ -228,8 +228,10 @@ const addFiles = () => {
 }
 const formData = reactive({
   isVideo: 0,
-  location: '',
-  topicId: '1649038958394376193'
+  location:
+    userStore.location.address_reference?.landmark_l2.title ||
+    userStore.location.name,
+  topicId: '1653749793849102337'
 })
 function getMapLocation() {
   uni.chooseLocation({
@@ -298,7 +300,6 @@ const goMap = () => {
   getMapLocation()
 }
 const popup = ref()
-const topic = ref('日常')
 const showBottomPop = () => {
   popup.value.open('bottom')
 }
