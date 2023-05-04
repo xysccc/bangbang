@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 10:43:27
+ * @LastEditTime: 2023-05-04 20:59:16
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -88,7 +88,7 @@
                   <div class="time">{{ item.releaseTime }}发布</div>
                 </div>
               </div>
-              <div class="rg" style="font-size: 40rpx">🥶</div>
+              <!-- <div class="rg" style="font-size: 40rpx">🥶</div> -->
             </div>
             <div class="des">
               <div class="details">
@@ -107,7 +107,12 @@
             </div>
             <div class="bottom">
               <div class="lf">
-                <div class="topic">
+                <div
+                  class="topic"
+                  @click.stop="
+                    goTo(`/pages/circle/bang-topicDetail?id=${item.topicId}`)
+                  "
+                >
                   <i class="iconfont icon-huati" style="font-size: 35rpx"></i>
                   {{ item.topicName
                   }}<uni-icons

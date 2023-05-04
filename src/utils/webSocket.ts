@@ -43,7 +43,7 @@ export default class WS {
     // this.options.data 连接websocket所需参数
     console.log('userId', this.options.data.userId)
 
-    const url = 'ws://qjpqjp.top:2001/bang/im/' + this.options.data.userId
+    const url = 'wss://qjpqjp.top/bang/im/' + this.options.data.userId
     this.socketTask = uni.connectSocket({ url, success() {} })
     // 监听WS
     this.watchWS()

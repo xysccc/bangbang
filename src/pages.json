@@ -126,6 +126,18 @@
 			"style": {
 				"navigationBarTitleText": "message-details"
 			}
+		},
+		{
+			"path": "pages/my/my-fans/my-fans",
+			"style": {
+				"navigationBarTitleText": "my-fans"
+			}
+		},
+		{
+			"path": "pages/my/my-follow/my-follow",
+			"style": {
+				"navigationBarTitleText": "my-follow"
+			}
 		}
 	],
 	"tabBar": {

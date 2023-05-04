@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-04 00:49:28
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 16:05:58
+ * @LastEditTime: 2023-05-05 01:41:04
  * @FilePath: \bangbang\src\pages\message\message-details.vue
 -->
 <template>
@@ -336,6 +336,7 @@ onUnload(() => {
     }
   }
   .chat_footer {
+    padding-bottom: 34px;
     padding-bottom: env(safe-area-inset-bottom);
     padding-top: 30rpx;
     position: fixed;

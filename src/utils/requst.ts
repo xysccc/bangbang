@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-01 10:04:16
+ * @LastEditTime: 2023-05-04 23:33:40
  * @FilePath: \bangbang\src\utils\requst.ts
  */
 import { PreQuest, create } from '@prequest/miniprogram'
@@ -18,7 +18,9 @@ declare module '@prequest/types' {
 }
 
 // 全局配置
-PreQuest.defaults.baseURL = 'http://114.116.95.152:2001/bang'
+PreQuest.defaults.baseURL = 'https://www.qjpqjp.top/bang'
+// 全局配置
+// PreQuest.defaults.baseURL = 'http://www.qjpqjp.top/bang'
 // 设置header
 PreQuest.defaults.header = { 'Content-Type': 'application/json;charset=utf-8' }
 

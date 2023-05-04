@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-01 01:25:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 10:47:03
+ * @LastEditTime: 2023-05-05 01:22:52
  * @FilePath: \bangbang\src\pages\add\post-add.vue
 -->
 <template>
@@ -180,14 +180,14 @@ const addFiles = () => {
           }
           formData.isVideo = 1
           uni.uploadFile({
-            url: 'http://114.116.95.152:2001/bang/mo/upload',
+            url: 'https://www.qjpqjp.top/bang/mo/upload',
             filePath: item.thumbTempFilePath,
             name: 'file',
             success: (uploadFileRes: any) => {
               uni.hideLoading()
               videoObj.imgUrl = JSON.parse(uploadFileRes.data).result.url
               uni.uploadFile({
-                url: 'http://114.116.95.152:2001/bang/mo/upload',
+                url: 'https://www.qjpqjp.top/bang/mo/upload',
                 filePath: item.tempFilePath,
                 name: 'file',
                 success: (uploadFileRes: any) => {
@@ -207,7 +207,7 @@ const addFiles = () => {
           })
         } else {
           uni.uploadFile({
-            url: 'http://114.116.95.152:2001/bang/mo/upload',
+            url: 'https://www.qjpqjp.top/bang/mo/upload',
             filePath: item.tempFilePath,
             name: 'file',
             success: (uploadFileRes: any) => {
@@ -224,6 +224,19 @@ const addFiles = () => {
         }
       })
     }
+  })
+}
+const preview = (item: ImediaList, index: number) => {
+  uni.previewMedia({
+    current: index,
+    // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
+    sources: fileValue.value.map((item) => {
+      if (item.videoUrl) {
+        return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
+      } else {
+        return { url: item.imgUrl, type: 'image' }
+      }
+    }) // 需要预览的图片 http 链接列表
   })
 }
 const formData = reactive({
@@ -338,19 +351,6 @@ const randomStyle = computed(() => (index: number) => {
     margin: `${getRandomInt(2, 5)}px ${getRandomInt(3, 8)}px`
   }
 })
-const preview = (item: ImediaList, index: number) => {
-  uni.previewMedia({
-    current: index,
-    // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
-    sources: fileValue.value.map((item) => {
-      if (item.videoUrl) {
-        return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
-      } else {
-        return { url: item.imgUrl, type: 'image' }
-      }
-    }) // 需要预览的图片 http 链接列表
-  })
-}
 </script>
 <style lang="scss">
 .container {
@@ -463,7 +463,7 @@ const preview = (item: ImediaList, index: number) => {
     color: rgba(0, 0, 0, 1);
   }
   & > .topic {
-    padding: 40rpx 70rpx;
+    padding: 50rpx 50rpx;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;

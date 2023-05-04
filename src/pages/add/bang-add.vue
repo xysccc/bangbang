@@ -17,11 +17,11 @@
       <div class="task_form">
         <div class="task_form_content">
           <uni-forms :modelValue="formData" label-position="top">
-            <uni-forms-item label="姓名" type="text" name="name" required>
+            <uni-forms-item label="任务名称" type="text" name="name" required>
               <uni-easyinput
                 type="text"
                 v-model="formData.name"
-                placeholder="请输入姓名"
+                placeholder="请输入您的任务名称"
               />
             </uni-forms-item>
             <uni-forms-item label="任务介绍" name="introduction">
@@ -78,6 +78,7 @@
               </div>
             </uni-forms-item>
             <BangButton title="发布任务" top="20rpx" @btn-click="add" />
+            <div style="height: 100rpx"></div>
           </uni-forms>
         </div>
       </div>
@@ -172,14 +173,14 @@ const addFiles = () => {
             videoUrl: ''
           }
           uni.uploadFile({
-            url: 'http://114.116.95.152:2001/bang/mo/upload',
+            url: 'https://www.qjpqjp.top/bang/mo/upload',
             filePath: item.thumbTempFilePath,
             name: 'file',
             success: (uploadFileRes: any) => {
               uni.hideLoading()
               videoObj.imgUrl = JSON.parse(uploadFileRes.data).result.url
               uni.uploadFile({
-                url: 'http://114.116.95.152:2001/bang/mo/upload',
+                url: 'https://www.qjpqjp.top/bang/mo/upload',
                 filePath: item.tempFilePath,
                 name: 'file',
                 success: (uploadFileRes: any) => {
@@ -199,7 +200,7 @@ const addFiles = () => {
           })
         } else {
           uni.uploadFile({
-            url: 'http://114.116.95.152:2001/bang/mo/upload',
+            url: 'https://www.qjpqjp.top/bang/mo/upload',
             filePath: item.tempFilePath,
             name: 'file',
             success: (uploadFileRes: any) => {
@@ -356,7 +357,7 @@ const add = async () => {
   }
   & > .task_form {
     height: 1300rpx;
-    border-radius: 24rpx 24rpx 0px 0px;
+    border-radius: 24rpx 24rpx 0rpx 0rpx;
 
     overflow-y: auto;
     background-color: #fff;

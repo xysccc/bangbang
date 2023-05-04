@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 14:15:21
+ * @LastEditTime: 2023-05-05 02:20:17
  * @FilePath: \bangbang\src\api\user\index.ts
  */
 import type * as UserModel from './user.model'
@@ -63,6 +63,18 @@ class userService {
   // 查询聊天记录
   static getChat(params: UserModel.IChatListParm) {
     return prerequest.get<UserModel.ChatListResp>(`/lt/jl/${params.toId}`)
+  }
+  // 关注取关
+  static follow(params: UserModel.IChatListParm) {
+    return prerequest.get<UserModel.ChatListResp>(`/user/follow/${params.toId}`)
+  }
+  // 我的关注
+  static getFollow() {
+    return prerequest.get(`/user/myFollow`)
+  }
+  // 我的粉丝
+  static getFans() {
+    return prerequest.get(`/user/myFans`)
   }
 }
 export default userService

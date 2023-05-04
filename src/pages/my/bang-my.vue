@@ -28,7 +28,10 @@
               <div class="login_btn" @click="login" v-if="!userStore.token">
                 登录
               </div>
-              <div v-else class="login_des">0关注 &nbsp; 0粉丝 &nbsp;0获赞</div>
+              <div v-else class="login_des">
+                {{ userInfo.follow }}关注 &nbsp; {{ userInfo.fans }}粉丝
+                &nbsp;{{ userInfo.nice }}获赞
+              </div>
             </div>
           </div>
         </div>
@@ -48,7 +51,7 @@
           </div>
           <div class="des">收藏</div>
         </div>
-        <div class="funItem">
+        <div class="funItem" @click="goTo(`/pages/my/my-tab/my-history`)">
           <div class="img">
             <img src="http://qjpqjp.top:9000/bang/photo/files.png" alt="" />
           </div>
@@ -115,6 +118,7 @@ import { useUserStore } from '@/stores/user'
 import prequest from '@/utils/requst'
 import BangTab from '@/components/bangTab.vue'
 const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 let info = ref({ head: null, username: null })
 const login = () => {
   uni.login({
@@ -259,11 +263,11 @@ const goTo = (url: string) => {
 }
 .swiper {
   margin: 0 auto;
-  margin-top: 34rpx;
+  // margin-top: 34rpx;
   left: 26rpx;
   top: 502.18rpx;
   width: 700rpx;
-  height: 126.5rpx;
+  height: 186.5rpx;
   opacity: 0.73;
   border-radius: 140rpx;
   background: linear-gradient(
@@ -271,6 +275,9 @@ const goTo = (url: string) => {
     rgba(255, 154, 107, 1) 0%,
     rgba(255, 104, 71, 1) 76.25%
   );
+
+  background: url('http://qjpqjp.top:9000/bang/photo/banner.png') no-repeat;
+  background-size: cover;
 }
 .container {
   width: 660rpx;
@@ -298,7 +305,7 @@ const goTo = (url: string) => {
       background-size: 100% 100%;
     }
     & > .rg {
-      margin-left: 10px;
+      margin-left: 20rpx;
       width: 176rpx;
       height: 208rpx;
       border-radius: 24rpx;

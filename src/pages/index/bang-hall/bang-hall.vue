@@ -53,6 +53,9 @@
                 <div
                   class="taskItem"
                   v-if="changeDate(item.limitTime).dayDiff > 0"
+                  @click="
+                    goTo(`/pages/index/bang-hall/bang-taskDetail?id=${item.id}`)
+                  "
                 >
                   <div class="taskItemTop">
                     <div class="type">{{ item.title }}</div>
@@ -64,14 +67,7 @@
                         ></i>
                         {{ changeDate(item.limitTime).dayDiff }}天
                       </div>
-                      <div
-                        class="arrow"
-                        @click="
-                          goTo(
-                            `/pages/index/bang-hall/bang-taskDetail?id=${item.id}`
-                          )
-                        "
-                      >
+                      <div class="arrow">
                         <img
                           src="http://qjpqjp.top:9000/bang/photo/箭头进入.png"
                           alt=""
@@ -96,14 +92,14 @@
                       <div class="collect">
                         <i
                           class="iconfont icon-shoucang"
-                          @click="collect(item.id)"
+                          @click.stop="collect(item)"
                           v-if="item.isCollect === 0"
                         ></i>
                         <i
                           class="iconfont icon-shoucang1"
                           style="color: #2a82e4"
                           v-else
-                          @click="collect(item.id)"
+                          @click="collect(item)"
                         ></i>
                       </div>
                       <div class="money">￥{{ item.money }}</div>
@@ -212,10 +208,9 @@ const goTo = (url: string) => {
     url
   })
 }
-const collect = async (id: string) => {
-  await taskService.TaskCollection({ taskId: id })
-  await getList()
-  pushArr.push(...taskList.value.records)
+const collect = async (item) => {
+  await taskService.TaskCollection({ taskId: item.id })
+  item.isCollect === 0 ? (item.isCollect = 1) : (item.isCollect = 0)
 }
 </script>
 

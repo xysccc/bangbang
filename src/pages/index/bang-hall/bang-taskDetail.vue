@@ -10,7 +10,15 @@
             <div class="type">[{{ task?.type }}类]</div>
             <div class="title">{{ task?.title }}</div>
           </div>
+
           <div class="rg">
+            <div
+              class="urgent"
+              v-if="task?.urgent === 1"
+              style="margin-right: 7px"
+            >
+              <i class="iconfont icon-VIP" style="color: #99a4b3"></i>
+            </div>
             <div class="collect">
               <i
                 class="iconfont icon-shoucang"
@@ -24,7 +32,6 @@
                 @click="collect"
               ></i>
             </div>
-            <div class="collect"><i class="iconfont icon-shoucang"></i></div>
           </div>
         </div>
         <div class="des">
@@ -73,7 +80,7 @@
       <div class="task_loc">
         <label class="lab">发布地点</label>
         <div class="location">
-          <i class="loc iconfont icon-shoucang"></i>
+          <i class="loc iconfont icon-weizhi-copy-copy"></i>
           <span>{{ task?.location }}</span>
         </div>
       </div>
@@ -81,45 +88,61 @@
         <label class="lab">图片说明</label>
         <div
           class="complate"
-          v-for="(item, index) in task?.fromUrls"
+          v-for="(item, index) in JSON.parse(task?.fromUrls[0] || '{}')"
           :key="item.id"
         >
-          <img :src="item" alt="" />
+          <image
+            :src="item.imgUrl"
+            alt=""
+            mode="aspectFill"
+            @click.stop="preview(item, index, task.fromUrls[0])"
+          />
         </div>
       </div>
-      <div class="task_complate" v-if="task.state === 3">
+      <div class="task_complate" v-if="task?.state === 3">
         <label class="lab">完成图片说明</label>
         <div
           class="complate"
-          v-for="(item, index) in task?.toUrls"
+          v-for="(item, index) in JSON.parse(task?.toUrls[0])"
           :key="item.id"
         >
-          <img :src="item" alt="" />
+          <image
+            :src="item.imgUrl"
+            mode="aspectFill"
+            @click.stop="preview(item, index, task.toUrls[0])"
+          />
         </div>
       </div>
-      <div class="task_upload" v-if="task.state === 2">
+      <div class="task_upload" v-if="task?.state === 2">
         <label class="lab">完成任务上传</label>
         <div class="addFiles_wrapped">
-          <div class="preImg" v-for="(item, index) in fileValue" :key="index">
-            <img :src="item" alt="" />
-            <div class="del" @click="delFiles(item)">✖</div>
+          <div
+            class="preImg"
+            v-for="(item, index) in fileValue"
+            :key="index"
+            @click.stop="preview(item, index)"
+          >
+            <image :src="item.imgUrl" alt="" mode="aspectFill" />
+            <div class="del" @click="delFiles(index)">✖</div>
           </div>
 
           <div class="add" @click="addFiles" v-if="fileValue.length < 3">+</div>
         </div>
       </div>
+
       <div class="bottom">
+        {{}}
         <BangButton
           title="报名帮忙"
           top="50rpx"
           @btn-click="bang"
-          v-if="task.state === 1"
+          v-if="task?.state === 1"
         />
         <BangButton
           title="完成任务"
           top="50rpx"
           @btn-click="complate"
-          v-if="task.state === 2"
+          v-if="task?.state === 2"
         />
       </div>
     </div>
@@ -136,12 +159,103 @@ import { useUserStore } from '@/stores/user'
 interface Ioption {
   id: string
 }
+interface ImediaList {
+  imgUrl: string
+  videoUrl?: string
+}
 const userStore = useUserStore()
 const taskId = ref('')
 const task = ref()
 const taskStore = useTaskStore()
+// 图片回显列表
+let fileValue = ref<ImediaList[]>([])
+const delFiles = (index: number) => {
+  fileValue.value.splice(index, 1)
+}
+const addFiles = () => {
+  uni.chooseMedia({
+    count: 3,
+    mediaType: ['mix'],
+    sourceType: ['album', 'camera'],
+    maxDuration: 30,
+    camera: 'back',
+    success(res) {
+      uni.showLoading({
+        title: '正在上传'
+      })
+      res.tempFiles.map((item) => {
+        if (item.fileType === 'video') {
+          const videoObj = {
+            imgUrl: '',
+            videoUrl: ''
+          }
+          uni.uploadFile({
+            url: 'https://www.qjpqjp.top/bang/mo/upload',
+            filePath: item.thumbTempFilePath,
+            name: 'file',
+            success: (uploadFileRes: any) => {
+              uni.hideLoading()
+              videoObj.imgUrl = JSON.parse(uploadFileRes.data).result.url
+              uni.uploadFile({
+                url: 'https://www.qjpqjp.top/bang/mo/upload',
+                filePath: item.tempFilePath,
+                name: 'file',
+                success: (uploadFileRes: any) => {
+                  uni.hideLoading()
+                  //   fileValue.value.push(JSON.parse(uploadFileRes.data).result.url)
+                  videoObj.videoUrl = JSON.parse(uploadFileRes.data).result.url
+                  fileValue.value.push(videoObj)
+                },
+                fail: (e) => {
+                  console.log(e)
+                }
+              })
+            },
+            fail: (e) => {
+              console.log(e)
+            }
+          })
+        } else {
+          uni.uploadFile({
+            url: 'https://www.qjpqjp.top/bang/mo/upload',
+            filePath: item.tempFilePath,
+            name: 'file',
+            success: (uploadFileRes: any) => {
+              uni.hideLoading()
+              //   console.log(JSON.parse(uploadFileRes.data))
+              fileValue.value.push({
+                imgUrl: JSON.parse(uploadFileRes.data).result.url
+              })
+            },
+            fail: (e) => {
+              console.log(e)
+            }
+          })
+        }
+      })
+    }
+  })
+}
+const preview = (
+  item: ImediaList,
+  index: number,
+  str = JSON.stringify(fileValue.value)
+) => {
+  console.log(str)
+  const files = computed(() => JSON.parse(str))
+  uni.previewMedia({
+    current: index,
+    // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
+    sources: files.value.map((item: ImediaList) => {
+      if (item.videoUrl) {
+        return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
+      } else {
+        return { url: item.imgUrl, type: 'image' }
+      }
+    }) // 需要预览的图片 http 链接列表
+  })
+}
 onLoad(async (option: any) => {
-  // console.log(option.id)
   taskId.value = option.id
   await taskStore.getTaskOne({ taskId: option.id })
   task.value = taskStore.task
@@ -163,7 +277,7 @@ const bang = async () => {
 const complate = async () => {
   const { data } = await taskService.TaskComplete({
     taskId: taskId.value,
-    urls: fileValue.value
+    urls: [JSON.stringify(fileValue.value)]
   })
   if (data.code !== 1) return
   uni.showToast({
@@ -172,53 +286,7 @@ const complate = async () => {
   })
   uni.navigateBack()
 }
-// 图片回显列表
-let fileValue = ref<string[]>([])
-const delFiles = (item: string) => {
-  fileValue.value = fileValue.value.filter((file) => file !== item)
-  // fileValue=computed(()=>fileValue.filter((file) => file !== item))
-  console.log(fileValue)
-}
-const addFiles = () => {
-  uni.chooseMedia({
-    count: 3,
-    mediaType: ['image', 'video'],
-    sourceType: ['album', 'camera'],
-    maxDuration: 30,
-    camera: 'back',
-    success(res) {
-      uni.showLoading({
-        title: '正在上传'
-      })
-      res.tempFiles.map((item) => {
-        uni.uploadFile({
-          url: 'http://114.116.95.152:2001/mo/upload',
-          filePath: item.tempFilePath,
-          // files: res.tempFiles.map((item) => ({ uri: item.tempFilePath })),
-          name: 'file',
-          success: (uploadFileRes: any) => {
-            // // 上传qjp服务器成功
-            // if (res.tempFiles.length !== 3) {
-            //   res.tempFiles.length + fileValue.value.length === 3 &&
-            //     uni.hideLoading()
-            // } else {
-            //   fileValue.value.length === 2 && uni.hideLoading()
-            // }
-            uni.hideLoading()
-            fileValue.value.push(JSON.parse(uploadFileRes.data).result.url)
-            // res.tempFiles.length === fileValue.value.length && uni.hideLoading()
 
-            // fileValue.push(uploadFileRes.data)
-            // console.log(fileValue);
-          },
-          fail: (e) => {
-            console.log(e)
-          }
-        })
-      })
-    }
-  })
-}
 const goTo = (url: string) => {
   uni.navigateTo({
     url
@@ -310,6 +378,10 @@ const goTo = (url: string) => {
       & > .time {
         padding: 0 5px 0 2px;
         font-size: 24rpx;
+        max-width: 144px;
+        white-space: nowrap;
+        overflow: hidden; //文本超出隐藏
+        text-overflow: ellipsis; //文本超出省略号替
       }
       & > .money {
         font-size: 24rpx;

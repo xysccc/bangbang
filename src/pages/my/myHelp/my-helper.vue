@@ -47,9 +47,6 @@
                         @click="collect(item.id)"
                       ></i>
                     </div>
-                    <div class="collect">
-                      <i class="iconfont icon-shoucang"></i>
-                    </div>
                   </div>
                 </div>
                 <div class="des">

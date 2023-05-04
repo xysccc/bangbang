@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 11:01:50
+ * @LastEditTime: 2023-05-04 21:25:54
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -15,13 +15,17 @@
       <div class="circle_card">
         <div class="top">
           <div class="lf">
-            <img :src="post?.head" alt="" />
+            <img
+              :src="post?.head"
+              alt=""
+              @click="goTo(`/pages/my/my-space/my-space?id=${post.userId}`)"
+            />
             <div class="topDes">
               <div class="name">{{ post?.username }}</div>
               <div class="time">{{ post?.releaseTime }}发布</div>
             </div>
           </div>
-          <div class="rg" style="font-size: 40rpx">🥶</div>
+          <!-- <div class="rg" style="font-size: 40rpx">🥶</div> -->
         </div>
         <div class="des">
           <div class="details">
@@ -266,6 +270,11 @@ const like = async (item: any) => {
 const collect = async (item: any) => {
   item.collect = !item.collect
   await postService.postCollect({ postId: item.id })
+}
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
 }
 </script>
 

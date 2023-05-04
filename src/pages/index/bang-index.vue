@@ -23,7 +23,12 @@
     <!-- 用户简略信息栏 -->
     <div class="container">
       <div class="userInfo">
-        <div class="imgBox">
+        <div
+          class="imgBox"
+          @click="
+            goTo(`/pages/my/my-space/my-space?id=${userStore.userInfo.id}`)
+          "
+        >
           <img
             :src="
               info.head
@@ -38,7 +43,15 @@
             <div class="login_btn" @click="login" v-if="!userStore.token">
               登录
             </div>
-            <div v-else class="login_des">关注:0 &nbsp; 粉丝:0</div>
+            <div v-else class="login_des">
+              <text @click="goTo(`/pages/my/my-follow/my-follow`)"
+                >关注:{{ userInfo.follow }}</text
+              >
+              &nbsp;
+              <text @click="goTo(`/pages/my/my-fans/my-fans`)"
+                >粉丝:{{ userInfo.fans }}</text
+              >
+            </div>
           </div>
         </div>
       </div>
@@ -109,6 +122,7 @@ import prequest from '@/utils/requst'
 import BangTab from '@/components/bangTab.vue'
 // import BangButton from '@/components/bangButton.vue'
 const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
 const simAdress = ref('')
 const goTo = (url: string) => {
   uni.navigateTo({ url })
@@ -156,7 +170,7 @@ const getLocationInfo = () => {
           'Content-Type': 'application/text'
         },
         url:
-          'http://apis.map.qq.com/ws/geocoder/v1/?location=' +
+          'https://apis.map.qq.com/ws/geocoder/v1/?location=' +
           latitude +
           ',' +
           longitude +
@@ -282,7 +296,7 @@ const login = () => {
       font-size: 30rpx;
       font-weight: 400;
       color: rgba(255, 255, 255, 1);
-      margin-top: 26rpx;
+      margin-top: 20rpx;
     }
     & > .info_bottom {
       flex: 1;
@@ -301,14 +315,10 @@ const login = () => {
         color: rgba(42, 130, 228, 1);
       }
       & > .login_des {
-        margin-top: 12px;
         font-size: 14px;
         font-weight: 400;
-        letter-spacing: 0px;
-        line-height: 0px;
+
         color: rgba(0, 0, 0, 1);
-        text-align: left;
-        vertical-align: top;
       }
     }
   }

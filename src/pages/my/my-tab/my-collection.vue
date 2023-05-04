@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-25 10:59:50
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 19:43:36
+ * @LastEditTime: 2023-05-05 01:11:00
  * @FilePath: \bangbang\src\pages\my\my-tab\my-collection.vue
 -->
 <template>
@@ -42,9 +42,6 @@
                     v-else
                     @click="collect(item.id)"
                   ></i>
-                </div>
-                <div class="collect">
-                  <i class="iconfont icon-shoucang"></i>
                 </div>
               </div>
             </div>
@@ -105,8 +102,10 @@ const getList = () => {
     ...pageOptions
   })
 }
-userStore.getMyCollet(pageOptions)
-pushArr.push(...myCollet.value.records)
+onMounted(async () => {
+  await userStore.getMyCollet(pageOptions)
+  pushArr.push(...myCollet.value.records)
+})
 
 const handleScroll = async () => {
   if (myCollet.value.total > pageOptions.page * pageOptions.pageSize) {

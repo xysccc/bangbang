@@ -29,13 +29,13 @@
         <div class="title">Hi,发表点什么吧!</div>
         <div class="bang" @click="goTo(`/pages/add/bang-add`)">
           <div class="mainBox">
-            <i class="iconfont icon-fasong" style="font-size: 35px"> </i>
+            <i class="iconfont icon-fabu1" style="font-size: 35px"> </i>
             <text>发帮忙</text>
           </div>
         </div>
         <div class="post" @click="goTo(`/pages/add/post-add`)">
           <div class="mainBox">
-            <i class="iconfont icon-fasong" style="font-size: 35px"> </i>
+            <i class="iconfont icon-fabu" style="font-size: 35px"> </i>
             <text>发动态</text>
           </div>
         </div>
@@ -74,7 +74,8 @@ const list = [
   },
   {
     pagePath: '',
-    iconPath: 'https://bj.bcebos.com/txy-dev/txy/main/zhenjian.png'
+    text: '发布 ',
+    iconPath: 'http://qjpqjp.top:9000/bang/photo/加.png'
   },
   {
     pagePath: 'pages/message/bang-message',
@@ -153,6 +154,10 @@ const goTo = (url: string) => {
     .tab_img {
       width: 50rpx;
       height: 50rpx;
+      &:nth-of-type(3) {
+        width: 44px;
+        height: 44px;
+      }
     }
 
     .tab_text {

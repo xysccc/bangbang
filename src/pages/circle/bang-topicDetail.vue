@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-03 00:38:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 21:56:29
+ * @LastEditTime: 2023-05-04 20:48:16
  * @FilePath: \bangbang\src\pages\circle\bang-topicDetail.vue
 -->
 <template>
@@ -13,23 +13,23 @@
     lower-threshold="5"
     @scrolltolower="handleScroll"
   >
-    <div class="TopicDetailtop" :style="{ '--topic-bc': topicOne.bc }">
-      <image class="blur" :src="topicOne.bc"></image>
+    <div class="TopicDetailtop">
+      <image class="blur" :src="topicOne?.bc"></image>
       <!-- 顶部状态栏占位 -->
       <div class="bang-nav"></div>
       <BangNav />
       <div class="container">
         <div class="topicTop">
           <div class="lf">
-            <image mode="aspectFill" :src="topicOne.head" />
+            <image mode="aspectFill" :src="topicOne?.head" />
           </div>
           <div class="rg">
-            <div class="title">{{ topicOne.name }}</div>
-            <div class="personNum">958个圈友</div>
-            <div class="postNum">{{ topicOne.num }}条帖子</div>
+            <div class="title">{{ topicOne?.name }}</div>
+            <div class="personNum">{{ topicOne.joinNum }} 个圈友</div>
+            <div class="postNum">{{ topicOne?.num }}条帖子</div>
           </div>
         </div>
-        <div class="topicDes">{{ topicOne.tags }}</div>
+        <div class="topicDes">{{ topicOne?.tags }}</div>
       </div>
     </div>
     <div class="infoTop">
@@ -139,17 +139,19 @@ const postStore = usePostStore()
 postStore.postList = []
 let pushArr = reactive<any>([])
 let postList = computed(() => postStore.postList)
-let topicOne = computed(() => postStore.topicOne)
 
 const topicId = ref('')
 let pageOptions = {
   page: 1,
   pageSize: 3
 }
+let topicOne = ref({})
 onLoad(async (option: any) => {
   topicId.value = option.id
   await postStore.getTopicNew({ ...pageOptions, topicId: topicId.value })
   pushArr.push(...postList.value.records)
+  await postStore.getTopicList()
+  topicOne.value = postStore.topicList.find((item) => item.id === topicId.value)
 })
 const onClickItem = async (e: cI) => {
   pageOptions.page = 1

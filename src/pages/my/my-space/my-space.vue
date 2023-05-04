@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 10:12:01
+ * @LastEditTime: 2023-05-05 01:02:57
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -77,79 +77,101 @@
             </scroll-view>
           </div>
           <div class="postMain">
-            <div
-              class="circle_card"
-              v-for="(item, index) in pushArr"
-              :key="index"
-              @click="goTo(`/pages/circle/bang-circleDetail?id=${item.id}`)"
-            >
-              <div class="top">
-                <div class="lf">
-                  <img :src="item.head" alt="" />
-                  <div class="topDes">
+            <template v-for="(item, index) in pushArr" :key="index">
+              <div v-if="current === 1" class="comment_card">
+                <div class="top">
+                  <image :src="item.head" mode="aspectFill" />
+                  <div class="info">
                     <div class="name">{{ item.username }}</div>
-                    <div class="time">{{ item.releaseTime }}发布</div>
+                    <div class="time">{{ item.commentTime }}</div>
                   </div>
                 </div>
-                <div class="rg" style="font-size: 40rpx">🥶</div>
-              </div>
-              <div class="des">
-                <div class="details">
-                  {{ item.text }}
-                </div>
-                <div class="imgList">
-                  <image
-                    :src="item1.imgUrl"
-                    alt=""
-                    mode="aspectFill"
-                    v-for="(item1, index) in JSON.parse(item.urls)"
-                    :key="index"
-                    @click.stop="preview(item, index)"
-                  />
-                </div>
-              </div>
-              <div class="bottom">
-                <div class="lf">
-                  <div class="topic">
-                    <i class="iconfont icon-huati" style="font-size: 35rpx"></i>
-                    {{ item.topicName
-                    }}<uni-icons
-                      type="forward"
-                      size="14"
-                      color="rgba(42, 130, 228, 1)"
-                    ></uni-icons>
-                  </div>
-                </div>
-                <div class="rg">
-                  <div class="like">
-                    <i
-                      class="iconfont icon-dianzan"
-                      style="font-size: 32rpx"
-                      :class="{ isLike: item.like }"
-                      >{{ item.likeNum }}</i
-                    >
-                  </div>
-                  <div class="collect">
-                    <i
-                      class="iconfont icon-shoucang"
-                      style="font-size: 35rpx"
-                      v-if="!item.collect"
-                    ></i>
-                    <i
-                      class="iconfont icon-shoucang1"
-                      style="font-size: 35rpx; color: #f4ea2a"
-                      v-else
-                    ></i>
-                  </div>
-                  <div class="comment">
-                    <i
-                      class="iconfont icon-pinglun"
-                      style="font-size: 35rpx"
-                    ></i>
+                <div class="commentDes">{{ item.commentText }}</div>
+                <div class="comment">
+                  <div class="postDes">
+                    {{ item.toUsername }}：[{{ fileType(item.fileType) }}]
+                    {{ item.postText }}
                   </div>
                 </div>
               </div>
-            </div>
+            </template>
+            <template v-for="(item, index) in pushArr" :key="index">
+              <div
+                class="circle_card"
+                v-if="current !== 1"
+                @click="goTo(`/pages/circle/bang-circleDetail?id=${item.id}`)"
+              >
+                <div class="top">
+                  <div class="lf">
+                    <img :src="item.head" alt="" />
+                    <div class="topDes">
+                      <div class="name">{{ item.username }}</div>
+                      <div class="time">{{ item.releaseTime }}发布</div>
+                    </div>
+                  </div>
+                  <div class="rg" style="font-size: 40rpx">🥶</div>
+                </div>
+                <div class="des">
+                  <div class="details">
+                    {{ item.text }}
+                  </div>
+                  <div class="imgList">
+                    <image
+                      :src="item1.imgUrl"
+                      alt=""
+                      mode="aspectFill"
+                      v-for="(item1, index) in JSON.parse(item.urls)"
+                      :key="index"
+                      @click.stop="preview(item, index)"
+                    />
+                  </div>
+                </div>
+                <div class="bottom">
+                  <div class="lf">
+                    <div class="topic">
+                      <i
+                        class="iconfont icon-huati"
+                        style="font-size: 35rpx"
+                      ></i>
+                      {{ item.topicName
+                      }}<uni-icons
+                        type="forward"
+                        size="14"
+                        color="rgba(42, 130, 228, 1)"
+                      ></uni-icons>
+                    </div>
+                  </div>
+                  <div class="rg">
+                    <div class="like" @click.stop="like(item)">
+                      <i
+                        class="iconfont icon-dianzan"
+                        style="font-size: 32rpx"
+                        :class="{ isLike: item.like }"
+                        >{{ item.likeNum }}</i
+                      >
+                    </div>
+                    <div class="collect" @click.stop="collect(item)">
+                      <i
+                        class="iconfont icon-shoucang"
+                        style="font-size: 35rpx"
+                        v-if="!item.collect"
+                      ></i>
+                      <i
+                        class="iconfont icon-shoucang1"
+                        style="font-size: 35rpx; color: #f4ea2a"
+                        v-else
+                      ></i>
+                    </div>
+                    <div class="comment">
+                      <i
+                        class="iconfont icon-pinglun"
+                        style="font-size: 35rpx"
+                      ></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
             <uni-load-more
               :status="status"
               v-if="pushArr.length >= 3"
@@ -162,6 +184,7 @@
 </template>
 
 <script setup lang="ts">
+import postService from '@/api/post'
 import userService from '@/api/user'
 import BangNav from '@/components/bangNav.vue'
 import { usePostStore } from '@/stores/post'
@@ -200,7 +223,6 @@ const getOtherInfo = async (oherId: string) => {
   })
   info.value = data.result
 }
-
 onLoad(async (option: any) => {
   id.value = option.id
   if (option.id === userStore.userInfo.id) {
@@ -236,6 +258,10 @@ const onClickItem = async (e: cI) => {
     current.value = e.currentIndex
   }
   await getList()
+  if (current.value === 1) {
+    console.log(postList.value)
+    pushArr.push(...postList.value)
+  }
   pushArr.push(...postList.value.records)
 }
 const preview = (item: ImediaList, index: number) => {
@@ -287,6 +313,30 @@ const handleScroll = async (e: any) => {
   } else {
     status.value = 'no-more'
   }
+}
+const fileType = computed(() => (typeNum: number) => {
+  switch (typeNum) {
+    case 0:
+      return ''
+      break
+    case 1:
+      return '图片'
+      break
+    case 2:
+      return '视频'
+      break
+    default:
+      break
+  }
+})
+const like = async (item: any) => {
+  item.like = !item.like
+  item.like ? item.likeNum++ : item.likeNum--
+  await postService.postLike({ postId: item.id })
+}
+const collect = async (item: any) => {
+  item.collect = !item.collect
+  await postService.postCollect({ postId: item.id })
 }
 </script>
 
@@ -401,9 +451,9 @@ const handleScroll = async (e: any) => {
       & > .topicList {
         padding: 20rpx 20rpx;
         margin-top: 30rpx;
-        border-radius: 12px;
+        border-radius: 24rpx;
         background: rgba(229, 229, 229, 0);
-        box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+        box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(0, 0, 0, 0.25);
         & > .title {
           font-size: 26rpx;
           font-weight: 500;
@@ -438,7 +488,54 @@ const handleScroll = async (e: any) => {
         }
       }
       & > .postMain {
-        margin-top: 10px;
+        margin-top: 20rpx;
+        & .comment_card {
+          padding: 30rpx 40rpx;
+          & > .top {
+            display: flex;
+            image {
+              width: 64rpx;
+              height: 64rpx;
+              border-radius: 50%;
+            }
+            & > .info {
+              margin-left: 12rpx;
+              & > .name {
+                font-size: 28rpx;
+                color: rgba(128, 128, 128, 1);
+              }
+              & > .time {
+                font-size: 22rpx;
+                font-weight: 400;
+                letter-spacing: 0rpx;
+                color: rgba(128, 128, 128, 1);
+              }
+            }
+          }
+          & > .commentDes {
+            padding-left: 6rpx;
+            margin: 10rpx 0;
+            font-size: 30rpx;
+            color: rgba(0, 0, 0, 1);
+          }
+          & > .comment {
+            width: 100%;
+            padding: 30rpx 0;
+            border-radius: 10rpx;
+            background: rgba(229, 229, 229, 1);
+            & > .postDes {
+              padding-left: 15px;
+              margin-top: 4rpx;
+              // text-align: center;
+              font-size: 22rpx;
+              color: rgba(166, 166, 166, 1);
+              max-width: 100%;
+              white-space: nowrap;
+              overflow: hidden; //文本超出隐藏
+              text-overflow: ellipsis; //文本超出省略号替
+            }
+          }
+        }
         & .circle_card {
           position: relative;
           padding: 40rpx 20rpx 40rpx 20rpx;
@@ -524,7 +621,7 @@ const handleScroll = async (e: any) => {
                   margin: 0 40rpx;
                 }
               }
-              & > .islike {
+              & .isLike {
                 color: rgba(42, 130, 228, 1);
               }
             }
@@ -537,7 +634,7 @@ const handleScroll = async (e: any) => {
             position: absolute;
             background-color: rgba(204, 204, 204, 1);
             bottom: 0;
-            left: -28px;
+            left: -56rpx;
             width: 120%;
             height: 8rpx;
           }
