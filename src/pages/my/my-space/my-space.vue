@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 15:24:39
+ * @LastEditTime: 2023-05-05 20:23:26
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -52,7 +52,16 @@
         </div>
         <div class="username">
           {{ info?.username }}
-          <i class="iconfont icon-nan" style="font-size: 35rpx"></i>
+          <i
+            class="iconfont icon-nan"
+            style="font-size: 35rpx; color: #2563eb; margin-left: 5rpx"
+            v-if="info.sex === 1"
+          ></i>
+          <i
+            class="iconfont icon-nv"
+            style="font-size: 35rpx; color: #ff4d94; margin-left: 5rpx"
+            v-else
+          ></i>
         </div>
         <div class="signature">
           {{ info?.signature }}
@@ -146,7 +155,14 @@
                 </div>
                 <div class="bottom">
                   <div class="lf">
-                    <div class="topic">
+                    <div
+                      class="topic"
+                      @click="
+                        goTo(
+                          `/pages/circle/bang-topicDetail?id=${item.topicId}`
+                        )
+                      "
+                    >
                       <i
                         class="iconfont icon-huati"
                         style="font-size: 35rpx"
@@ -245,12 +261,12 @@ const getOtherInfo = async (oherId: string) => {
 }
 onLoad(async (option: any) => {
   id.value = option.id
-  if (option.id === userStore.userInfo.id) {
+  if (id.value === userStore.userInfo.id) {
     isOwn.value = true
     await getOwnInfo()
   } else {
     isOwn.value = false
-    await getOtherInfo(option.id)
+    await getOtherInfo(id.value)
   }
   await postStore.getPersonalTopic({
     ...(!isOwn.value && { openid: id.value })
@@ -284,8 +300,22 @@ const onClickItem = async (e: cI) => {
   }
   pushArr.push(...postList.value.records)
 }
-const preview = (item: ImediaList, index: number) => {
-  const files = computed(() => JSON.parse(postList.value.records[index].urls))
+// const preview = (item: ImediaList, index: number) => {
+//   const files = computed(() => JSON.parse(postList.value.records[index].urls))
+//   uni.previewMedia({
+//     current: index,
+//     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
+//     sources: files.value.map((item: ImediaList) => {
+//       if (item.videoUrl) {
+//         return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
+//       } else {
+//         return { url: item.imgUrl, type: 'image' }
+//       }
+//     }) // 需要预览的图片 http 链接列表
+//   })
+// }
+const preview = (item: any, index: number) => {
+  const files = computed(() => JSON.parse(item.urls))
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
@@ -298,7 +328,6 @@ const preview = (item: ImediaList, index: number) => {
     }) // 需要预览的图片 http 链接列表
   })
 }
-
 const getList = () => {
   switch (current.value) {
     case 0:

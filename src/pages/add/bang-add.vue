@@ -93,6 +93,7 @@ import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useTaskStore } from '@/stores/task'
 import type * as TaskModel from '@/api/task/task.model'
+import { addDaysToDate } from '@/utils/date'
 interface Itask {
   name: string
   offImg: string

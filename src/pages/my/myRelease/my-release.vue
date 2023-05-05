@@ -47,9 +47,9 @@
                         @click="collect(item)"
                       ></i>
                     </div>
-                    <div class="collect">
+                    <!-- <div class="collect">
                       <i class="iconfont icon-shoucang"></i>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="des">
@@ -89,7 +89,11 @@
           </scroll-view>
         </template>
       </div>
-      <BangButton title="发布新帮忙" top="20rpx" />
+      <BangButton
+        title="发布新帮忙"
+        top="20rpx"
+        @btn-click="goTo(`/pages/add/bang-add`)"
+      />
     </div>
   </div>
 </template>

@@ -11,11 +11,11 @@
             <div class="title">{{ task?.title }}</div>
           </div>
 
-          <div class="rg">
+          <div class="rg" style="display: flex; align-items: center">
             <div
               class="urgent"
               v-if="task?.urgent === 1"
-              style="margin-right: 7px"
+              style="margin-right: 14rpx; font-size: 36rpx"
             >
               <i class="iconfont icon-VIP" style="color: #99a4b3"></i>
             </div>
@@ -24,10 +24,11 @@
                 class="iconfont icon-shoucang"
                 @click="collect"
                 v-if="task?.isCollect === 0"
+                style="font-size: 36rpx"
               ></i>
               <i
                 class="iconfont icon-shoucang1"
-                style="color: #2a82e4"
+                style="color: #2a82e4; font-size: 36rpx"
                 v-else
                 @click="collect"
               ></i>
@@ -355,7 +356,7 @@ const goTo = (url: string) => {
       }
     }
     & > .bottom {
-      height: 20px;
+      height: 40rpx;
       margin-top: 20rpx;
       display: flex;
       justify-content: space-between;
@@ -376,9 +377,9 @@ const goTo = (url: string) => {
         }
       }
       & > .time {
-        padding: 0 5px 0 2px;
+        padding: 0 10rpx 0 4rpx;
         font-size: 24rpx;
-        max-width: 144px;
+        max-width: 288rpx;
         white-space: nowrap;
         overflow: hidden; //文本超出隐藏
         text-overflow: ellipsis; //文本超出省略号替
@@ -388,7 +389,7 @@ const goTo = (url: string) => {
         color: rgba(166, 166, 166, 1);
       }
       & view:not(:last-child) {
-        border-right: 1px solid #ccc;
+        border-right: 2rpx solid #ccc;
       }
     }
   }
@@ -495,7 +496,7 @@ const goTo = (url: string) => {
     }
   }
   & > .task_upload {
-    margin-top: 15px;
+    margin-top: 30rpx;
     display: flex;
     & > .lab {
       width: 70rpx;

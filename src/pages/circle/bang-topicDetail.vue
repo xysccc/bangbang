@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-03 00:38:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 11:13:28
+ * @LastEditTime: 2023-05-05 18:48:17
  * @FilePath: \bangbang\src\pages\circle\bang-topicDetail.vue
 -->
 <template>
@@ -117,6 +117,7 @@
           :status="status"
           v-if="pushArr.length >= 3"
         ></uni-load-more>
+        <BangNoData v-show="pushArr.length === 0" />
       </div>
     </div>
   </scroll-view>
@@ -126,6 +127,7 @@
 import postService from '@/api/post'
 import BangNav from '@/components/bangNav.vue'
 import { usePostStore } from '@/stores/post'
+import BangNoData from '@/components/bangNoData.vue'
 type cI = {
   currentIndex: number
 }

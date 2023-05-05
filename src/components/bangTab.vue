@@ -29,13 +29,13 @@
         <div class="title">Hi,发表点什么吧!</div>
         <div class="bang" @click="goTo(`/pages/add/bang-add`)">
           <div class="mainBox">
-            <i class="iconfont icon-fabu1" style="font-size: 35px"> </i>
+            <i class="iconfont icon-fabu1" style="font-size: 70rpx"> </i>
             <text>发帮忙</text>
           </div>
         </div>
         <div class="post" @click="goTo(`/pages/add/post-add`)">
           <div class="mainBox">
-            <i class="iconfont icon-fabu" style="font-size: 35px"> </i>
+            <i class="iconfont icon-fabu" style="font-size: 70rpx"> </i>
             <text>发动态</text>
           </div>
         </div>
@@ -137,7 +137,7 @@ const goTo = (url: string) => {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 90px;
+  height: 130rpx;
   // 130rpx
   background: white;
   display: flex;
@@ -157,8 +157,8 @@ const goTo = (url: string) => {
       width: 50rpx;
       height: 50rpx;
       &:nth-of-type(3) {
-        width: 44px;
-        height: 44px;
+        width: 88rpx;
+        height: 88rpx;
       }
     }
 
@@ -170,7 +170,7 @@ const goTo = (url: string) => {
 }
 .pop {
   & > .wrapped {
-    padding: 0 10px;
+    padding: 0 20rpx;
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -178,7 +178,7 @@ const goTo = (url: string) => {
     // align-items: center;
     background-color: #ebeced;
     & > .title {
-      font-size: 30px;
+      font-size: 60rpx;
       font-weight: 500;
     }
     .bang,
@@ -188,9 +188,9 @@ const goTo = (url: string) => {
       justify-content: center;
       margin: 0 auto;
       width: 95%;
-      height: 150px;
+      height: 300rpx;
       background-color: #fff;
-      font-size: 20px;
+      font-size: 40rpx;
       & > .mainBox {
         display: flex;
         flex-direction: column;
@@ -199,17 +199,17 @@ const goTo = (url: string) => {
       }
     }
     .post {
-      margin-top: 15px;
+      margin-top: 30rpx;
     }
     .bang {
-      margin-top: 22px;
+      margin-top: 44rpx;
     }
     .close {
-      margin-top: 30px;
+      margin-top: 60rpx;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 60rpx;
     }
   }
 }

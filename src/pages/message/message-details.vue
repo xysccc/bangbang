@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-04 00:49:28
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 11:28:33
+ * @LastEditTime: 2023-05-05 19:12:16
  * @FilePath: \bangbang\src\pages\message\message-details.vue
 -->
 <template>
@@ -20,8 +20,13 @@
               <div class="des">
                 <i
                   class="iconfont icon-nan"
-                  style="font-size: 35rpx"
-                  :class="otherInfo.sex === 1 ? 'isMen' : 'isWomen'"
+                  style="font-size: 35rpx; color: #2563eb"
+                  v-if="otherInfo.sex === 1"
+                ></i>
+                <i
+                  class="iconfont icon-nv"
+                  style="font-size: 35rpx; color: #ff4d94"
+                  v-else
                 ></i>
               </div>
             </div>
@@ -225,7 +230,7 @@ onUnload(() => {
           }
         }
         .signature {
-          margin-left: 25px;
+          margin-left: 50rpx;
           position: relative;
           width: 200rpx;
           & > .des {
@@ -238,7 +243,7 @@ onUnload(() => {
           &::after {
             content: '';
             position: absolute;
-            right: -16rpx;
+            right: 0rpx;
             bottom: 4rpx;
             width: 2rpx;
             height: 42rpx;
@@ -282,7 +287,9 @@ onUnload(() => {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 4rpx 20rpx;
+            // padding: 15rpx 40rpx;
+            width: 200rpx;
+            height: 50rpx;
             float: right;
             background-color: rgba(37, 99, 235, 1);
             border-radius: 20rpx;
@@ -355,9 +362,9 @@ onUnload(() => {
     }
   }
   .chat_footer {
-    padding-bottom: 34px;
     padding-bottom: env(safe-area-inset-bottom);
     padding-top: 40rpx;
+    padding-bottom: 60rpx;
     position: fixed;
     bottom: 0;
     display: flex;
@@ -365,7 +372,7 @@ onUnload(() => {
     width: 100vw;
     // height: 176rpx;
     overflow: hidden;
-    background: rgba(249, 249, 249, 1);
+    background-color: rgba(249, 249, 249, 1);
     .chatInput {
       display: flex;
       width: 100%;

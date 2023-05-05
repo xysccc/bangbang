@@ -54,13 +54,13 @@
             </div>
             <div class="btnGroups">
               <div
-                :class="[Info.sex === 1 ? 'btnGroupsBlue' : '']"
+                :class="[userInfo.sex === 1 ? 'btnGroupsBlue' : '']"
                 @click="changeSex(1)"
               >
                 男
               </div>
               <div
-                :class="[Info.sex === 0 ? 'btnGroupsBlue' : '']"
+                :class="[userInfo.sex === 0 ? 'btnGroupsBlue' : '']"
                 @click="changeSex(0)"
               >
                 女
@@ -76,7 +76,6 @@
             class="input"
             maxlength="18"
             placeholder="请输入邮箱"
-            type="digit"
             v-model="formInfo.email"
           />
         </div>
@@ -122,7 +121,7 @@ const formInfo = reactive({
 })
 const changImg = (e: any) => {
   uni.uploadFile({
-    url: 'http://114.116.95.152:2001/bang/mo/upload',
+    url: 'https://www.qjpqjp.top/bang/mo/upload',
     filePath: e.detail.avatarUrl,
     name: 'file',
     success: (uploadFileRes) => {
@@ -131,8 +130,9 @@ const changImg = (e: any) => {
     }
   })
 }
+const { userInfo } = useUserStore()
 //修改性别
-const sex = ref(1)
+const sex = computed(() => userInfo.sex)
 const changeSex = (i: any) => {
   sex.value = i
   Info.sex = i
@@ -151,7 +151,10 @@ const SetUserInfo = async () => {
     title: '修改成功',
     icon: 'success'
   })
-  await uni.navigateBack()
+  // await uni.navigateBack()
+  setTimeout(() => {
+    uni.navigateBack()
+  }, 1000)
 }
 </script>
 

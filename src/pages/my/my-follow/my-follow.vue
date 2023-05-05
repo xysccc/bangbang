@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-05 01:35:54
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 12:57:02
+ * @LastEditTime: 2023-05-05 19:30:10
  * @FilePath: \bangbang\src\pages\my\my-follow\my-follow.vue
 -->
 <template>
@@ -15,7 +15,10 @@
       <div class="itemWrapped">
         <div class="item" v-for="(item, index) in follow" :key="item.id">
           <div class="lf">
-            <image :src="item.head" />
+            <image
+              :src="item.head"
+              @click="goTo(`/pages/my/my-space/my-space?id=${item.id}`)"
+            />
             <div class="name">{{ item.username }}</div>
           </div>
           <div
@@ -44,6 +47,11 @@ onMounted(async () => {
   if (data.code !== 1) return
   follow.value = data.result
 })
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
+}
 </script>
 
 <style scoped lang="scss">

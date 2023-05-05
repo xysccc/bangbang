@@ -41,7 +41,7 @@
         </div>
       </div>
     </div>
-    <BangButton title="确定" top="550px" @btnClick="checkCode" />
+    <BangButton title="确定" top="960rpx" @btnClick="checkCode" />
   </div>
 </template>
 

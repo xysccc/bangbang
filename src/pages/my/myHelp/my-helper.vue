@@ -1,7 +1,7 @@
 <template>
   <div class="my-release">
     <div class="bang-nav"></div>
-    <BangNav title="我的发布" />
+    <BangNav title="我的帮忙" />
     <div class="container">
       <div class="tab">
         <uni-segmented-control
@@ -47,9 +47,9 @@
                         @click="collect(item)"
                       ></i>
                     </div>
-                    <div class="collect">
+                    <!-- <div class="collect">
                       <i class="iconfont icon-shoucang"></i>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div class="des">
@@ -89,7 +89,11 @@
           </scroll-view>
         </template>
       </div>
-      <BangButton title="发布新帮忙" top="20rpx" />
+      <BangButton
+        title="接取新帮忙"
+        top="20rpx"
+        @btn-click="goTo(`/pages/index/bang-hall/bang-hall`)"
+      />
     </div>
   </div>
 </template>

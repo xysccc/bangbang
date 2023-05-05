@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 15:18:21
+ * @LastEditTime: 2023-05-05 17:28:06
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -315,7 +315,7 @@ const collect = async (item: any) => {
 .content {
   & > .circleMain {
     margin-top: 24rpx;
-    height: 1220rpx;
+    height: 1250rpx;
     // background-color: red;
     overflow-y: auto;
     & .scroll_wrapped {

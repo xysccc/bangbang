@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-01 01:25:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 01:22:52
+ * @LastEditTime: 2023-05-05 17:21:49
  * @FilePath: \bangbang\src\pages\add\post-add.vue
 -->
 <template>
@@ -317,6 +317,7 @@ const showBottomPop = () => {
   popup.value.open('bottom')
 }
 const release = async () => {
+  if (!iptVal.value) return
   const { data } = await postService.addPost({
     isVideo: formData.isVideo,
     location: formData.location,
