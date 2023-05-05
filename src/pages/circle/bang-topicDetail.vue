@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-03 00:38:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 18:48:17
+ * @LastEditTime: 2023-05-05 21:04:30
  * @FilePath: \bangbang\src\pages\circle\bang-topicDetail.vue
 -->
 <template>
@@ -146,7 +146,7 @@ let postList = computed(() => postStore.postList)
 const topicId = ref('')
 let pageOptions = {
   page: 1,
-  pageSize: 3
+  pageSize: 4
 }
 let topicOne = ref({})
 onLoad(async (option: any) => {

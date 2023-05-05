@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 15:34:51
+ * @LastEditTime: 2023-05-05 21:29:33
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -130,7 +130,13 @@
             >
               <div class="lf">
                 <div class="commentImg">
-                  <image mode="aspectFill" :src="item.head" />
+                  <image
+                    mode="aspectFill"
+                    :src="item.head"
+                    @click="
+                      goTo(`/pages/my/my-space/my-space?id=${item.userId}`)
+                    "
+                  />
                 </div>
                 <div class="commentInfo">
                   <div class="username">{{ item.username }}</div>

@@ -86,7 +86,7 @@
             maxlength="11"
             placeholder="请输入电话号码"
             type="tel"
-            v-model="formInfo.phone"
+            v-model="phone"
             @click="goTo('/pages/my/toolsAndServe/set-page')"
           />
         </div>
@@ -105,10 +105,9 @@ const goTo = (url: string) => {
 }
 const userStore = useUserStore()
 
-userStore.getUserInfo()
-
 const Info = userStore.userInfo
 const imageValue = ref('')
+const phone = computed(() => userStore.userInfo.phone)
 const formInfo = reactive({
   src: Info.head || '',
   username: Info.username || '',
@@ -118,6 +117,10 @@ const formInfo = reactive({
     Info.signature === '这个用户懒且不够个性，暂时没有个性签名'
       ? ''
       : Info.signature
+})
+onShow(async () => {
+  await userStore.getUserInfo()
+  formInfo.phone = userStore.userInfo.phone
 })
 const changImg = (e: any) => {
   uni.uploadFile({
