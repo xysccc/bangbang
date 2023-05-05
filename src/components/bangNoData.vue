@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-05 13:49:15
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 14:42:43
+ * @LastEditTime: 2023-05-05 15:27:00
  * @FilePath: \bangbang\src\components\bangNoData.vue
 -->
 <template>
@@ -44,7 +44,7 @@ const props = defineProps({
     align-items: center;
     justify-content: center;
     width: 80%;
-    height: 100%;
+    height: 450px;
     & > image {
       width: 100%;
       //   height: 50%;

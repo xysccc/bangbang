@@ -116,7 +116,12 @@
           </template>
 
           <div class="bottom">
-            <BangButton title="发布新任务" top="20rpx" icon="plus" />
+            <BangButton
+              title="发布新任务"
+              top="20rpx"
+              icon="plus"
+              @btn-click="goTo(`/pages/add/bang-add`)"
+            />
           </div>
         </div>
       </div>

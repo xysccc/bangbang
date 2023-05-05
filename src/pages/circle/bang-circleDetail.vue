@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 12:19:43
+ * @LastEditTime: 2023-05-05 15:34:51
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -113,7 +113,9 @@
     <div class="pop">
       <div class="popTop">
         <div class="topline"></div>
-        <div class="title">{{ postComment?.total }}评论</div>
+        <div class="title">
+          {{ postComment?.total }}评论 <text @click="close">✖️</text>
+        </div>
         <scroll-view
           class="commentPop"
           scroll-y="true"
@@ -208,7 +210,9 @@ onLoad(async (option: any) => {
 onMounted(() => {
   popup.value?.open('bottom')
 })
-
+const close = () => {
+  popup.value.close()
+}
 const preview = (item: ImediaList, index: number) => {
   // const urls = post.value?.urls
   // const files = urls ? JSON.parse(urls) : []
@@ -460,6 +464,8 @@ const goTo = (url: string) => {
       margin: 0 auto;
     }
     & > .title {
+      display: flex;
+      justify-content: space-between;
       margin-top: 20rpx;
       font-size: 36rpx;
       font-weight: 500;

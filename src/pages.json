@@ -138,6 +138,12 @@
 			"style": {
 				"navigationBarTitleText": "my-follow"
 			}
+		},
+		{
+			"path": "pages/info/bang-info",
+			"style": {
+				"navigationBarTitleText": "bang-info"
+			}
 		}
 	],
 	"tabBar": {

@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 14:33:23
+ * @LastEditTime: 2023-05-05 15:18:21
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -98,7 +98,7 @@
                 <image
                   :src="item1.imgUrl"
                   alt=""
-                  mode="aspectFill"
+                  mode="aspectFit"
                   v-for="(item1, index) in JSON.parse(item.urls)"
                   :key="index"
                   @click.stop="preview(item, index)"
@@ -194,9 +194,13 @@ let pageOptions = {
   pageSize: 3
 }
 
-onMounted(async () => {
+onShow(async () => {
+  pageOptions.page = 1
+  pushArr.splice(0, pushArr.length)
   await postStore.getRecommendedList(pageOptions)
+
   pushArr.push(...postList.value.records)
+  console.log(pushArr)
 })
 const iptChange = (e: string) => {
   iptVal.value = e
@@ -214,8 +218,8 @@ const onClickItem = async (e: cI) => {
   await getList()
   postList.value.records && pushArr.push(...postList.value.records)
 }
-const preview = (item: ImediaList, index: number) => {
-  const files = computed(() => JSON.parse(postList.value.records[index].urls))
+const preview = (item: any, index: number) => {
+  const files = computed(() => JSON.parse(item.urls))
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
@@ -360,11 +364,13 @@ const collect = async (item: any) => {
           color: rgba(0, 0, 0, 1);
         }
         & > .imgList {
-          margin-top: 16rpx;
+          margin-top: 30rpx;
           display: flex;
           & image {
+            padding: 10px;
+            flex: 1;
             width: 180rpx;
-            height: 180rpx;
+            // height: 250rpx;
             &:not(:first-child) {
               margin-left: 20rpx;
             }

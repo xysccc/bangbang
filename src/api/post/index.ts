@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:12:44
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 14:35:28
+ * @LastEditTime: 2023-05-05 15:51:45
  * @FilePath: \bangbang\src\api\post\index.ts
  */
 import type * as PostModel from './post.model'
@@ -148,7 +148,7 @@ class postService {
   }
   // 随机帖子
   static randomPost() {
-    return prerequest.get<PostModel.IPostTopicListResp>(`/topic/list`)
+    return prerequest.get<PostModel.IPostTopicListResp>(`/post/random`)
   }
 }
 export default postService

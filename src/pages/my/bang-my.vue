@@ -39,7 +39,7 @@
     </div>
     <div class="container">
       <div class="myFun">
-        <div class="funItem">
+        <div class="funItem" @click="goMoney">
           <div class="img">
             <img src="http://qjpqjp.top:9000/bang/photo/account.png" alt="" />
           </div>
@@ -57,7 +57,7 @@
           </div>
           <div class="des">历史</div>
         </div>
-        <div class="funItem">
+        <div class="funItem" @click="goActivity">
           <div class="img">
             <img src="http://qjpqjp.top:9000/bang/photo/champion.png" alt="" />
           </div>
@@ -115,7 +115,7 @@
             </div>
             <div class="mainDes">联系我们</div>
           </div>
-          <div class="item">
+          <div class="item" @click="goTo(`/pages/info/bang-info`)">
             <div class="mainTop">
               <img src="http://qjpqjp.top:9000/bang/photo/帮助.png" alt="" />
             </div>
@@ -162,6 +162,16 @@ onShow(() => {
 const goTo = (url: string) => {
   uni.navigateTo({
     url
+  })
+}
+const goActivity = () => {
+  uni.showModal({
+    title: '正在开发,敬请期待'
+  })
+}
+const goMoney = () => {
+  uni.showModal({
+    title: '正在开发,敬请期待'
   })
 }
 </script>
@@ -327,7 +337,7 @@ const goTo = (url: string) => {
       height: 208rpx;
       border-radius: 24rpx;
       background: rgba(255, 255, 255, 0.69);
-      background: url('http://qjpqjp.top:9000/bang/photo/设置中心.png')
+      background: url('http://qjpqjp.top:9000/bang/photo/分享一下.png')
         no-repeat;
       background-size: 100% 100%;
     }

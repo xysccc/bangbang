@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-19 15:12:44
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 14:36:06
+ * @LastEditTime: 2023-05-05 15:50:59
  * @FilePath: \bangbang\src\api\task\index.ts
  */
 import type * as TaskModel from './task.model'
@@ -44,7 +44,7 @@ class taskService {
   }
   // 随机任务
   static randomTask() {
-    return prerequest.get<TaskModel.ITaskCompleteResp>(`/topic/list`)
+    return prerequest.get<TaskModel.ITaskCompleteResp>(`/task/random`)
   }
 }
 export default taskService

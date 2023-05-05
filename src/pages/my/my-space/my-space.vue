@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 14:43:44
+ * @LastEditTime: 2023-05-05 15:24:39
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -514,7 +514,7 @@ const toggleFollow = (item) => {
       }
       & > .postMain {
         margin-top: 20rpx;
-        height: 800rpx;
+        // height: 800rpx;
         & .comment_card {
           padding: 30rpx 40rpx;
           & > .top {

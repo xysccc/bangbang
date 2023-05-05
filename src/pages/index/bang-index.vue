@@ -102,10 +102,10 @@
         @click="goTo('/pages/index/bang-hall/bang-hall')"
       />
     </div>
-    <div class="boxMin box">
+    <div class="boxMin box" @click="goRandomPost">
       <img src="http://qjpqjp.top:9000/bang/photo/时间规划.png" alt="" />
     </div>
-    <div class="boxMin box" style="margin-left: 14rpx">
+    <div class="boxMin box" style="margin-left: 14rpx" @click="goRandomTask">
       <img src="http://qjpqjp.top:9000/bang/photo/活动中心.png" alt="" />
     </div>
     <div
@@ -121,9 +121,12 @@
 
 <script setup lang="ts">
 import userService from '@/api/user'
+import postService from '@/api/post'
 import { useUserStore } from '@/stores/user'
 import prequest from '@/utils/requst'
 import BangTab from '@/components/bangTab.vue'
+import taskService from '@/api/task'
+
 // import BangButton from '@/components/bangButton.vue'
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
@@ -244,6 +247,18 @@ const login = () => {
 }
 const goToTab = (url: string) => {
   uni.switchTab({ url })
+}
+const goRandomTask = async () => {
+  const { data } = await taskService.randomTask()
+  if (data.code !== 1) return
+  uni.navigateTo({
+    url: `/pages/index/bang-hall/bang-taskDetail?id=${data.message}`
+  })
+}
+const goRandomPost = async () => {
+  const { data } = await postService.randomPost()
+  if (data.code !== 1) return
+  uni.navigateTo({ url: `/pages/circle/bang-circleDetail?id=${data.message}` })
 }
 </script>
 
