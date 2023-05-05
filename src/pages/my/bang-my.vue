@@ -78,19 +78,31 @@
       <div class="toolsAndServe">
         <div class="title">工具与服务</div>
         <div class="main">
-          <div class="item">
+          <!-- <div class="item">
             <div class="mainTop">
               <img src="http://qjpqjp.top:9000/bang/photo/设置.png" alt="" />
             </div>
             <div class="mainDes">设置中心</div>
-          </div>
+          </div> -->
           <div class="item">
+            <button open-type="feedback" class="kfBtn">实时反馈</button>
+
             <div class="mainTop">
               <img src="http://qjpqjp.top:9000/bang/photo/举报.png" alt="" />
             </div>
             <div class="mainDes">举报管理</div>
           </div>
           <div class="item">
+            <button
+              open-type="contact"
+              show-message-card
+              session-from
+              send-message-path
+              send-message-title
+              class="kfBtn"
+            >
+              在线客服
+            </button>
             <div class="mainTop">
               <img
                 src="http://qjpqjp.top:9000/bang/photo/联系我们.png"
@@ -337,9 +349,11 @@ const goTo = (url: string) => {
       margin-top: 10rpx;
       flex: 1;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(1, 1fr);
+
       & > .item {
+        position: relative;
         font-size: 24rpx;
         display: flex;
         justify-content: flex-start;
@@ -354,6 +368,14 @@ const goTo = (url: string) => {
             height: 100%;
             object-fit: cover;
           }
+        }
+        .kfBtn {
+          width: 100%;
+          height: 100%;
+          position: absolute;
+          top: 0;
+          left: 0;
+          opacity: 0;
         }
       }
       & > .item:last-child {

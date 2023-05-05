@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 01:02:57
+ * @LastEditTime: 2023-05-05 11:22:51
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -33,8 +33,21 @@
             >
               编辑资料
             </div>
-            <div class="message" v-show="!isOwn">私信</div>
-            <div class="follow" v-show="!isOwn">关注</div>
+            <div
+              class="message"
+              v-show="!isOwn"
+              @click="goTo(`/pages/message/message-details?id=${info.id}`)"
+            >
+              私信
+            </div>
+            <div
+              class="follow"
+              v-show="!isOwn"
+              @click="toggleFollow(info)"
+              :class="[info.isFollow ? '' : 'noFollow']"
+            >
+              {{ info.isFollow ? '取消关注' : '关注' }}
+            </div>
           </div>
         </div>
         <div class="username">
@@ -46,8 +59,12 @@
         </div>
         <div class="userBottom">
           <div class="nice">{{ info?.nice }}&nbsp;获赞</div>
-          <div class="follow">{{ info?.follow }}&nbsp;关注</div>
-          <div class="fans">{{ info?.fans }}&nbsp;粉丝</div>
+          <div class="follow" @click="goTo(`/pages/my/my-follow/my-follow`)">
+            {{ info?.follow }}&nbsp;关注
+          </div>
+          <div class="fans" @click="goTo(`/pages/my/my-fans/my-fans`)">
+            {{ info?.fans }}&nbsp;粉丝
+          </div>
         </div>
       </div>
       <div class="content">
@@ -62,13 +79,14 @@
             />
           </div>
           <div class="topicList">
-            <div class="title">话题{{ personalTopic?.followNum }}</div>
+            <div class="title">话题&nbsp;{{ personalTopic?.followNum }}</div>
             <scroll-view class="topicListWrapped" scroll-x="true">
               <div class="topicItemWrapped">
                 <div
                   class="topicItem"
                   v-for="(item, index) in personalTopic?.res"
                   :key="index"
+                  @click="goTo(`/pages/circle/bang-topicDetail?id=${item.id}`)"
                 >
                   <image :src="item.head" mode="aspectFill" />
                   {{ item.name }}
@@ -338,6 +356,10 @@ const collect = async (item: any) => {
   item.collect = !item.collect
   await postService.postCollect({ postId: item.id })
 }
+const toggleFollow = (item) => {
+  item.isFollow = !item.isFollow
+  userService.follow({ toId: item.id })
+}
 </script>
 
 <style scoped lang="scss">
@@ -455,6 +477,7 @@ const collect = async (item: any) => {
         background: rgba(229, 229, 229, 0);
         box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(0, 0, 0, 0.25);
         & > .title {
+          margin: 6px 0;
           font-size: 26rpx;
           font-weight: 500;
           color: rgba(0, 0, 0, 1);

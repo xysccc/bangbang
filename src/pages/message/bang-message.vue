@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:48:29
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 16:39:54
+ * @LastEditTime: 2023-05-05 09:48:39
  * @FilePath: \bangbang\src\pages\message\bang-message.vue
 -->
 <template>
@@ -22,7 +22,11 @@
 
     <!-- <div class="noMessage" v-if="isShow && chatList.length === 0"></div> -->
     <div class="messageList container">
-      <div class="message-item" v-for="(item, index) in chatList">
+      <div
+        class="message-item"
+        v-for="(item, index) in chatList"
+        @click="goTo(`/pages/message/message-details?id=${item.id}`)"
+      >
         <div class="lf">
           <img :src="item.head" alt="" />
         </div>
@@ -56,6 +60,11 @@ onShow(async () => {
   if (data.code !== 1) return
   chatList.value = data.result
 })
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
+}
 </script>
 
 <style scoped lang="scss">

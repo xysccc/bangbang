@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-04 00:49:28
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 01:41:04
+ * @LastEditTime: 2023-05-05 11:28:33
  * @FilePath: \bangbang\src\pages\message\message-details.vue
 -->
 <template>
@@ -39,8 +39,8 @@
             </div>
           </div>
           <div class="bottom">
-            <div class="follow">
-              {{ otherInfo.isFollow ? '已关注' : '关注ta' }}
+            <div class="follow" @click="toggleFollow(otherInfo)">
+              {{ otherInfo.isFollow ? '取消关注' : '关注ta' }}
             </div>
           </div>
         </div>
@@ -61,6 +61,13 @@
                 ? `${userInfo.head}`
                 : `${otherInfo.head}`
             ]"
+            @click="
+              goTo(
+                `/pages/my/my-space/my-space?id=${
+                  item.fromId === userInfo.id ? userInfo.id : otherInfo.id
+                }`
+              )
+            "
           />
         </div>
         <!-- <div class="chatItem chatItem_lf" v-for="(item, index) in 7">
@@ -122,6 +129,7 @@ onLoad((option: any) => {
       // toDo
       // 一般用于将最新的一条消息展示在页面上
       console.log('newMessage', data)
+      userStore.myMessage++
       chatList.value.push({
         fromId: otherInfo.value.id,
         lastContext: data.result.contentText,
@@ -157,6 +165,17 @@ const getHistoryList = async () => {
   console.log('ltjl', data.result)
   if (data.code !== 1) return
   chatList.value = data.result
+}
+const toggleFollow = (item) => {
+  console.log(item)
+
+  item.isFollow = !item.isFollow
+  userService.follow({ toId: item.id })
+}
+const goTo = (url: string) => {
+  uni.navigateTo({
+    url
+  })
 }
 const inputVal = ref('')
 // 页面销毁，断开websocket
@@ -299,7 +318,7 @@ onUnload(() => {
       }
       .message {
         letter-spacing: 1.2rpx;
-        padding: 10rpx 30rpx;
+        padding: 15rpx 30rpx;
         margin-right: 36rpx;
         max-width: 522rpx;
         min-height: 60rpx;
@@ -321,7 +340,7 @@ onUnload(() => {
         border-radius: 100%;
       }
       .message {
-        padding: 10rpx 30rpx;
+        padding: 15rpx 30rpx;
         letter-spacing: 1.2rpx;
         margin-left: 36rpx;
         max-width: 522rpx;
@@ -338,7 +357,7 @@ onUnload(() => {
   .chat_footer {
     padding-bottom: 34px;
     padding-bottom: env(safe-area-inset-bottom);
-    padding-top: 30rpx;
+    padding-top: 40rpx;
     position: fixed;
     bottom: 0;
     display: flex;

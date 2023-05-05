@@ -21,7 +21,7 @@
             @scrolltolower="handleScroll"
             v-if="current === index"
           >
-            <template v-for="(item, index) in myRelease?.records" :key="index">
+            <template v-for="(item, index) in pushArr" :key="index">
               <div
                 class="bang_card"
                 @click="
@@ -44,7 +44,7 @@
                         class="iconfont icon-shoucang1"
                         style="color: #2a82e4"
                         v-else
-                        @click="collect(item.id)"
+                        @click="collect(item)"
                       ></i>
                     </div>
                     <div class="collect">
@@ -83,7 +83,7 @@
             </template>
             <uni-load-more
               :status="status"
-              v-if="myRelease?.records.length >= 5"
+              v-if="pushArr.length >= 5"
             ></uni-load-more>
           </scroll-view>
         </template>
@@ -104,48 +104,52 @@ const items = ['全部', '审核中', '待接单', '已接单', '已完成', '�
 type cI = {
   currentIndex: number
 }
+const myRelease = computed(() => userStore.myRelease)
+let pushArr: any = reactive([])
+const userStore = useUserStore()
 const onClickItem = async (e: cI) => {
   if (current.value !== e.currentIndex) {
     current.value = e.currentIndex
   }
-  myRelease.records = []
+
   pageOptions = {
     page: 1,
     pageSize: 5
   }
   await getList()
-  myRelease.records = userStore.myRelease.records
-  myRelease = userStore.myRelease
+  pushArr.push(...myRelease.value.records)
 }
 let pageOptions = {
   page: 1,
   pageSize: 5
 }
-const userStore = useUserStore()
+
 const getList = () => {
   return userStore.getMyRelease({
     ...pageOptions,
     ...(current.value >= 1 && { status: current.value - 1 })
   })
 }
-userStore.getMyRelease(pageOptions)
-let myRelease = userStore.myRelease
+onMounted(async () => {
+  await userStore.getMyRelease(pageOptions)
+  pushArr.push(...myRelease.value.records)
+})
+
 const handleScroll = async () => {
-  if (myRelease.total >= pageOptions.page * pageOptions.pageSize) {
+  if (myRelease.value.total >= pageOptions.page * pageOptions.pageSize) {
     pageOptions.page++
     status.value = 'loading'
     await getList()
-    myRelease.records.push(...toRaw(userStore.myRelease.records))
+    pushArr.push(...myRelease.value.records)
     status.value = 'more'
   } else {
     status.value = 'no-more'
   }
 }
-const collect = async (id: string) => {
-  await taskService.TaskCollection({ taskId: id })
+const collect = async (item) => {
+  item.isCollect === 0 ? (item.isCollect = 1) : (item.isCollect = 0)
+  await taskService.TaskCollection({ taskId: item.id })
   await getList()
-  myRelease.records = userStore.myRelease.records
-  myRelease = userStore.myRelease
 }
 const status = ref('more')
 const changeStatusText = computed(() => (status: number) => {

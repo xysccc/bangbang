@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-25 10:59:50
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 20:40:13
+ * @LastEditTime: 2023-05-05 12:48:47
  * @FilePath: \bangbang\src\pages\my\my-tab\my-history.vue
 -->
 <template>
@@ -43,9 +43,9 @@
                     @click="collect(item.id)"
                   ></i>
                 </div>
-                <div class="collect">
+                <!-- <div class="collect">
                   <i class="iconfont icon-shoucang"></i>
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="des">

@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 21:25:54
+ * @LastEditTime: 2023-05-05 12:19:43
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -47,7 +47,10 @@
         </div>
         <div class="bottom">
           <div class="lf">
-            <div class="topic">
+            <div
+              class="topic"
+              @click="goTo(`/pages/circle/bang-topicDetail?id=${post.topicId}`)"
+            >
               <i class="iconfont icon-huati" style="font-size: 35rpx"></i>
               {{ post?.topicName
               }}<uni-icons

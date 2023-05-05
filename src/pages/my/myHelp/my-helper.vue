@@ -1,7 +1,7 @@
 <template>
-  <div class="my-help">
+  <div class="my-release">
     <div class="bang-nav"></div>
-    <BangNav title="我的帮忙" />
+    <BangNav title="我的发布" />
     <div class="container">
       <div class="tab">
         <uni-segmented-control
@@ -13,7 +13,7 @@
         />
       </div>
       <div class="content">
-        <template v-for="(item, index) in 5" :key="index">
+        <template v-for="(item, index) in 7" :key="index">
           <scroll-view
             class="contentItem"
             scroll-y="true"
@@ -21,7 +21,7 @@
             @scrolltolower="handleScroll"
             v-if="current === index"
           >
-            <template v-for="(item, index) in myHelp?.records" :key="index">
+            <template v-for="(item, index) in pushArr" :key="index">
               <div
                 class="bang_card"
                 @click="
@@ -44,8 +44,11 @@
                         class="iconfont icon-shoucang1"
                         style="color: #2a82e4"
                         v-else
-                        @click="collect(item.id)"
+                        @click="collect(item)"
                       ></i>
+                    </div>
+                    <div class="collect">
+                      <i class="iconfont icon-shoucang"></i>
                     </div>
                   </div>
                 </div>
@@ -80,12 +83,12 @@
             </template>
             <uni-load-more
               :status="status"
-              v-if="myHelp?.records.length >= 5"
+              v-if="pushArr.length >= 5"
             ></uni-load-more>
           </scroll-view>
         </template>
       </div>
-      <!-- <BangButton title="发布新帮忙" top="20rpx" /> -->
+      <BangButton title="发布新帮忙" top="20rpx" />
     </div>
   </div>
 </template>
@@ -97,52 +100,56 @@ import BangNav from '@/components/bangNav.vue'
 import { useUserStore } from '@/stores/user'
 import taskService from '@/api/task'
 const current = ref(0)
-const items = ['全部', '待完成', '已完成', '未完成']
+const items = ['全部', '审核中', '待接单', '已接单', '已完成', '已过期']
 type cI = {
   currentIndex: number
 }
+const myHelp = computed(() => userStore.myHelp)
+let pushArr: any = reactive([])
+const userStore = useUserStore()
 const onClickItem = async (e: cI) => {
   if (current.value !== e.currentIndex) {
     current.value = e.currentIndex
   }
-  myHelp.records = []
+
   pageOptions = {
     page: 1,
     pageSize: 5
   }
   await getList()
-  myHelp.records = userStore.myHelp.records
-  myHelp = userStore.myHelp
+  pushArr.push(...myHelp.value.records)
 }
 let pageOptions = {
   page: 1,
   pageSize: 5
 }
-const userStore = useUserStore()
+
 const getList = () => {
   return userStore.getMyHelp({
     ...pageOptions,
-    ...(current.value >= 1 && { status: current.value + 1 })
+    ...(current.value >= 1 && { status: current.value - 1 })
   })
 }
-userStore.getMyHelp(pageOptions)
-let myHelp = userStore.myHelp || reactive([])
+onMounted(async () => {
+  await userStore.getMyHelp(pageOptions)
+  pushArr.push(...myHelp.value.records)
+})
+
 const handleScroll = async () => {
-  if (myHelp.total >= pageOptions.page * pageOptions.pageSize) {
+  if (myHelp.value.total >= pageOptions.page * pageOptions.pageSize) {
     pageOptions.page++
     status.value = 'loading'
     await getList()
-    myHelp.records.push(...toRaw(userStore.myHelp.records))
+    pushArr.push(...myHelp.value.records)
     status.value = 'more'
   } else {
     status.value = 'no-more'
   }
 }
-const collect = async (id: string) => {
-  await taskService.TaskCollection({ taskId: id })
+const collect = async (item) => {
+  item.isCollect === 0 ? (item.isCollect = 1) : (item.isCollect = 0)
+  await taskService.TaskCollection({ taskId: item.id })
   await getList()
-  myHelp.records = userStore.myHelp.records
-  myHelp = userStore.myHelp
 }
 const status = ref('more')
 const changeStatusText = computed(() => (status: number) => {

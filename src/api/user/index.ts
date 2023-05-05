@@ -70,11 +70,11 @@ class userService {
   }
   // 我的关注
   static getFollow() {
-    return prerequest.get(`/user/myFollow`)
+    return prerequest.get<UserModel.ChatListResp>(`/user/myFollow`)
   }
   // 我的粉丝
   static getFans() {
-    return prerequest.get(`/user/myFans`)
+    return prerequest.get<UserModel.ChatListResp>(`/user/myFans`)
   }
 }
 export default userService

@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-05 01:35:54
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 02:11:21
+ * @LastEditTime: 2023-05-05 08:38:15
  * @FilePath: \bangbang\src\pages\my\my-fans\my-fans.vue
 -->
 <template>
@@ -13,14 +13,12 @@
     <BangNav title="我的粉丝" />
     <div class="list">
       <div class="itemWrapped">
-        <div class="item" v-for="(item, index) in 7">
+        <div class="item" v-for="(item, index) in fans" :key="item.id">
           <div class="lf">
-            <image
-              src="https://img.js.design/assets/smartFill/img313164da746310.jpg"
-            />
-            <div class="name">阿斯顿</div>
+            <image :src="item.head" />
+            <div class="name">{{ item.username }}</div>
           </div>
-          <div class="rg noFollow">已关注</div>
+          <!-- <div class="rg noFollow">已关注</div> -->
         </div>
       </div>
     </div>
@@ -28,7 +26,14 @@
 </template>
 
 <script lang="ts" setup>
+import userService from '@/api/user'
 import BangNav from '@/components/bangNav.vue'
+const fans: any = ref([])
+onMounted(async () => {
+  const { data } = await userService.getFans()
+  if (data.code !== 1) return
+  fans.value = data.result
+})
 </script>
 
 <style scoped lang="scss">

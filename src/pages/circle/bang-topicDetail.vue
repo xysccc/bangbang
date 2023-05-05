@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-03 00:38:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 20:48:16
+ * @LastEditTime: 2023-05-05 11:13:28
  * @FilePath: \bangbang\src\pages\circle\bang-topicDetail.vue
 -->
 <template>
@@ -87,7 +87,7 @@
               </div>
             </div>
             <div class="rg">
-              <div class="like">
+              <div class="like" @click.stop="like(item)">
                 <i
                   class="iconfont icon-dianzan"
                   style="font-size: 32rpx"
@@ -95,7 +95,7 @@
                   >{{ item.likeNum }}</i
                 >
               </div>
-              <div class="collect">
+              <div class="collect" @click.stop="collect(item)">
                 <i
                   class="iconfont icon-shoucang"
                   style="font-size: 35rpx"
@@ -123,6 +123,7 @@
 </template>
 
 <script setup lang="ts">
+import postService from '@/api/post'
 import BangNav from '@/components/bangNav.vue'
 import { usePostStore } from '@/stores/post'
 type cI = {
@@ -204,6 +205,15 @@ const preview = (item: ImediaList, index: number) => {
     }) // 需要预览的图片 http 链接列表
   })
 }
+const like = async (item: any) => {
+  item.like = !item.like
+  item.like ? item.likeNum++ : item.likeNum--
+  await postService.postLike({ postId: item.id })
+}
+const collect = async (item: any) => {
+  item.collect = !item.collect
+  await postService.postCollect({ postId: item.id })
+}
 </script>
 
 <style scoped lang="scss">
@@ -263,7 +273,7 @@ const preview = (item: ImediaList, index: number) => {
         }
       }
       & > .topicDes {
-        margin-top: 16rpx;
+        margin: 16rpx;
         font-size: 24rpx;
         font-weight: 500;
         color: rgba(255, 255, 255, 1);
@@ -275,7 +285,7 @@ const preview = (item: ImediaList, index: number) => {
 .infoTop {
   position: relative;
   padding: 0 50rpx;
-  margin-top: -40rpx;
+  margin-top: -30rpx;
   background-color: #fff;
   border-radius: 40rpx 40rpx 0rpx 0rpx;
   & > .tab {
@@ -376,7 +386,7 @@ const preview = (item: ImediaList, index: number) => {
               margin: 0 40rpx;
             }
           }
-          & > .islike {
+          & .isLike {
             color: rgba(42, 130, 228, 1);
           }
         }

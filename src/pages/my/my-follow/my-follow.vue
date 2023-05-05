@@ -1,18 +1,30 @@
+<!--
+ * @Description: 
+ * @Author: YuShuXiao 949516815@qq.com
+ * @Date: 2023-05-05 01:35:54
+ * @LastEditors: YuShuXiao 949516815@qq.com
+ * @LastEditTime: 2023-05-05 12:57:02
+ * @FilePath: \bangbang\src\pages\my\my-follow\my-follow.vue
+-->
 <template>
-  <div class="my-follow">
+  <div class="my-fans">
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
-    <BangNav title="我关注的人" />
+    <BangNav title="我的关注" />
     <div class="list">
       <div class="itemWrapped">
-        <div class="item" v-for="(item, index) in 7">
+        <div class="item" v-for="(item, index) in follow" :key="item.id">
           <div class="lf">
-            <image
-              src="https://img.js.design/assets/smartFill/img313164da746310.jpg"
-            />
-            <div class="name">阿斯顿</div>
+            <image :src="item.head" />
+            <div class="name">{{ item.username }}</div>
           </div>
-          <div class="rg noFollow">已关注</div>
+          <div
+            class="rg"
+            :class="{ noFollow: !item.follow }"
+            @click="toggleFollow(item)"
+          >
+            {{ item.follow ? '取关' : '关注' }}
+          </div>
         </div>
       </div>
     </div>
@@ -20,7 +32,18 @@
 </template>
 
 <script lang="ts" setup>
+import userService from '@/api/user'
 import BangNav from '@/components/bangNav.vue'
+const follow: any = ref([])
+const toggleFollow = (item) => {
+  item.follow = !item.follow
+  userService.follow({ toId: item.id })
+}
+onMounted(async () => {
+  const { data } = await userService.getFollow()
+  if (data.code !== 1) return
+  follow.value = data.result
+})
 </script>
 
 <style scoped lang="scss">

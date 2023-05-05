@@ -47,13 +47,14 @@
   </uni-popup>
 </template>
 <script setup lang="ts">
-import { ref } from 'vue'
 const props = defineProps({
   selected: {
     type: Number,
     default: () => 0
   }
 })
+// const userStore = useUserStore()
+// const { myMessage } = storeToRefs(userStore)
 const selected = props.selected
 
 const color = '#a6a6a6'
@@ -144,6 +145,7 @@ const goTo = (url: string) => {
   align-items: center;
   padding-bottom: env(safe-area-inset-bottom); // 适配iphoneX的底部
   .tab-bar-item {
+    // position: relative;
     flex: 1;
     text-align: center;
     display: flex;

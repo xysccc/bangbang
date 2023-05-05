@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-17 16:38:35
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-02 18:27:20
+ * @LastEditTime: 2023-05-05 09:39:07
  * @FilePath: \bangbang\src\components\bangNav.vue
 -->
 <template>

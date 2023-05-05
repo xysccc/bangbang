@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-03 17:08:11
+ * @LastEditTime: 2023-05-05 08:46:35
  * @FilePath: \bangbang\src\stores\user\index.ts
  */
 import userService from '@/api/user'
@@ -19,6 +19,7 @@ export const useUserStore = defineStore(
     const myRelease = ref()
     const myCollet = ref()
     const myHistory = ref()
+    const myMessage = ref(0)
     const getUserInfo = async () => {
       const { data } = await userService.GetUserInfo()
       userInfo.value = data.result
@@ -56,7 +57,8 @@ export const useUserStore = defineStore(
       myHelp,
       myRelease,
       myCollet,
-      myHistory
+      myHistory,
+      myMessage
     }
   },
   {
