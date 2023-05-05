@@ -73,7 +73,11 @@
       ></div>
       <div class="myHelp">
         <div class="lf" @click="goTo(`/pages/my/myHelp/my-helper`)"></div>
-        <div class="rg"></div>
+        <div class="rg">
+          <button data-name="shareBtn" open-type="share" class="kfBtn">
+            分享
+          </button>
+        </div>
       </div>
       <div class="toolsAndServe">
         <div class="title">工具与服务</div>
@@ -90,7 +94,7 @@
             <div class="mainTop">
               <img src="http://qjpqjp.top:9000/bang/photo/举报.png" alt="" />
             </div>
-            <div class="mainDes">举报管理</div>
+            <div class="mainDes">实时反馈</div>
           </div>
           <div class="item">
             <button
@@ -317,6 +321,7 @@ const goTo = (url: string) => {
       background-size: 100% 100%;
     }
     & > .rg {
+      position: relative;
       margin-left: 20rpx;
       width: 176rpx;
       height: 208rpx;
@@ -369,14 +374,6 @@ const goTo = (url: string) => {
             object-fit: cover;
           }
         }
-        .kfBtn {
-          width: 100%;
-          height: 100%;
-          position: absolute;
-          top: 0;
-          left: 0;
-          opacity: 0;
-        }
       }
       & > .item:last-child {
         & > .mainTop {
@@ -387,6 +384,14 @@ const goTo = (url: string) => {
         }
       }
     }
+  }
+  .kfBtn {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
   }
 }
 </style>

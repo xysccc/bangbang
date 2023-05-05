@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-04 20:59:16
+ * @LastEditTime: 2023-05-05 14:33:23
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -153,6 +153,7 @@
             :status="status"
             v-if="pushArr.length >= 3"
           ></uni-load-more>
+          <BangNoData v-show="pushArr.length === 0" />
         </div>
       </scroll-view>
     </div>
@@ -165,6 +166,7 @@ import postService from '@/api/post'
 import BangTab from '@/components/bangTab.vue'
 import { usePostStore } from '@/stores/post'
 import MyInfoSet from '../my/myInfoSet/myInfoSet.vue'
+import BangNoData from '@/components/bangNoData.vue'
 interface ImediaList {
   imgUrl: string
   videoUrl?: string

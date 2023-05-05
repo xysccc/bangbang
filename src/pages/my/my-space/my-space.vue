@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 11:22:51
+ * @LastEditTime: 2023-05-05 14:43:44
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -194,6 +194,7 @@
               :status="status"
               v-if="pushArr.length >= 3"
             ></uni-load-more>
+            <BangNoData v-show="pushArr.length === 0" />
           </div>
         </div>
       </div>
@@ -207,6 +208,7 @@ import userService from '@/api/user'
 import BangNav from '@/components/bangNav.vue'
 import { usePostStore } from '@/stores/post'
 import { useUserStore } from '@/stores/user'
+import BangNoData from '@/components/bangNoData.vue'
 interface ImediaList {
   imgUrl: string
   videoUrl?: string
@@ -477,7 +479,7 @@ const toggleFollow = (item) => {
         background: rgba(229, 229, 229, 0);
         box-shadow: 0rpx 4rpx 8rpx 0rpx rgba(0, 0, 0, 0.25);
         & > .title {
-          margin: 6px 0;
+          margin: 12rpx 0;
           font-size: 26rpx;
           font-weight: 500;
           color: rgba(0, 0, 0, 1);
@@ -512,6 +514,7 @@ const toggleFollow = (item) => {
       }
       & > .postMain {
         margin-top: 20rpx;
+        height: 800rpx;
         & .comment_card {
           padding: 30rpx 40rpx;
           & > .top {
@@ -547,7 +550,7 @@ const toggleFollow = (item) => {
             border-radius: 10rpx;
             background: rgba(229, 229, 229, 1);
             & > .postDes {
-              padding-left: 15px;
+              padding-left: 30rpx;
               margin-top: 4rpx;
               // text-align: center;
               font-size: 22rpx;

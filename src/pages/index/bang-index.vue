@@ -108,7 +108,11 @@
     <div class="boxMin box" style="margin-left: 14rpx">
       <img src="http://qjpqjp.top:9000/bang/photo/活动中心.png" alt="" />
     </div>
-    <div class="boxMax box" style="margin-left: 14rpx">
+    <div
+      class="boxMax box"
+      style="margin-left: 14rpx"
+      @click="goToTab(`/pages/circle/bang-circle`)"
+    >
       <img src="http://qjpqjp.top:9000/bang/photo/帮帮友圈.png" alt="" />
     </div>
   </div>
@@ -237,6 +241,9 @@ const login = () => {
       }
     }
   })
+}
+const goToTab = (url: string) => {
+  uni.switchTab({ url })
 }
 </script>
 

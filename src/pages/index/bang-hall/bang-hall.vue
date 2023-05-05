@@ -111,6 +111,7 @@
                 :status="status"
                 v-if="pushArr.length > 6"
               ></uni-load-more>
+              <BangNoData v-show="pushArr.length === 0" />
             </scroll-view>
           </template>
 
@@ -125,6 +126,7 @@
 
 <script lang="ts" setup>
 import BangNav from '@/components/bangNav.vue'
+import BangNoData from '@/components/bangNoData.vue'
 import taskService from '@/api/task'
 import type { IGetTaskClassData } from '@/api/task/task.model'
 import BangButton from '@/components/bangButton.vue'

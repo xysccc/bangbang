@@ -85,6 +85,7 @@
               :status="status"
               v-if="pushArr.length >= 5"
             ></uni-load-more>
+            <BangNoData v-show="pushArr.length === 0" />
           </scroll-view>
         </template>
       </div>
@@ -99,6 +100,7 @@ import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useUserStore } from '@/stores/user'
 import taskService from '@/api/task'
+import BangNoData from '@/components/bangNoData.vue'
 const current = ref(0)
 const items = ['全部', '审核中', '待接单', '已接单', '已完成', '已过期']
 type cI = {
@@ -111,11 +113,11 @@ const onClickItem = async (e: cI) => {
   if (current.value !== e.currentIndex) {
     current.value = e.currentIndex
   }
-
   pageOptions = {
     page: 1,
     pageSize: 5
   }
+  pushArr = reactive([])
   await getList()
   pushArr.push(...myRelease.value.records)
 }
