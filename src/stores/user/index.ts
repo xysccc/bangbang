@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-11 18:22:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 08:46:35
+ * @LastEditTime: 2023-05-09 10:55:38
  * @FilePath: \bangbang\src\stores\user\index.ts
  */
 import userService from '@/api/user'
@@ -23,7 +23,7 @@ export const useUserStore = defineStore(
     const getUserInfo = async () => {
       const { data } = await userService.GetUserInfo()
       userInfo.value = data.result
-      return data.result
+      console.log('store', userInfo.value)
     }
     const getMyHelp = async (params: UserModel.IMyHelpParm) => {
       const { data } = await userService.getMyHelp(params)

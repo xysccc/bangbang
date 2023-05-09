@@ -86,7 +86,7 @@
             maxlength="11"
             placeholder="请输入电话号码"
             type="tel"
-            v-model="phone"
+            v-model="formInfo.phone"
             @click="goTo('/pages/my/toolsAndServe/set-page')"
           />
         </div>
@@ -100,28 +100,22 @@ import userService from '@/api/user'
 import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useUserStore } from '@/stores/user'
-const goTo = (url: string) => {
-  uni.navigateTo({ url })
-}
-const userStore = useUserStore()
 
-const Info = userStore.userInfo
-const imageValue = ref('')
-const phone = computed(() => userStore.userInfo.phone)
-const formInfo = reactive({
-  src: Info.head || '',
-  username: Info.username || '',
-  email: Info.email || '',
-  phone: Info.phone || '',
-  signature:
-    Info.signature === '这个用户懒且不够个性，暂时没有个性签名'
-      ? ''
-      : Info.signature
+const userStore = useUserStore()
+const { userInfo } = storeToRefs(userStore)
+userStore.getUserInfo()
+const formInfo = computed(() => {
+  return {
+    src: userInfo.value.head || '',
+    username: userInfo.value.username || '',
+    email: userInfo.value.email || '',
+    phone: userInfo.value.phone || '',
+    signature: userInfo.value.signature || ''
+  }
 })
-onShow(async () => {
-  await userStore.getUserInfo()
-  formInfo.phone = userStore.userInfo.phone
-})
+// onShow(async () => {
+//   await userStore.getUserInfo()
+// })
 const changImg = (e: any) => {
   uni.uploadFile({
     url: 'https://www.qjpqjp.top/bang/mo/upload',
@@ -129,25 +123,25 @@ const changImg = (e: any) => {
     name: 'file',
     success: (uploadFileRes) => {
       // 上传qjp服务器成功
-      formInfo.src = JSON.parse(uploadFileRes.data).result.url
+      formInfo.value.src = JSON.parse(uploadFileRes.data).result.url
     }
   })
 }
-const { userInfo } = useUserStore()
+
 //修改性别
-const sex = computed(() => userInfo.sex)
+let sex = userInfo.value.sex
 const changeSex = (i: any) => {
-  sex.value = i
-  Info.sex = i
+  sex = i
+  userInfo.value.sex = i
 }
 const SetUserInfo = async () => {
   const { data } = await userService.SetUserInfo({
-    username: formInfo.username,
-    email: formInfo.email,
-    phone: formInfo.phone,
+    username: formInfo.value.username,
+    email: formInfo.value.email,
+    phone: formInfo.value.phone,
     sex: sex.value,
-    signature: formInfo.signature,
-    head: formInfo.src
+    signature: formInfo.value.signature,
+    head: formInfo.value.src
   })
   if (data.code !== 1) return
   await uni.showToast({
@@ -158,6 +152,9 @@ const SetUserInfo = async () => {
   setTimeout(() => {
     uni.navigateBack()
   }, 1000)
+}
+const goTo = (url: string) => {
+  uni.navigateTo({ url })
 }
 </script>
 
