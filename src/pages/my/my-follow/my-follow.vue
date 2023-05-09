@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-05 01:35:54
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 19:30:10
+ * @LastEditTime: 2023-05-09 14:54:52
  * @FilePath: \bangbang\src\pages\my\my-follow\my-follow.vue
 -->
 <template>
@@ -81,12 +81,12 @@ const goTo = (url: string) => {
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20rpx;
+        font-size: 25rpx;
         font-weight: 400;
         color: rgba(255, 255, 255, 1);
         border-radius: 40rpx;
         background-color: rgba(166, 166, 166, 0.53);
-        padding: 10rpx 25rpx;
+        padding: 10rpx 40rpx;
       }
       & > .noFollow {
         background-color: rgba(42, 130, 228, 1);

@@ -214,6 +214,8 @@ const goTo = (url: string) => {
         }
       }
       & > .content {
+        margin: 0;
+        padding: 0;
         margin-left: 20rpx;
         flex: 1;
         font-size: 26rpx;
@@ -297,7 +299,7 @@ const goTo = (url: string) => {
     }
   }
   & > .contentItem {
-    height: 1045rpx;
+    height: 1280rpx;
     overflow-y: scroll;
   }
 }

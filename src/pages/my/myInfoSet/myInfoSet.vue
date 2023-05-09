@@ -29,7 +29,7 @@
           >
           <input
             class="input"
-            maxlength="5"
+            maxlength="8"
             placeholder="请输入昵称"
             type="nickname"
             v-model="formInfo.username"
@@ -113,9 +113,6 @@ const formInfo = computed(() => {
     signature: userInfo.value.signature || ''
   }
 })
-// onShow(async () => {
-//   await userStore.getUserInfo()
-// })
 const changImg = (e: any) => {
   uni.uploadFile({
     url: 'https://www.qjpqjp.top/bang/mo/upload',
@@ -139,7 +136,7 @@ const SetUserInfo = async () => {
     username: formInfo.value.username,
     email: formInfo.value.email,
     phone: formInfo.value.phone,
-    sex: sex.value,
+    sex: sex,
     signature: formInfo.value.signature,
     head: formInfo.value.src
   })

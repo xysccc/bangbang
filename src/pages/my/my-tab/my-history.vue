@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-25 10:59:50
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 12:48:47
+ * @LastEditTime: 2023-05-09 14:46:55
  * @FilePath: \bangbang\src\pages\my\my-tab\my-history.vue
 -->
 <template>
@@ -165,7 +165,7 @@ const goTo = (url: string) => {
 </script>
 <style scoped lang="scss">
 .content {
-  margin-top: 20px;
+  margin-top: 40rpx;
   padding: 20rpx 40rpx;
   & .bang_card:not(:first-child) {
     margin-top: 20rpx;
@@ -217,6 +217,8 @@ const goTo = (url: string) => {
         }
       }
       & > .content {
+        margin: 0;
+        padding: 0;
         margin-left: 20rpx;
         flex: 1;
         font-size: 26rpx;
@@ -300,7 +302,7 @@ const goTo = (url: string) => {
     }
   }
   & > .contentItem {
-    height: 1045rpx;
+    height: 1280rpx;
     overflow-y: scroll;
   }
 }

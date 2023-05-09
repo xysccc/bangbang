@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 20:23:26
+ * @LastEditTime: 2023-05-09 14:40:13
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -261,6 +261,8 @@ const getOtherInfo = async (oherId: string) => {
 }
 onLoad(async (option: any) => {
   id.value = option.id
+})
+onShow(async () => {
   if (id.value === userStore.userInfo.id) {
     isOwn.value = true
     await getOwnInfo()
@@ -271,13 +273,11 @@ onLoad(async (option: any) => {
   await postStore.getPersonalTopic({
     ...(!isOwn.value && { openid: id.value })
   })
-  console.log(personalTopic.value)
-
   await postStore.getPersonalOwn({
     ...pageOptions,
     ...(!isOwn.value && { openid: id.value })
   })
-  console.log(postList.value)
+  pushArr.splice(pushArr.length)
   pushArr.push(...postList.value.records)
 })
 
@@ -543,7 +543,8 @@ const toggleFollow = (item) => {
       }
       & > .postMain {
         margin-top: 20rpx;
-        // height: 800rpx;
+        height: 800rpx;
+        overflow: auto;
         & .comment_card {
           padding: 30rpx 40rpx;
           & > .top {
