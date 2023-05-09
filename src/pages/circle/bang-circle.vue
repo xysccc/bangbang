@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 17:28:06
+ * @LastEditTime: 2023-05-09 15:26:27
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -94,7 +94,7 @@
               <div class="details">
                 {{ item.text }}
               </div>
-              <div class="imgList">
+              <div class="imgList" v-if="JSON.parse(item.urls).length">
                 <image
                   :src="item1.imgUrl"
                   alt=""
@@ -356,7 +356,7 @@ const collect = async (item: any) => {
         }
       }
       & > .des {
-        margin-top: 16rpx;
+        margin: 25rpx 0;
         & > .details {
           padding: 0 0 0 30rpx;
           font-size: 26rpx;

@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 21:29:33
+ * @LastEditTime: 2023-05-09 15:29:20
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -226,7 +226,7 @@ const preview = (item: ImediaList, index: number) => {
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
-    sources: files.value.map((item: ImediaList) => {
+    sources: files.map((item: ImediaList) => {
       if (item.videoUrl) {
         return { url: item.videoUrl, type: 'video', poster: item.imgUrl }
       } else {
