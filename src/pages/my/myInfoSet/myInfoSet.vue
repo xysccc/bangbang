@@ -1,5 +1,8 @@
 <template>
-  <div class="myInfoSet">
+  <!-- <div v-show="useUtils().isExamine">
+    <BangNoData />
+  </div> -->
+  <div class="myInfoSet" v-show="!useUtils().isExamine">
     <div class="bang-nav"></div>
     <BangNav title="个人信息" />
 
@@ -100,7 +103,8 @@ import userService from '@/api/user'
 import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useUserStore } from '@/stores/user'
-
+import { useUtils } from '@/stores/utils'
+import BangNoData from '@/components/bangNoData.vue'
 const userStore = useUserStore()
 const { userInfo } = storeToRefs(userStore)
 userStore.getUserInfo()

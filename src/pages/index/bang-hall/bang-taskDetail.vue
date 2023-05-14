@@ -1,5 +1,46 @@
 <template>
-  <div class="bang-taskDetail">
+  <div v-if="useUtils().isExamine">
+    <div class="container">
+      <div style="height: 100px"></div>
+      <header class="header"></header>
+      <main class="main">
+        <img
+          class="image"
+          src="https://picsum.photos/400/600"
+          alt="随机图片"
+          style="width: 100px; height: 100px; border-radius: 50%"
+        />
+        <div class="divider"></div>
+        <ul class="list">
+          <li class="item">
+            <h2 class="item-title">标题1</h2>
+            <p class="item-content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was
+              popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop
+              publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.
+            </p>
+          </li>
+          <!-- <li class="item">
+            <h2 class="item-title">标题2</h2>
+            <p class="item-content">内容2</p>
+          </li>
+          <li class="item">
+            <h2 class="item-title">标题3</h2>
+            <p class="item-content">内容3</p>
+          </li> -->
+        </ul>
+      </main>
+    </div>
+    <BangNoData />
+  </div>
+  <div class="bang-taskDetail" v-else>
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
     <BangNav title="任务详情" />
@@ -85,11 +126,14 @@
           <span>{{ task?.location }}</span>
         </div>
       </div>
-      <div class="task_complate">
+      <div
+        class="task_complate"
+        v-if="JSON.parse(task?.fromUrls[0] || '[]').length"
+      >
         <label class="lab">图片说明</label>
         <div
           class="complate"
-          v-for="(item, index) in JSON.parse(task?.fromUrls[0] || '{}')"
+          v-for="(item, index) in JSON.parse(task?.fromUrls[0] || '[]')"
           :key="item.id"
         >
           <image
@@ -100,6 +144,7 @@
           />
         </div>
       </div>
+      <div v-else style="height: 50px"></div>
       <div class="task_complate" v-if="task?.state === 3">
         <label class="lab">完成图片说明</label>
         <div
@@ -157,6 +202,7 @@ import BangNav from '@/components/bangNav.vue'
 import { useTaskStore } from '@/stores/task'
 import taskService from '@/api/task'
 import { useUserStore } from '@/stores/user'
+import { useUtils } from '@/stores/utils'
 interface Ioption {
   id: string
 }

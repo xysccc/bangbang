@@ -3,11 +3,14 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-01 01:25:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 17:21:49
+ * @LastEditTime: 2023-05-11 09:09:13
  * @FilePath: \bangbang\src\pages\add\post-add.vue
 -->
 <template>
-  <div class="content">
+  <div v-if="useUtils().isExamine">
+    <BangNoData />
+  </div>
+  <div class="content" v-else>
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
     <!-- 导航栏 -->
@@ -128,6 +131,7 @@ import BangButton from '@/components/bangButton.vue'
 import { useUserStore } from '@/stores/user'
 import { usePostStore } from '@/stores/post'
 import postService from '@/api/post'
+import { useUtils } from '@/stores/utils'
 interface ITopic {
   bc: string
   head: string

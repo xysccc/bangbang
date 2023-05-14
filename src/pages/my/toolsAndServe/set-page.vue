@@ -1,5 +1,8 @@
 <template>
-  <div class="setPage">
+  <div v-if="useUtils().isExamine">
+    <BangNoData />
+  </div>
+  <div class="setPage" v-else>
     <div class="bang-nav"></div>
     <BangNav title="设置中心" />
     <div class="container">

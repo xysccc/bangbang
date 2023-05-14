@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-25 11:51:59
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 19:01:19
+ * @LastEditTime: 2023-05-10 15:07:14
  * @FilePath: \bangbang\src\utils\date.ts
  */
 
@@ -40,7 +40,7 @@ export const getTime2 = (str: any) => {
   if (!value) return
   return `${HH}:${MM}`
 }
-//调日历加5天
+//调日历加天数
 export function addDaysToDate(date: Date, days: number) {
   // 将日期转换为时间戳
   let timestamp = date.getTime()
@@ -54,4 +54,19 @@ export function addDaysToDate(date: Date, days: number) {
 
   // 返回增加后的日期
   return newDate
+}
+//格式化成发请求的时间格式
+export const getTime = (value: Date) => {
+  const Y = value.getFullYear() // 年
+  const M =
+    value.getMonth() + 1 < 10
+      ? '0' + (value.getMonth() + 1)
+      : value.getMonth() + 1 //月
+  const D = value.getDate() < 10 ? '0' + value.getDate() : value.getDate() //日
+  const HH = value.getHours() < 10 ? '0' + value.getHours() : value.getHours() //时
+  const MM =
+    value.getMinutes() < 10 ? '0' + value.getMinutes() : value.getMinutes() //分
+  const SS = `00`
+  //秒
+  return `${Y}-${M}-${D} ${HH}:${MM}:${SS}`
 }

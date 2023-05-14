@@ -17,7 +17,7 @@
         lower-threshold="5"
         @scrolltolower="handleScroll"
       >
-        <template v-for="(item, index) in pushArr">
+        <template v-for="(item, index) in pushArr" :key="item.id">
           <div
             class="bang_card"
             @click="

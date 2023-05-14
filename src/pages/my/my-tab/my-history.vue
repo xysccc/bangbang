@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-25 10:59:50
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-09 14:46:55
+ * @LastEditTime: 2023-05-09 15:38:44
  * @FilePath: \bangbang\src\pages\my\my-tab\my-history.vue
 -->
 <template>
@@ -17,7 +17,7 @@
         lower-threshold="5"
         @scrolltolower="handleScroll"
       >
-        <template v-for="(item, index) in pushArr">
+        <template v-for="(item, index) in pushArr" :key="item.id">
           <div
             class="bang_card"
             @click="

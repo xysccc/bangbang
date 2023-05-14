@@ -1,5 +1,6 @@
 <template>
-  <view class="tab-bar">
+  <div v-if="useUtils().isExamine"></div>
+  <view class="tab-bar" v-else>
     <view
       v-for="(item, index) in list"
       :key="index"
@@ -47,6 +48,8 @@
   </uni-popup>
 </template>
 <script setup lang="ts">
+import { useUtils } from '@/stores/utils'
+
 const props = defineProps({
   selected: {
     type: Number,

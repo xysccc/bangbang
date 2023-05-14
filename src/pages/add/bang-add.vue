@@ -1,5 +1,8 @@
 <template>
-  <div class="content">
+  <div v-if="useUtils().isExamine">
+    <BangNoData />
+  </div>
+  <div class="content" v-else>
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
     <BangNav title="发布任务" :arrow-tab-back="true" />
@@ -93,7 +96,8 @@ import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useTaskStore } from '@/stores/task'
 import type * as TaskModel from '@/api/task/task.model'
-import { addDaysToDate } from '@/utils/date'
+import { addDaysToDate, getTime } from '@/utils/date'
+import { useUtils } from '@/stores/utils'
 interface Itask {
   name: string
   offImg: string
@@ -134,8 +138,8 @@ const formData = reactive({
   money: '',
   media: [],
   urgent: 0,
-  datetimesingle: new Date(),
-  time: '',
+  datetimesingle: addDaysToDate(new Date(), 7),
+  time: getTime(addDaysToDate(new Date(), 7)),
   type: ''
 })
 const urgents = [

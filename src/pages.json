@@ -158,13 +158,13 @@
       },
       {
         "pagePath": "pages/circle/bang-circle",
-        "text": "友圈",
+        "text": "友",
         "iconPath": "static/icon/circle.png",
         "selectedIconPath": "static/icon/circle-active.png"
       },
       {
         "pagePath": "pages/message/bang-message",
-        "text": "信息",
+        "text": "息",
         "iconPath": "static/icon/message.png",
         "selectedIconPath": "static/icon/message-active.png"
       },

@@ -1,122 +1,166 @@
 <template>
-  <div class="content">
-    <!-- 顶部状态栏占位 -->
-    <div class="bang-nav"></div>
-    <!-- 导航栏 -->
-    <uni-nav-bar
-      background-color="transparent"
-      :border="false"
-      @clickLeft="getLocation"
-    >
-      <template v-slot:left>
-        <div class="address">
-          <i
-            class="iconfont icon-weizhi-copy-copy"
-            :class="{ danger: !simAdress }"
-          ></i>
-          <text class="address_des" :class="{ danger: !simAdress }">
-            {{ simAdress ? simAdress : '未授权位置信息 点击授权! ' }}</text
-          >
-        </div>
-      </template>
-    </uni-nav-bar>
-    <!-- 用户简略信息栏 -->
+  <div v-if="useUtils().isExamine">
     <div class="container">
-      <div class="userInfo">
-        <div
-          class="imgBox"
-          @click="
-            goTo(`/pages/my/my-space/my-space?id=${userStore.userInfo.id}`)
-          "
-        >
-          <img
-            :src="
-              info.head
-                ? `${info.head}`
-                : 'http://qjpqjp.top:9000/bang/photo/default.png'
+      <div style="height: 100px"></div>
+      <header class="header"></header>
+      <main class="main">
+        <img
+          class="image"
+          src="https://picsum.photos/400/600"
+          alt="随机图片"
+          style="width: 100px; height: 100px; border-radius: 50%"
+        />
+        <div class="divider"></div>
+        <ul class="list">
+          <li class="item">
+            <h2 class="item-title">标题1</h2>
+            <p class="item-content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was
+              popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop
+              publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.
+            </p>
+          </li>
+          <button @click="goToTab(`/pages/circle/bang-circle`)">123</button>
+          <!-- <li class="item">
+            <h2 class="item-title">标题2</h2>
+            <p class="item-content">内容2</p>
+          </li>
+          <li class="item">
+            <h2 class="item-title">标题3</h2>
+            <p class="item-content">内容3</p>
+          </li> -->
+        </ul>
+      </main>
+    </div>
+    <BangNoData />
+  </div>
+  <div v-else>
+    <div class="content">
+      <!-- 顶部状态栏占位 -->
+      <div class="bang-nav"></div>
+      <!-- 导航栏 -->
+      <uni-nav-bar
+        background-color="transparent"
+        :border="false"
+        @clickLeft="getLocation"
+      >
+        <template v-slot:left>
+          <div class="address">
+            <i
+              class="iconfont icon-weizhi-copy-copy"
+              :class="{ danger: !simAdress }"
+            ></i>
+            <text class="address_des" :class="{ danger: !simAdress }">
+              {{ simAdress ? simAdress : '未授权位置信息 点击授权! ' }}</text
+            >
+          </div>
+        </template>
+      </uni-nav-bar>
+      <!-- 用户简略信息栏 -->
+      <div class="container">
+        <div class="userInfo">
+          <div
+            class="imgBox"
+            @click="
+              goTo(`/pages/my/my-space/my-space?id=${userStore.userInfo.id}`)
             "
-          />
-        </div>
-        <div class="info">
-          <div class="info_top">{{ info.username || '您还未登录！' }}</div>
-          <div class="info_bottom">
-            <div class="login_btn" @click="login" v-if="!userStore.token">
-              登录
-            </div>
-            <div v-else class="login_des">
-              <text @click="goTo(`/pages/my/my-follow/my-follow`)"
-                >关注:{{ userInfo.follow }}</text
-              >
-              &nbsp;
-              <text @click="goTo(`/pages/my/my-fans/my-fans`)"
-                >粉丝:{{ userInfo.fans }}</text
-              >
+          >
+            <img
+              :src="
+                info.head
+                  ? `${info.head}`
+                  : 'http://qjpqjp.top:9000/bang/photo/default.png'
+              "
+            />
+          </div>
+          <div class="info">
+            <div class="info_top">{{ info.username || '您还未登录！' }}</div>
+            <div class="info_bottom">
+              <div class="login_btn" @click="login" v-if="!userStore.token">
+                登录
+              </div>
+              <div v-else class="login_des">
+                <text @click="goTo(`/pages/my/my-follow/my-follow`)"
+                  >关注:{{ userInfo.follow }}</text
+                >
+                &nbsp;
+                <text @click="goTo(`/pages/my/my-fans/my-fans`)"
+                  >粉丝:{{ userInfo.fans }}</text
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <!-- 轮播图区域 -->
+      <div class="indexSwiper container">
+        <swiper
+          class="swiper"
+          circular
+          :indicator-dots="true"
+          :autoplay="true"
+          :interval="2500"
+          :duration="800"
+        >
+          <swiper-item>
+            <view class="swiper-item"
+              ><img
+                src="http://qjpqjp.top:9000/bang/photo/chart1.png"
+                class="swiperImg"
+                alt=""
+            /></view>
+          </swiper-item>
+          <swiper-item>
+            <view class="swiper-item"
+              ><img
+                src="http://qjpqjp.top:9000/bang/photo/chart2.png"
+                class="swiperImg"
+                alt=""
+            /></view>
+          </swiper-item>
+          <swiper-item>
+            <view class="swiper-item"
+              ><img
+                src="http://qjpqjp.top:9000/bang/photo/chart3.png"
+                class="swiperImg"
+                alt=""
+            /></view>
+          </swiper-item>
+        </swiper>
+      </div>
     </div>
-    <!-- 轮播图区域 -->
-    <div class="indexSwiper container">
-      <swiper
-        class="swiper"
-        circular
-        :indicator-dots="true"
-        :autoplay="true"
-        :interval="2500"
-        :duration="800"
+    <!-- 首页主区域 -->
+    <div class="indexMain container">
+      <div class="boxMax box">
+        <img
+          src="http://qjpqjp.top:9000/bang/photo/悬赏大厅.png"
+          alt=""
+          @click="goTo('/pages/index/bang-hall/bang-hall')"
+        />
+      </div>
+      <div class="boxMin box" @click="goRandomPost">
+        <img src="http://qjpqjp.top:9000/bang/photo/时间规划.png" alt="" />
+      </div>
+      <div class="boxMin box" style="margin-left: 14rpx" @click="goRandomTask">
+        <img src="http://qjpqjp.top:9000/bang/photo/活动中心.png" alt="" />
+      </div>
+      <div
+        class="boxMax box"
+        style="margin-left: 14rpx"
+        @click="goToTab(`/pages/circle/bang-circle`)"
       >
-        <swiper-item>
-          <view class="swiper-item"
-            ><img
-              src="http://qjpqjp.top:9000/bang/photo/chart1.png"
-              class="swiperImg"
-              alt=""
-          /></view>
-        </swiper-item>
-        <swiper-item>
-          <view class="swiper-item"
-            ><img
-              src="http://qjpqjp.top:9000/bang/photo/chart2.png"
-              class="swiperImg"
-              alt=""
-          /></view>
-        </swiper-item>
-        <swiper-item>
-          <view class="swiper-item"
-            ><img
-              src="http://qjpqjp.top:9000/bang/photo/chart3.png"
-              class="swiperImg"
-              alt=""
-          /></view>
-        </swiper-item>
-      </swiper>
+        <img src="http://qjpqjp.top:9000/bang/photo/帮帮友圈.png" alt="" />
+      </div>
     </div>
+    <BangTab></BangTab>
   </div>
-  <!-- 首页主区域 -->
-  <div class="indexMain container">
-    <div class="boxMax box">
-      <img
-        src="http://qjpqjp.top:9000/bang/photo/悬赏大厅.png"
-        alt=""
-        @click="goTo('/pages/index/bang-hall/bang-hall')"
-      />
-    </div>
-    <div class="boxMin box" @click="goRandomPost">
-      <img src="http://qjpqjp.top:9000/bang/photo/时间规划.png" alt="" />
-    </div>
-    <div class="boxMin box" style="margin-left: 14rpx" @click="goRandomTask">
-      <img src="http://qjpqjp.top:9000/bang/photo/活动中心.png" alt="" />
-    </div>
-    <div
-      class="boxMax box"
-      style="margin-left: 14rpx"
-      @click="goToTab(`/pages/circle/bang-circle`)"
-    >
-      <img src="http://qjpqjp.top:9000/bang/photo/帮帮友圈.png" alt="" />
-    </div>
-  </div>
-  <BangTab></BangTab>
 </template>
 
 <script setup lang="ts">
@@ -126,6 +170,8 @@ import { useUserStore } from '@/stores/user'
 import prequest from '@/utils/requst'
 import BangTab from '@/components/bangTab.vue'
 import taskService from '@/api/task'
+import { useUtils } from '@/stores/utils'
+import BangNoData from '@/components/bangNoData.vue'
 
 // import BangButton from '@/components/bangButton.vue'
 const userStore = useUserStore()

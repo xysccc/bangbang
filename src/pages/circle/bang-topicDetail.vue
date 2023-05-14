@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-03 00:38:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 21:04:30
+ * @LastEditTime: 2023-05-10 15:22:51
  * @FilePath: \bangbang\src\pages\circle\bang-topicDetail.vue
 -->
 <template>
@@ -303,6 +303,7 @@ const collect = async (item: any) => {
   }
   & > .postMain {
     margin-top: 10px;
+    height: 1200rpx;
     & > .circle_card {
       position: relative;
       padding: 40rpx 20rpx 40rpx 20rpx;

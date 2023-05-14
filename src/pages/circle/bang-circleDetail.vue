@@ -3,11 +3,52 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-09 15:29:20
+ * @LastEditTime: 2023-05-11 10:45:31
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
-  <div class="bang-circleDetails">
+  <div v-if="useUtils().isExamine">
+    <div class="container">
+      <div style="height: 100px"></div>
+      <header class="header"></header>
+      <main class="main">
+        <img
+          class="image"
+          src="https://picsum.photos/400/600"
+          alt="随机图片"
+          style="width: 100px; height: 100px; border-radius: 50%"
+        />
+        <div class="divider"></div>
+        <ul class="list">
+          <li class="item">
+            <h2 class="item-title">标题1</h2>
+            <p class="item-content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industry's standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book. It has
+              survived not only five centuries, but also the leap into
+              electronic typesetting, remaining essentially unchanged. It was
+              popularised in the 1960s with the release of Letraset sheets
+              containing Lorem Ipsum passages, and more recently with desktop
+              publishing software like Aldus PageMaker including versions of
+              Lorem Ipsum.
+            </p>
+          </li>
+          <!-- <li class="item">
+            <h2 class="item-title">标题2</h2>
+            <p class="item-content">内容2</p>
+          </li>
+          <li class="item">
+            <h2 class="item-title">标题3</h2>
+            <p class="item-content">内容3</p>
+          </li> -->
+        </ul>
+      </main>
+    </div>
+    <BangNoData />
+  </div>
+  <div class="bang-circleDetails" v-else>
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
     <BangNav title="评论" />
@@ -109,6 +150,7 @@
     ref="popup"
     background-color="#fff"
     mask-background-color="transparent"
+    v-if="!useUtils().isExamine"
   >
     <div class="pop">
       <div class="popTop">
@@ -192,6 +234,7 @@
 import postService from '@/api/post'
 import BangNav from '@/components/bangNav.vue'
 import { usePostStore } from '@/stores/post'
+import { useUtils } from '@/stores/utils'
 interface ImediaList {
   imgUrl: string
   videoUrl?: string
