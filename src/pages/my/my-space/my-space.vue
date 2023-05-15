@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-15 09:00:53
+ * @LastEditTime: 2023-05-15 11:23:49
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -105,12 +105,18 @@
           </div>
           <div class="postMain">
             <template v-for="(item, index) in pushArr" :key="index">
-              <div v-if="current === 1" class="comment_card">
+              <div
+                v-if="current === 1"
+                class="comment_card"
+                @click="
+                  goTo(`/pages/circle/bang-circleDetail?id=${item.postId}`)
+                "
+              >
                 <div class="top">
                   <image :src="item.head" mode="aspectFill" />
                   <div class="info">
                     <div class="name">{{ item.username }}</div>
-                    <div class="time">{{ item.commentTime }}</div>
+                    <div class="time">{{ getTime2(item.commentTime) }}</div>
                   </div>
                 </div>
                 <div class="commentDes">{{ item.commentText }}</div>
@@ -133,7 +139,9 @@
                     <img :src="item.head" alt="" />
                     <div class="topDes">
                       <div class="name">{{ item.username }}</div>
-                      <div class="time">{{ item.releaseTime }}发布</div>
+                      <div class="time">
+                        {{ getTime2(item.releaseTime) }}&nbsp;发布
+                      </div>
                     </div>
                   </div>
                   <div class="rg" style="font-size: 40rpx">🥶</div>
@@ -210,7 +218,9 @@
               :status="status"
               v-if="pushArr.length >= 3"
             ></uni-load-more>
-            <BangNoData v-show="pushArr.length === 0" />
+            <div class="div" style="height: 440px" v-if="pushArr.length <= 1">
+              <BangNoData />
+            </div>
           </div>
         </div>
       </div>
@@ -225,6 +235,7 @@ import BangNav from '@/components/bangNav.vue'
 import { usePostStore } from '@/stores/post'
 import { useUserStore } from '@/stores/user'
 import BangNoData from '@/components/bangNoData.vue'
+import { getTime2 } from '@/utils/date'
 interface ImediaList {
   imgUrl: string
   videoUrl?: string
@@ -543,8 +554,8 @@ const toggleFollow = (item: any) => {
       }
       & > .postMain {
         margin-top: 20rpx;
-        height: 800rpx;
-        overflow: auto;
+        // height: 800rpx;
+        // overflow: auto;
         & .comment_card {
           padding: 30rpx 40rpx;
           & > .top {

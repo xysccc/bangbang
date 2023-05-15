@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-25 11:51:59
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-10 15:07:14
+ * @LastEditTime: 2023-05-15 10:14:47
  * @FilePath: \bangbang\src\utils\date.ts
  */
 
@@ -32,14 +32,31 @@ export const changeDate = (dateString: string) => {
   }
 }
 // 消息列表处理时间
-export const getTime2 = (str: any) => {
-  const value = new Date(str)
-  const HH = value.getHours() < 10 ? '0' + value.getHours() : value.getHours() //时
-  const MM =
-    value.getMinutes() < 10 ? '0' + value.getMinutes() : value.getMinutes() //分
-  if (!value) return
-  return `${HH}:${MM}`
+// export const getTime2 = (str: any) => {
+//   const value = new Date(str)
+//   const HH = value.getHours() < 10 ? '0' + value.getHours() : value.getHours() //时
+//   const MM =
+//     value.getMinutes() < 10 ? '0' + value.getMinutes() : value.getMinutes() //分
+//   if (!value) return
+//   return `${HH}:${MM}`
+// }
+export function getTime2(timeStr: string): string {
+  const now = new Date()
+  const date = new Date(timeStr)
+  const deltaSeconds = (now.getTime() - date.getTime()) / 1000
+  if (deltaSeconds < 60) {
+    return '刚刚'
+  } else if (
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate()
+  ) {
+    return `${date.getHours()}:${date.getMinutes()}`
+  } else {
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+  }
 }
+
 //调日历加天数
 export function addDaysToDate(date: Date, days: number) {
   // 将日期转换为时间戳

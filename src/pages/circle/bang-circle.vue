@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-15 08:50:30
+ * @LastEditTime: 2023-05-15 11:32:28
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -86,7 +86,9 @@
                 <img :src="item.head" alt="" />
                 <div class="topDes">
                   <div class="name">{{ item.username }}</div>
-                  <div class="time">{{ item.releaseTime }}发布</div>
+                  <div class="time">
+                    {{ getTime2(item.releaseTime) }}&nbsp;发布
+                  </div>
                 </div>
               </div>
               <!-- <div class="rg" style="font-size: 40rpx">🥶</div> -->
@@ -170,6 +172,7 @@ import MyInfoSet from '../my/myInfoSet/myInfoSet.vue'
 import BangNoData from '@/components/bangNoData.vue'
 import { useUtils } from '@/stores/utils'
 import bangAudit from '@/components/bangAudit.vue'
+import { getTime2 } from '@/utils/date'
 interface ImediaList {
   imgUrl: string
   videoUrl?: string
@@ -197,7 +200,7 @@ let pageOptions = {
   pageSize: 3
 }
 
-onShow(async () => {
+onLoad(async () => {
   pageOptions.page = 1
   pushArr.splice(0, pushArr.length)
   await postStore.getRecommendedList(pageOptions)
@@ -342,7 +345,7 @@ const collect = async (item: any) => {
             border-radius: 50%;
           }
           & > .topDes {
-            margin-left: 12rpx;
+            margin-left: 18rpx;
             & > .name {
               font-size: 26rpx;
               font-weight: 500;
@@ -372,10 +375,10 @@ const collect = async (item: any) => {
           & image {
             padding: 10px;
             flex: 1;
-            width: 180rpx;
+            // width: 180rpx;
             // height: 250rpx;
             &:not(:first-child) {
-              margin-left: 20rpx;
+              // margin-left: 5rpx;
             }
           }
         }

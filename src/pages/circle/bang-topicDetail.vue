@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-03 00:38:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-10 15:22:51
+ * @LastEditTime: 2023-05-15 10:42:01
  * @FilePath: \bangbang\src\pages\circle\bang-topicDetail.vue
 -->
 <template>
@@ -113,11 +113,13 @@
             </div>
           </div>
         </div>
+        <div class="div" style="height: 380px" v-if="pushArr.length <= 1">
+          <BangNoData />
+        </div>
         <uni-load-more
           :status="status"
           v-if="pushArr.length >= 3"
         ></uni-load-more>
-        <BangNoData v-show="pushArr.length === 0" />
       </div>
     </div>
   </scroll-view>
@@ -303,7 +305,7 @@ const collect = async (item: any) => {
   }
   & > .postMain {
     margin-top: 10px;
-    height: 1200rpx;
+
     & > .circle_card {
       position: relative;
       padding: 40rpx 20rpx 40rpx 20rpx;

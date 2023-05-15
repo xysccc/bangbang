@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-04 00:49:28
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-15 09:10:54
+ * @LastEditTime: 2023-05-15 11:06:23
  * @FilePath: \bangbang\src\pages\message\message-details.vue
 -->
 <template>
@@ -235,7 +235,7 @@ onUnload(() => {
           width: 200rpx;
           & > .des {
             // width: 100%;
-            max-width: 100%;
+            max-width: 100px;
             white-space: nowrap;
             overflow: hidden; //文本超出隐藏
             text-overflow: ellipsis; //文本超出省略号替代
@@ -379,7 +379,7 @@ onUnload(() => {
       align-items: center;
       input {
         flex: 0.9;
-        padding-left: 60rpx;
+        padding-left: 40rpx;
         margin-left: 60rpx;
         height: 76rpx;
         font-size: 28rpx;
