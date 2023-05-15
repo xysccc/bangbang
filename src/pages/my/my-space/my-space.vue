@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-02 18:00:20
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-09 14:40:13
+ * @LastEditTime: 2023-05-15 09:00:53
  * @FilePath: \bangbang\src\pages\my\my-space\my-space.vue
 -->
 <template>
@@ -387,7 +387,7 @@ const collect = async (item: any) => {
   item.collect = !item.collect
   await postService.postCollect({ postId: item.id })
 }
-const toggleFollow = (item) => {
+const toggleFollow = (item: any) => {
   item.isFollow = !item.isFollow
   userService.follow({ toId: item.id })
 }

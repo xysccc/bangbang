@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-04 00:49:28
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-05 19:12:16
+ * @LastEditTime: 2023-05-15 09:10:54
  * @FilePath: \bangbang\src\pages\message\message-details.vue
 -->
 <template>
@@ -110,7 +110,7 @@ interface IchatItem {
   toId: string
 }
 const id = ref('')
-const otherInfo = ref({})
+const otherInfo: any = ref({})
 const chatList = ref<IchatItem[]>([])
 // 进入聊天页面初始化
 let ws: any = null
@@ -130,7 +130,7 @@ onLoad((option: any) => {
       getHistoryList()
     },
     // 监听接收到服务器消息
-    onMessage: (data) => {
+    onMessage: (data: any) => {
       // toDo
       // 一般用于将最新的一条消息展示在页面上
       console.log('newMessage', data)
@@ -171,7 +171,7 @@ const getHistoryList = async () => {
   if (data.code !== 1) return
   chatList.value = data.result
 }
-const toggleFollow = (item) => {
+const toggleFollow = (item: any) => {
   console.log(item)
 
   item.isFollow = !item.isFollow

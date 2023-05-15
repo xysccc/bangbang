@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-05 01:35:54
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-09 14:54:52
+ * @LastEditTime: 2023-05-15 09:01:03
  * @FilePath: \bangbang\src\pages\my\my-follow\my-follow.vue
 -->
 <template>
@@ -38,7 +38,7 @@
 import userService from '@/api/user'
 import BangNav from '@/components/bangNav.vue'
 const follow: any = ref([])
-const toggleFollow = (item) => {
+const toggleFollow = (item: any) => {
   item.follow = !item.follow
   userService.follow({ toId: item.id })
 }

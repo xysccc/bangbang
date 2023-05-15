@@ -1,7 +1,5 @@
 <template>
-  <div v-if="useUtils().isExamine">
-    <BangNoData />
-  </div>
+  <bangAudit v-if="useUtils().isExamine" />
   <div class="content" v-else>
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
@@ -98,6 +96,7 @@ import { useTaskStore } from '@/stores/task'
 import type * as TaskModel from '@/api/task/task.model'
 import { addDaysToDate, getTime } from '@/utils/date'
 import { useUtils } from '@/stores/utils'
+import bangAudit from '@/components/bangAudit.vue'
 interface Itask {
   name: string
   offImg: string
@@ -122,9 +121,11 @@ const selects = taskClass.map((item: Itask) => ({
   onImg: item.onImg,
   offImg: item.offImg
 }))
+console.log('selects', selects)
+
 // 默认选中的数据
-const selectImg = ref('http://qjpqjp.top:9000/bang/photo/Frame 11.png')
-const select = ref('1648611816487608322')
+const selectImg = ref(selects[0].offImg)
+const select = ref(selects[0].value)
 const selectChange = (e: string) => {
   formData.type = e
   select.value = e

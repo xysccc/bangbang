@@ -1,7 +1,5 @@
 <template>
-  <div v-if="useUtils().isExamine">
-    <BangNoData />
-  </div>
+  <bangAudit v-if="useUtils().isExamine" />
   <div class="setPage" v-else>
     <div class="bang-nav"></div>
     <BangNav title="设置中心" />
@@ -53,6 +51,7 @@ import userService from '@/api/user'
 import BangButton from '@/components/bangButton.vue'
 import BangNav from '@/components/bangNav.vue'
 import { useUtils } from '@/stores/utils'
+import bangAudit from '@/components/bangAudit.vue'
 const phone = ref('')
 const code = ref('')
 //在pinia中拿到定时器相关的值

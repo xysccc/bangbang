@@ -151,7 +151,7 @@ interface ImapTask extends Itask {
 const status = ref('more')
 let pageOptions = {
   page: 1,
-  pageSize: 6
+  pageSize: 8
 }
 const getList = () => {
   return taskStore.getTaskList({
@@ -183,7 +183,6 @@ onMounted(async () => {
   await getList()
   console.log(taskList.value)
   pushArr.push(...taskList.value.records)
-  // console.log(pushArr)
 })
 const current = ref(0)
 const iptVal = ref('')
@@ -197,7 +196,7 @@ const onClichangeCurrentckItem = async (e: number) => {
   pushArr = reactive([])
   pageOptions = {
     page: 1,
-    pageSize: 6
+    pageSize: 8
   }
   await getList()
   pushArr.push(...taskList.value.records)

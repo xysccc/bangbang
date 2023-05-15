@@ -1,7 +1,5 @@
 <template>
-  <div v-if="useUtils().isExamine">
-    <BangNoData />
-  </div>
+  <bangAudit v-if="useUtils().isExamine" />
   <div class="my-release" v-else>
     <div class="bang-nav"></div>
     <BangNav title="我的发布" />
@@ -109,6 +107,7 @@ import { useUserStore } from '@/stores/user'
 import taskService from '@/api/task'
 import BangNoData from '@/components/bangNoData.vue'
 import { useUtils } from '@/stores/utils'
+import bangAudit from '@/components/bangAudit.vue'
 const current = ref(0)
 const items = ['全部', '审核中', '待接单', '已接单', '已完成', '已过期']
 type cI = {

@@ -3,13 +3,11 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-01 01:25:42
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-11 09:09:13
+ * @LastEditTime: 2023-05-15 08:49:09
  * @FilePath: \bangbang\src\pages\add\post-add.vue
 -->
 <template>
-  <div v-if="useUtils().isExamine">
-    <BangNoData />
-  </div>
+  <bangAudit v-if="useUtils().isExamine" />
   <div class="content" v-else>
     <!-- 顶部状态栏占位 -->
     <div class="bang-nav"></div>
@@ -132,6 +130,7 @@ import { useUserStore } from '@/stores/user'
 import { usePostStore } from '@/stores/post'
 import postService from '@/api/post'
 import { useUtils } from '@/stores/utils'
+import bangAudit from '@/components/bangAudit.vue'
 interface ITopic {
   bc: string
   head: string
