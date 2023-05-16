@@ -50,7 +50,7 @@
               class="iconfont icon-weizhi-copy-copy"
               style="border-right: none"
             ></i>
-            <div class="locText">{{ task?.location }}</div>
+            <div class="locText ellipsis">{{ task?.location }}</div>
           </div>
           <div class="time">
             剩余时间： {{ changeDate(task?.limitTime).dayDiff }}天{{
@@ -375,12 +375,6 @@ const goTo = (url: string) => {
         & .locText {
           font-size: 24rpx;
           width: 180rpx;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          // white-space: nowrap;
-          -webkit-line-clamp: 1; /*第几行出现省略号*/
-          -webkit-box-orient: vertical;
         }
       }
       & > .time {

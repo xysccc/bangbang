@@ -11,9 +11,25 @@ page {
     top;
   background-size: cover;
 }
-.bang-nav {
-  height: calc(var(--status-bar-height) + 35rpx);
+a {
+  text-decoration: none;
+  color: #333;
+  outline: none;
 }
+ul,
+h1,
+h3,
+h4,
+p,
+dl,
+dd {
+  padding: 0;
+  margin: 0;
+}
+ul {
+  list-style: none;
+}
+
 .container {
   margin: 0 auto;
   width: 690rpx;
@@ -41,4 +57,22 @@ body[scroll],
 ::-webkit-scrollbar-thumb {
   background-color: #a6c9fd;
   transition: 0.2s;
+}
+/*一行省略*/
+.ellipsis {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+/*两行省略*/
+.ellipsis-2 {
+  word-break: break-all;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.bang-nav {
+  height: calc(var(--status-bar-height) + 35rpx);
 }
