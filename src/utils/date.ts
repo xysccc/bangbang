@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-25 11:51:59
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-15 10:14:47
+ * @LastEditTime: 2023-05-17 12:28:26
  * @FilePath: \bangbang\src\utils\date.ts
  */
 
@@ -40,21 +40,35 @@ export const changeDate = (dateString: string) => {
 //   if (!value) return
 //   return `${HH}:${MM}`
 // }
+
 export function getTime2(timeStr: string): string {
   const now = new Date()
   const date = new Date(timeStr)
   const deltaSeconds = (now.getTime() - date.getTime()) / 1000
+
   if (deltaSeconds < 60) {
     return '刚刚'
   } else if (
     date.getFullYear() === now.getFullYear() &&
     date.getMonth() === now.getMonth() &&
+    date.getDate() === now.getDate() - 1
+  ) {
+    return `昨天 ${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())}`
+  } else if (
+    date.getFullYear() === now.getFullYear() &&
+    date.getMonth() === now.getMonth() &&
     date.getDate() === now.getDate()
   ) {
-    return `${date.getHours()}:${date.getMinutes()}`
+    return `${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())}`
   } else {
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    return `${date.getFullYear()}-${zeroPad(date.getMonth() + 1)}-${zeroPad(
+      date.getDate()
+    )}`
   }
+}
+
+function zeroPad(num: number): string {
+  return num.toString().padStart(2, '0')
 }
 
 //调日历加天数

@@ -1,7 +1,4 @@
 <template>
-  <!-- <div v-show="useUtils().isExamine">
-    <BangNoData />
-  </div> -->
   <div class="myInfoSet" v-show="!useUtils().isExamine">
     <div class="bang-nav"></div>
     <BangNav title="个人信息" />
@@ -110,7 +107,7 @@ const { userInfo } = storeToRefs(userStore)
 userStore.getUserInfo()
 const formInfo = computed(() => {
   return {
-    src: userInfo.value.head || '',
+    src: ref(userInfo.value.head || ''),
     username: userInfo.value.username || '',
     email: userInfo.value.email || '',
     phone: userInfo.value.phone || '',
@@ -124,7 +121,8 @@ const changImg = (e: any) => {
     name: 'file',
     success: (uploadFileRes) => {
       // 上传qjp服务器成功
-      formInfo.value.src = JSON.parse(uploadFileRes.data).result.url
+      formInfo.value.src.value = JSON.parse(uploadFileRes.data).result.url
+      console.log(formInfo.value.src)
     }
   })
 }
@@ -142,7 +140,7 @@ const SetUserInfo = async () => {
     phone: formInfo.value.phone,
     sex: sex,
     signature: formInfo.value.signature,
-    head: formInfo.value.src
+    head: formInfo.value.src.value
   })
   if (data.code !== 1) return
   await uni.showToast({

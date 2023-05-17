@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-13 09:46:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-15 11:32:28
+ * @LastEditTime: 2023-05-17 15:17:31
  * @FilePath: \bangbang\src\pages\circle\bang-circle.vue
 -->
 <template>
@@ -101,11 +101,15 @@
                 <image
                   :src="item1.imgUrl"
                   alt=""
-                  mode="aspectFit"
+                  mode="aspectFill"
                   v-for="(item1, index) in JSON.parse(item.urls)"
                   :key="index"
                   @click.stop="preview(item, index)"
-                />
+                >
+                  <div class="videoPlay" v-if="item1.videoUrl">
+                    <image src="http://qjpqjp.top:9000/bang/photo/播放.png" />
+                  </div>
+                </image>
               </div>
             </div>
             <div class="bottom">
@@ -197,7 +201,7 @@ let pushArr = reactive<any>([])
 const status = ref('more')
 let pageOptions = {
   page: 1,
-  pageSize: 3
+  pageSize: 5
 }
 
 onLoad(async () => {
@@ -217,10 +221,7 @@ const onClickItem = async (e: cI) => {
     current.value = e.currentIndex
   }
   pushArr = reactive([])
-  pageOptions = {
-    page: 1,
-    pageSize: 3
-  }
+  pageOptions.page = 1
   await getList()
   postList.value.records && pushArr.push(...postList.value.records)
 }
@@ -247,7 +248,7 @@ const getList = () => {
       return postStore.getFollow({
         lastId: new Date().getTime(),
         ...(offset && { offset: offset }),
-        pageSize: 3
+        pageSize: pageOptions.pageSize
       })
       break
     case 2:
@@ -325,7 +326,7 @@ const collect = async (item: any) => {
     // background-color: red;
     overflow-y: auto;
     & .scroll_wrapped {
-      padding-bottom: 100rpx;
+      padding-bottom: 70rpx;
     }
     & .circle_card {
       padding: 30rpx 20rpx 30rpx 20rpx;
@@ -365,16 +366,28 @@ const collect = async (item: any) => {
         margin: 25rpx 0;
         & > .details {
           padding: 0 0 0 30rpx;
-          font-size: 26rpx;
+          font-size: 30rpx;
           font-weight: 500;
           color: rgba(0, 0, 0, 1);
         }
         & > .imgList {
-          margin-top: 30rpx;
+          position: relative;
+          margin-top: 10rpx;
           display: flex;
+          align-items: center;
+          justify-content: center;
           & image {
             padding: 10px;
             flex: 1;
+            & .videoPlay {
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              position: absolute;
+              width: 40px;
+              height: 40px;
+              // background-color: red;
+            }
             // width: 180rpx;
             // height: 250rpx;
             &:not(:first-child) {

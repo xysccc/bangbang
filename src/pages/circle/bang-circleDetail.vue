@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-04-30 18:15:32
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-15 08:51:00
+ * @LastEditTime: 2023-05-17 14:03:33
  * @FilePath: \bangbang\src\pages\circle\bang-circleDetail.vue
 -->
 <template>
@@ -32,15 +32,15 @@
           <div class="details">
             {{ post?.text }}
           </div>
-          <div class="imgList">
+          <div class="imgList" v-if="JSON.parse(post.urls).length">
             <template
               v-for="(item, index) in JSON.parse(post?.urls || '{}')"
               :key="index"
             >
               <image
                 :src="item.imgUrl"
-                alt=""
                 mode="aspectFill"
+                alt=""
                 @click.stop="preview(item, index)"
               />
             </template>
@@ -65,7 +65,12 @@
                 class="iconfont icon-weizhi"
                 style="font-size: 30rpx; margin-right: 4rpx"
               ></i>
-              {{ post?.location }}
+              <text
+                class="ellipsis"
+                style="max-width: 380rpx; padding: 0 10rpx"
+              >
+                {{ post?.location }}
+              </text>
             </div>
           </div>
           <div class="rg">
@@ -339,19 +344,23 @@ const goTo = (url: string) => {
       }
     }
     & > .des {
-      margin-top: 16rpx;
+      margin: 28rpx 0;
       & > .details {
-        // padding: 0 0 0 30rpx;
-        font-size: 26rpx;
+        font-size: 30rpx;
+        padding-left: 5rpx;
         font-weight: 500;
         color: rgba(0, 0, 0, 1);
       }
       & > .imgList {
-        margin-top: 16rpx;
+        margin: 20rpx 0 30rpx 0;
+        width: 100%;
         display: flex;
         & image {
-          width: 180rpx;
-          height: 180rpx;
+          width: 100%;
+          // height: 100%;
+          // width: 180rpx;
+          // height: 180rpx;
+          object-fit: cover;
           &:not(:first-child) {
             margin-left: 20rpx;
           }
@@ -392,7 +401,7 @@ const goTo = (url: string) => {
         & > .collect {
           & > .icon-shoucang,
           .icon-shoucang1 {
-            margin: 0 40rpx;
+            margin: 0 20rpx;
           }
         }
 
@@ -400,11 +409,12 @@ const goTo = (url: string) => {
         .like,
         .browse {
           display: flex;
+          align-items: flex-end;
           font-size: 28rpx;
           color: rgb(166, 166, 166);
         }
         & > .browse {
-          margin-left: 40rpx;
+          margin-left: 30rpx;
         }
       }
     }
@@ -485,7 +495,7 @@ const goTo = (url: string) => {
       height: 650rpx;
       overflow-y: auto;
       & .commentItemWrapped {
-        padding-bottom: 5px;
+        padding-bottom: 10rpx;
         & > .commentItem {
           padding: 10rpx 15rpx;
           display: flex;

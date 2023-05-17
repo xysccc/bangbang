@@ -3,7 +3,7 @@
  * @Author: YuShuXiao 949516815@qq.com
  * @Date: 2023-05-03 00:38:02
  * @LastEditors: YuShuXiao 949516815@qq.com
- * @LastEditTime: 2023-05-15 10:42:01
+ * @LastEditTime: 2023-05-17 15:01:09
  * @FilePath: \bangbang\src\pages\circle\bang-topicDetail.vue
 -->
 <template>
@@ -71,7 +71,11 @@
                 v-for="(item1, index) in JSON.parse(item.urls)"
                 :key="index"
                 @click.stop="preview(item, index)"
-              />
+              >
+                <div class="videoPlay" v-if="item1.videoUrl">
+                  <image src="http://qjpqjp.top:9000/bang/photo/播放.png" />
+                </div>
+              </image>
             </div>
           </div>
           <div class="bottom">
@@ -195,8 +199,8 @@ const goTo = (url: string) => {
     url
   })
 }
-const preview = (item: ImediaList, index: number) => {
-  const files = computed(() => JSON.parse(postList.value.records[index].urls))
+const preview = (item: any, index: number) => {
+  const files = computed(() => JSON.parse(item.urls))
   uni.previewMedia({
     current: index,
     // url: item.videoUrl || item.imgUrl, // 当前显示图片的 http 链接
@@ -345,16 +349,27 @@ const collect = async (item: any) => {
         margin-top: 16rpx;
         & > .details {
           padding: 0 0 0 30rpx;
-          font-size: 26rpx;
+          font-size: 30rpx;
           font-weight: 500;
           color: rgba(0, 0, 0, 1);
         }
         & > .imgList {
           margin-top: 16rpx;
           display: flex;
+          justify-content: center;
           & image {
-            width: 180rpx;
-            height: 180rpx;
+            // width: 180rpx;
+            // height: 180rpx;
+            position: relative;
+            & .videoPlay {
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              position: absolute;
+              width: 40px;
+              height: 40px;
+              // background-color: red;
+            }
             &:not(:first-child) {
               margin-left: 20rpx;
             }
